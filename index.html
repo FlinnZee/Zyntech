@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZynTECH — Full-Spectrum IT Solutions Agency</title>
+  <meta name="description" content="ZynTECH is a full-spectrum IT solutions agency — custom systems, web & mobile development, cyber security, SaaS, video production and social media growth." />
+  <meta name="author" content="Theekshana Nirmal" />
+  <meta property="og:title" content="ZynTECH — Engineering the Future of Digital" />
+  <meta property="og:description" content="Custom systems · Web & Mobile · Cyber Security · SaaS · Video & Content · Social Growth" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════ PRELOADER ═══════════ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader-mark">
+      <span class="pl-bar"></span><span class="pl-bar"></span><span class="pl-bar"></span>
+    </div>
+    <div class="preloader-word">Zyn<b>TECH</b></div>
+  </div>
+
+  <!-- ═══════════ CUSTOM CURSOR ═══════════ -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- ═══════════ SCROLL PROGRESS ═══════════ -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo" aria-label="ZynTECH home">
+        <img src="assets/logo-mark.svg" alt="" class="nav-mark" />
+        <span class="nav-word">Zyn<b>TECH</b></span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#home" class="nav-link is-active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#team" class="nav-link">Team</a>
+        <a href="#testimonials" class="nav-link">Testimonials</a>
+      </nav>
+      <a href="#contact" class="btn btn-primary btn-sm nav-cta magnetic">Start a Project</a>
+      <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero" id="home">
+    <canvas id="particleCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+
+    <div class="hero-content container">
+      <div class="hero-badge reveal" data-hero-badge>
+        <span class="badge-pulse"></span><span data-bind="hero.badge"></span>
+      </div>
+      <h1 class="hero-title reveal">
+        <span data-bind="hero.headlineTop"></span><br />
+        <span class="text-chrome" data-bind="hero.headlineHighlight"></span>
+      </h1>
+      <div class="hero-typing reveal">
+        <span class="typing-prefix">// we build&nbsp;</span><span class="typing-word" id="typingWord"></span><span class="typing-caret">▌</span>
+      </div>
+      <p class="hero-sub reveal" data-bind="hero.sub"></p>
+      <div class="hero-cta reveal">
+        <a href="#contact" class="btn btn-primary magnetic" id="ctaPrimary">Start a Project</a>
+        <a href="#services" class="btn btn-ghost magnetic" id="ctaSecondary">Explore Services</a>
+      </div>
+      <div class="hero-stats reveal" id="statsRow"></div>
+    </div>
+
+    <a href="#about" class="hero-scroll-hint" aria-label="Scroll down">
+      <span class="mouse"><span class="wheel"></span></span>
+      <span class="hint-label">scroll</span>
+    </a>
+  </section>
+
+  <!-- ═══════════ ABOUT ═══════════ -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">01 · Who We Are</span>
+        <h2 class="section-title" data-bind="about.title"></h2>
+        <p class="section-lead" data-bind="about.lead"></p>
+      </div>
+      <div class="about-layout">
+        <div class="about-visual reveal" aria-hidden="true">
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="orbit orbit-3"></div>
+          <img src="assets/logo-mark.svg" alt="" class="about-mark float" />
+        </div>
+        <div class="about-points" id="aboutPoints"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SERVICES ═══════════ -->
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">02 · What We Do</span>
+        <h2 class="section-title">Every Digital Capability.<br /><span class="text-chrome">One Agency.</span></h2>
+      </div>
+      <div class="services-grid" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PROCESS ═══════════ -->
+  <section class="section process" id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">03 · How We Work</span>
+        <h2 class="section-title">From Idea to <span class="text-chrome">Impact</span></h2>
+      </div>
+      <div class="process-grid" id="processGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WORK ═══════════ -->
+  <section class="section work" id="work">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">04 · Selected Work</span>
+        <h2 class="section-title">Built by <span class="text-chrome">ZynTECH</span></h2>
+      </div>
+      <div class="work-grid" id="workGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ TEAM ═══════════ -->
+  <section class="section team" id="team">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">05 · The Team</span>
+        <h2 class="section-title">The Minds Behind <span class="text-chrome">the Machine</span></h2>
+      </div>
+      <div class="team-grid" id="teamGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ TESTIMONIALS ═══════════ -->
+  <section class="section testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">06 · Client Words</span>
+        <h2 class="section-title">Trusted to <span class="text-chrome">Deliver</span></h2>
+      </div>
+      <div class="tslider reveal" id="tslider">
+        <button class="tslider-arrow tslider-prev" id="tPrev" aria-label="Previous testimonial">‹</button>
+        <div class="tslider-viewport">
+          <div class="tslider-track" id="tTrack"></div>
+        </div>
+        <button class="tslider-arrow tslider-next" id="tNext" aria-label="Next testimonial">›</button>
+        <div class="tslider-dots" id="tDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CONTACT ═══════════ -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">07 · Start Something</span>
+        <h2 class="section-title">Let's Build Your <span class="text-chrome">Next Big Thing</span></h2>
+      </div>
+      <div class="contact-layout">
+        <div class="contact-info reveal">
+          <div class="contact-card" id="contactEmailCard">
+            <span class="contact-label">Email us</span>
+            <a class="contact-value" id="contactEmail" href="#"></a>
+          </div>
+          <div class="contact-card">
+            <span class="contact-label">Call / WhatsApp</span>
+            <a class="contact-value" id="contactPhone" href="#"></a>
+          </div>
+          <div class="contact-card">
+            <span class="contact-label">Based in</span>
+            <span class="contact-value" id="contactLocation"></span>
+          </div>
+        </div>
+        <form class="contact-form reveal" id="contactForm">
+          <div class="form-row">
+            <div class="form-field">
+              <input type="text" id="fName" name="name" required placeholder=" " />
+              <label for="fName">Your name</label>
+            </div>
+            <div class="form-field">
+              <input type="email" id="fEmail" name="email" required placeholder=" " />
+              <label for="fEmail">Your email</label>
+            </div>
+          </div>
+          <div class="form-field">
+            <input type="text" id="fSubject" name="subject" required placeholder=" " />
+            <label for="fSubject">What do you need?</label>
+          </div>
+          <div class="form-field">
+            <textarea id="fMessage" name="message" rows="5" required placeholder=" "></textarea>
+            <label for="fMessage">Tell us about your project…</label>
+          </div>
+          <button type="submit" class="btn btn-primary magnetic form-submit">Send Message →</button>
+          <p class="form-hint">Opens your mail app with the message pre-filled.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#home" class="nav-logo">
+          <img src="assets/logo-mark.svg" alt="" class="nav-mark" />
+          <span class="nav-word">Zyn<b>TECH</b></span>
+        </a>
+        <p class="footer-note" id="footerNote"></p>
+      </div>
+      <div class="footer-col">
+        <span class="footer-head">Navigate</span>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#team">Team</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-head">Services</span>
+        <a href="#services">Web & Mobile</a>
+        <a href="#services">Cyber Security</a>
+        <a href="#services">SaaS Solutions</a>
+        <a href="#services">Video & Social</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-head">Contact</span>
+        <a id="footerEmail" href="#"></a>
+        <a id="footerPhone" href="#"></a>
+        <span id="footerLocation"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopy"></span>
+      <span class="footer-credit" id="footerCredit"></span>
+    </div>
+  </footer>
+
+  <!-- ═══════════ BACK TO TOP ═══════════ -->
+  <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+
+  <!-- ═══════════ SVG ICON SPRITE ═══════════ -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="ic-system" viewBox="0 0 24 24"><path d="M4 5h16v10H4z M2 19h20 M9 19v-4 M15 19v-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 8l-2 2 2 2 M16 8l2 2-2 2 M13 7l-2 6" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="ic-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3 12h18 M12 3c3 3.5 3 14 0 18 M12 3c-3 3.5-3 14 0 18" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="ic-mobile" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M10.5 5h3 M12 18.5h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="ic-security" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-saas" viewBox="0 0 24 24"><path d="M7 17a4.5 4.5 0 1 1 .4-9A6 6 0 0 1 19 9.5 3.75 3.75 0 0 1 18 17H7z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M12 12v4 M10 14.5l2 2 2-2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-uiux" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3 9h18 M8 4v5" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="13.5" r="1.8" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M15.5 15.5l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="ic-video" viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M15.5 10.5l6-3.5v10l-6-3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><circle cx="7" cy="10" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="ic-social" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="17.5" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="17.5" cy="18.5" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8.3 10.8l6.9-4 M8.3 13.2l6.9 4" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="ic-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 1 1 .4-9A6 6 0 0 1 19 10.5 3.75 3.75 0 0 1 18 18H7z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M8.5 21h.01 M12 21.5h.01 M15.5 21h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3.5 6.5l8.5 6 8.5-6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></symbol>
+    <symbol id="ic-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.31h4.52V23H.24V8.31zM8.34 8.31h4.33v2h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.42 3.01 5.42 6.93V23h-4.51v-7.14c0-1.7-.03-3.89-2.37-3.89-2.37 0-2.73 1.85-2.73 3.76V23H8.34V8.31z"/></symbol>
+    <symbol id="ic-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.3 1.3-6.6L2.5 9.5l6.6-.8L12 2.5z"/></symbol>
+  </svg>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

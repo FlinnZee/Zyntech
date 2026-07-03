@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 340" fill="none">
+  <defs>
+    <linearGradient id="zChrome" x1="0" y1="120" x2="200" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f7fa"/>
+      <stop offset="0.5" stop-color="#c7cdd8"/>
+      <stop offset="1" stop-color="#eef1f6"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#b8bec9"/>
+      <stop offset="1" stop-color="#8a919e"/>
+    </linearGradient>
+  </defs>
+  <!-- top equalizer bars -->
+  <rect x="52"  y="58" width="26" height="56" fill="url(#barGrad)"/>
+  <rect x="87"  y="18" width="26" height="96" fill="url(#barGrad)"/>
+  <rect x="122" y="40" width="26" height="74" fill="url(#barGrad)"/>
+  <!-- Z -->
+  <path d="M46 126 H158 V150 L92 190 H158 V214 H42 V190 L108 150 H46 Z" fill="url(#zChrome)"/>
+  <!-- bottom equalizer bars (mirrored) -->
+  <rect x="52"  y="226" width="26" height="74" fill="url(#barGrad)"/>
+  <rect x="87"  y="226" width="26" height="96" fill="url(#barGrad)"/>
+  <rect x="122" y="226" width="26" height="56" fill="url(#barGrad)"/>
+</svg>
