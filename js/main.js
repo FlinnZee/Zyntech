@@ -1,7 +1,9 @@
 /* ============================================================
    ZynTECH — Site Engine
-   Renders content from js/data.js and powers all effects.
-   You normally DON'T need to edit this file — edit data.js.
+   Renders content from js/data.js and powers all motion.
+   Uses GSAP + ScrollTrigger + Lenis when available (CDN),
+   falls back to IntersectionObserver reveals otherwise.
+   You normally don't need to edit this file — edit data.js.
    ============================================================ */
 
 (function () {
@@ -11,9 +13,38 @@
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const gsapReady = !!(window.gsap && window.ScrollTrigger) && !reducedMotion;
+
+  if (gsapReady) {
+    document.documentElement.classList.add("has-gsap");
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
   /* ─────────────────────────────────────────────
-     1. RENDER CONTENT FROM data.js
+     1. LOGO MARK (inline SVG so the bars animate)
+  ───────────────────────────────────────────── */
+  const logoMark = (uid) => `
+    <svg viewBox="0 0 200 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="zc-${uid}" x1="0" y1="120" x2="200" y2="220" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#f5f7fa"/><stop offset="0.5" stop-color="#c7cdd8"/><stop offset="1" stop-color="#eef1f6"/>
+        </linearGradient>
+        <linearGradient id="bg-${uid}" x1="0" y1="0" x2="0" y2="340" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#b8bec9"/><stop offset="1" stop-color="#8a919e"/>
+        </linearGradient>
+      </defs>
+      <rect class="eq eq-t eq-d1" x="52"  y="58"  width="26" height="56" fill="url(#bg-${uid})"/>
+      <rect class="eq eq-t eq-d2" x="87"  y="18"  width="26" height="96" fill="url(#bg-${uid})"/>
+      <rect class="eq eq-t eq-d3" x="122" y="40"  width="26" height="74" fill="url(#bg-${uid})"/>
+      <path d="M46 126 H158 V150 L92 190 H158 V214 H42 V190 L108 150 H46 Z" fill="url(#zc-${uid})"/>
+      <rect class="eq eq-b eq-d3" x="52"  y="226" width="26" height="74" fill="url(#bg-${uid})"/>
+      <rect class="eq eq-b eq-d2" x="87"  y="226" width="26" height="96" fill="url(#bg-${uid})"/>
+      <rect class="eq eq-b eq-d1" x="122" y="226" width="26" height="56" fill="url(#bg-${uid})"/>
+    </svg>`;
+  $$("[data-logo-mark]").forEach((el, i) => (el.innerHTML = logoMark(i)));
+
+  /* ─────────────────────────────────────────────
+     2. RENDER CONTENT FROM data.js
   ───────────────────────────────────────────── */
 
   // Simple data-bind: <el data-bind="hero.badge">
@@ -40,6 +71,12 @@
       </div>`
     )
     .join("");
+
+  // Services marquee strip (built from service titles, twice for a seamless loop)
+  const chunk = `<div class="marquee-chunk">${SITE.services
+    .map((s) => `${s.title}<i>◆</i>`)
+    .join("")}</div>`;
+  $("#marqueeTrack").innerHTML = chunk + chunk;
 
   // About points
   $("#aboutPoints").innerHTML = SITE.about.points
@@ -85,6 +122,7 @@
         <div class="work-art work-art-${w.accent}">
           <div class="work-orb"></div>
           <div class="work-glyph">${w.title.charAt(0)}</div>
+          <span class="work-arrow">↗</span>
         </div>
         <div class="work-body">
           <span class="work-cat">${w.category}</span>
@@ -152,16 +190,167 @@
   );
 
   /* ─────────────────────────────────────────────
-     2. PRELOADER
+     3. SMOOTH SCROLL (Lenis) + anchor handling
   ───────────────────────────────────────────── */
-  window.addEventListener("load", () => {
-    setTimeout(() => $("#preloader").classList.add("done"), reducedMotion ? 0 : 500);
+  let lenis = null;
+  if (gsapReady && window.Lenis) {
+    document.documentElement.style.scrollBehavior = "auto";
+    lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  function scrollToTarget(target) {
+    if (lenis) lenis.scrollTo(target, { offset: -(document.querySelector(".nav").offsetHeight + 8) });
+    else if (typeof target === "number") window.scrollTo({ top: target, behavior: "smooth" });
+    else target.scrollIntoView({ behavior: "smooth" });
+  }
+
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute("href");
+    if (id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    scrollToTarget(target);
+    history.replaceState(null, "", id);
   });
-  // Safety: never trap the user behind the loader
-  setTimeout(() => $("#preloader").classList.add("done"), 3500);
 
   /* ─────────────────────────────────────────────
-     3. CUSTOM CURSOR (desktop only)
+     4. WORD-SPLIT TITLES (for staggered reveals)
+  ───────────────────────────────────────────── */
+  function splitWords(el) {
+    [...el.childNodes].forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) return frag.append(document.createTextNode(part));
+          const clip = document.createElement("span");
+          clip.className = "wclip";
+          const w = document.createElement("span");
+          w.className = "w";
+          w.textContent = part;
+          clip.append(w);
+          frag.append(clip);
+        });
+        node.replaceWith(frag);
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== "BR") {
+        splitWords(node);
+      }
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     5. SCROLL ANIMATIONS
+        GSAP path: word reveals, staggers, parallax.
+        Fallback: IntersectionObserver + CSS classes.
+  ───────────────────────────────────────────── */
+  if (gsapReady) {
+    // Titles rise word by word
+    $$(".hero-title, .section-title").forEach(splitWords);
+
+    $$(".section-title").forEach((title) => {
+      gsap.to($$(".w", title), {
+        y: 0,
+        duration: 0.9,
+        ease: "power4.out",
+        stagger: 0.055,
+        scrollTrigger: { trigger: title, start: "top 87%", once: true },
+      });
+    });
+
+    // Generic reveals outside the hero
+    $$(".reveal").forEach((el) => {
+      if (el.closest("#home")) return;
+      const td = el.style.transitionDelay || "0s";
+      const delay = td.endsWith("ms") ? parseFloat(td) / 1000 : parseFloat(td) || 0;
+      gsap.fromTo(
+        el,
+        { y: 42, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay,
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+        }
+      );
+    });
+
+    // Hero intro timeline (kicked off when the preloader lifts)
+    const heroTl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+    heroTl
+      .to(".hero-badge", { opacity: 1, y: 0, duration: 0.7 }, 0)
+      .set(".hero-title", { opacity: 1, y: 0 }, 0.1)
+      .to($$(".hero-title .w"), { y: 0, duration: 1, ease: "power4.out", stagger: 0.06 }, 0.1)
+      .to(".hero-typing", { opacity: 1, y: 0, duration: 0.7 }, 0.55)
+      .to(".hero-sub", { opacity: 1, y: 0, duration: 0.7 }, 0.7)
+      .to(".hero-cta", { opacity: 1, y: 0, duration: 0.7 }, 0.85)
+      .to(".hero-stats", { opacity: 1, y: 0, duration: 0.8 }, 1.0);
+    gsap.set(".hero .reveal", { y: 26, opacity: 0 });
+    window.__heroIntro = () => heroTl.play();
+
+    // Scrub parallax details
+    gsap.to(".hero-watermark", {
+      yPercent: 24,
+      rotation: 5,
+      ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+    });
+    gsap.fromTo(
+      ".about-visual",
+      { y: 50 },
+      {
+        y: -50,
+        ease: "none",
+        scrollTrigger: { trigger: ".about", start: "top bottom", end: "bottom top", scrub: true },
+      }
+    );
+    $$(".work-orb").forEach((orb) => {
+      gsap.fromTo(
+        orb,
+        { y: 26 },
+        {
+          y: -26,
+          ease: "none",
+          scrollTrigger: { trigger: orb.closest(".work-card"), start: "top bottom", end: "bottom top", scrub: true },
+        }
+      );
+    });
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            revealObserver.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+    $$(".reveal").forEach((el) => revealObserver.observe(el));
+  }
+
+  /* ─────────────────────────────────────────────
+     6. PRELOADER
+  ───────────────────────────────────────────── */
+  function dismissPreloader() {
+    const pl = $("#preloader");
+    if (pl.classList.contains("done")) return;
+    pl.classList.add("done");
+    if (window.__heroIntro) window.__heroIntro();
+  }
+  window.addEventListener("load", () => setTimeout(dismissPreloader, reducedMotion ? 0 : 450));
+  setTimeout(dismissPreloader, 3500); // never trap the user behind the loader
+
+  /* ─────────────────────────────────────────────
+     7. CUSTOM CURSOR (desktop only)
   ───────────────────────────────────────────── */
   if (finePointer && !reducedMotion) {
     const dot = $("#cursorDot");
@@ -193,7 +382,7 @@
   }
 
   /* ─────────────────────────────────────────────
-     4. HERO PARTICLE CONSTELLATION
+     8. HERO PARTICLE CONSTELLATION
   ───────────────────────────────────────────── */
   const canvas = $("#particleCanvas");
   if (canvas && !reducedMotion) {
@@ -213,6 +402,7 @@
         vx: (Math.random() - 0.5) * 0.35,
         vy: (Math.random() - 0.5) * 0.35,
         r: Math.random() * 1.6 + 0.6,
+        tw: Math.random() * Math.PI * 2,          // twinkle phase
       }));
     }
     resize();
@@ -237,7 +427,6 @@
       ctx.clearRect(0, 0, W, H);
 
       for (const p of particles) {
-        // mouse repulsion
         const dx = p.x - mouse.x, dy = p.y - mouse.y;
         const d2 = dx * dx + dy * dy;
         if (d2 < 120 * 120) {
@@ -246,16 +435,16 @@
           p.y += (dy / d) * 1.4;
         }
         p.x += p.vx; p.y += p.vy;
+        p.tw += 0.02;
         if (p.x < 0 || p.x > W) p.vx *= -1;
         if (p.y < 0 || p.y > H) p.vy *= -1;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(160, 185, 210, 0.55)";
+        ctx.fillStyle = `rgba(160, 185, 210, ${0.35 + 0.3 * Math.sin(p.tw)})`;
         ctx.fill();
       }
 
-      // links
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i], c = particles[j];
@@ -275,7 +464,7 @@
   }
 
   /* ─────────────────────────────────────────────
-     5. TYPING ROTATOR
+     9. TYPING ROTATOR
   ───────────────────────────────────────────── */
   const typingEl = $("#typingWord");
   if (typingEl) {
@@ -303,8 +492,8 @@
   }
 
   /* ─────────────────────────────────────────────
-     6. SCROLL: progress bar, nav state, back-top,
-        active section link
+     10. SCROLL STATE: progress bar, nav, back-top,
+         active section link
   ───────────────────────────────────────────── */
   const nav = $("#nav");
   const progress = $("#scrollProgress");
@@ -330,10 +519,10 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  backTop.addEventListener("click", () => scrollToTarget(0));
 
   /* ─────────────────────────────────────────────
-     7. MOBILE MENU
+     11. MOBILE MENU
   ───────────────────────────────────────────── */
   const burger = $("#navBurger");
   const links = $("#navLinks");
@@ -351,23 +540,7 @@
   });
 
   /* ─────────────────────────────────────────────
-     8. REVEAL ON SCROLL
-  ───────────────────────────────────────────── */
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.classList.add("visible");
-          revealObserver.unobserve(e.target);
-        }
-      }
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-  );
-  $$(".reveal").forEach((el) => revealObserver.observe(el));
-
-  /* ─────────────────────────────────────────────
-     9. ANIMATED COUNTERS
+     12. ANIMATED COUNTERS
   ───────────────────────────────────────────── */
   const counterObserver = new IntersectionObserver(
     (entries) => {
@@ -393,7 +566,7 @@
   $$("[data-count]").forEach((el) => counterObserver.observe(el));
 
   /* ─────────────────────────────────────────────
-     10. CARD SPOTLIGHT + 3D TILT
+     13. CARD SPOTLIGHT + 3D TILT
   ───────────────────────────────────────────── */
   if (finePointer && !reducedMotion) {
     document.addEventListener("mousemove", (e) => {
@@ -417,7 +590,7 @@
   }
 
   /* ─────────────────────────────────────────────
-     11. MAGNETIC BUTTONS
+     14. MAGNETIC BUTTONS
   ───────────────────────────────────────────── */
   if (finePointer && !reducedMotion) {
     $$(".magnetic").forEach((el) => {
@@ -432,7 +605,7 @@
   }
 
   /* ─────────────────────────────────────────────
-     12. TESTIMONIAL SLIDER
+     15. TESTIMONIAL SLIDER
   ───────────────────────────────────────────── */
   const track = $("#tTrack");
   const dotsWrap = $("#tDots");
@@ -458,7 +631,6 @@
     const d = e.target.closest(".tdot");
     if (d) { goTo(+d.dataset.i); autoplay(); }
   });
-  // swipe support
   let touchX = null;
   track.addEventListener("touchstart", (e) => (touchX = e.touches[0].clientX), { passive: true });
   track.addEventListener("touchend", (e) => {
@@ -471,7 +643,7 @@
   autoplay();
 
   /* ─────────────────────────────────────────────
-     13. CONTACT FORM (mailto — no backend needed)
+     16. CONTACT FORM (mailto — no backend needed)
   ───────────────────────────────────────────── */
   $("#contactForm").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -488,7 +660,7 @@
   });
 
   /* ─────────────────────────────────────────────
-     14. HERO PARALLAX
+     17. HERO CONTENT PARALLAX
   ───────────────────────────────────────────── */
   if (!reducedMotion) {
     const heroContent = $(".hero-content");

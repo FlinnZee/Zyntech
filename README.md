@@ -60,12 +60,13 @@ assets/           logo mark + favicon (SVG, scale to any size)
 
 ## ⚡ Features
 
+- Lenis smooth scrolling + GSAP ScrollTrigger motion (word-split title reveals, scrub parallax) with an IntersectionObserver fallback if the CDN is unreachable
+- Ambient aurora background, animated film grain, services marquee, animated logo equalizer bars
 - Particle constellation hero with mouse repulsion
-- Custom glow cursor, magnetic buttons, 3D tilt + spotlight cards
-- Scroll-reveal animations, scroll progress bar, animated counters
-- Typing rotator, testimonial slider (auto/arrows/dots/swipe)
-- Fully responsive (desktop → mobile), `prefers-reduced-motion` respected
-- Zero dependencies, zero build step
+- Custom glow cursor, magnetic buttons, 3D tilt + spotlight cards, shine-sweep buttons
+- Typing rotator, animated counters, testimonial slider (auto/arrows/dots/swipe)
+- Fully responsive (desktop → tablet → mobile), `prefers-reduced-motion` respected
+- No build step — plain HTML/CSS/JS, GSAP/Lenis via CDN
 
 ---
 
