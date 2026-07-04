@@ -190,10 +190,13 @@ const SITE = {
     },
   ],
 
-  /* ---------- TEAM ---------- */
+  /* ---------- TEAM ----------
+     photo: path to a square-ish portrait. If the file is missing,
+     the card automatically falls back to the initials badge. */
   team: [
     {
       initials: "TN",
+      photo: "assets/team/theekshana.jpg",
       name: "Theekshana Nirmal",
       role: "Co-Founder · Lead Engineer",
       bio: "Full-stack developer and systems engineer. Builds secure, scalable products across web, mobile, cloud and AI — undergraduate at University of Moratuwa.",
@@ -206,6 +209,7 @@ const SITE = {
     },
     {
       initials: "HW",
+      photo: "assets/team/hansana.jpg",
       name: "Hansana Wick",
       role: "Co-Founder · Creative Director",
       bio: "Video editor and content strategist. Runs full production pipelines — editing, thumbnails, branding and audience growth — creator of the Hanzy channel.",

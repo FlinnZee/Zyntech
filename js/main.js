@@ -144,9 +144,12 @@
         links.push(`<a class="team-link" href="${m.links.github}" target="_blank" rel="noopener" aria-label="${m.name} on GitHub"><svg><use href="#ic-github"/></svg></a>`);
       if (m.links.linkedin)
         links.push(`<a class="team-link" href="${m.links.linkedin}" target="_blank" rel="noopener" aria-label="${m.name} on LinkedIn"><svg><use href="#ic-linkedin"/></svg></a>`);
+      const photo = m.photo
+        ? `<img class="avatar-img" src="${m.photo}" alt="${m.name}" loading="lazy" onerror="this.remove()">`
+        : "";
       return `
       <div class="card team-card tilt reveal" style="transition-delay:${i * 110}ms">
-        <div class="avatar">${m.initials}</div>
+        <div class="avatar">${m.initials}${photo}</div>
         <h3>${m.name}</h3>
         <span class="team-role">${m.role}</span>
         <p class="team-bio">${m.bio}</p>

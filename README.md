@@ -18,6 +18,7 @@ Open it in any text editor, change the text between quotes, save, refresh. That'
 | Add / remove a **service** | `services: [...]` (icons: `system, web, mobile, security, saas, uiux, video, social, cloud`) |
 | Add a new **project** | `projects: [...]` (`accent: "a" | "b" | "c" | "d"` changes card colours) |
 | Team bios, skills, links | `team: [...]` |
+| Team **profile photos** | drop the image in `assets/team/` and set `photo:` in `team: [...]` — missing file shows the initials badge instead |
 | Email / phone / location | `brand: {...}` |
 | Hero headline & rotating words | `hero: {...}` |
 | Stats counters | `stats: [...]` |
