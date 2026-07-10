@@ -114,11 +114,10 @@
     )
     .join("");
 
-  // Work / projects
+  // Work / projects — cards with a `link` open the live project.
   $("#workGrid").innerHTML = SITE.projects
-    .map(
-      (w, i) => `
-      <div class="card work-card tilt reveal" style="transition-delay:${(i % 3) * 90}ms">
+    .map((w, i) => {
+      const inner = `
         <div class="work-art work-art-${w.accent}">
           <div class="work-orb"></div>
           <div class="work-glyph">${w.title.charAt(0)}</div>
@@ -129,9 +128,12 @@
           <h3>${w.title}</h3>
           <p class="work-text">${w.text}</p>
           <div class="tag-row">${w.stack.map((t) => `<span class="tag">${t}</span>`).join("")}</div>
-        </div>
-      </div>`
-    )
+        </div>`;
+      const attrs = `class="card work-card tilt reveal" style="transition-delay:${(i % 3) * 90}ms"`;
+      return w.link
+        ? `<a ${attrs} href="${w.link}" target="_blank" rel="noopener">${inner}</a>`
+        : `<div ${attrs}>${inner}</div>`;
+    })
     .join("");
 
   // Team

@@ -144,8 +144,17 @@ const SITE = {
   ],
 
   /* ---------- PROJECTS / WORK ----------
-     accent: a | b | c | d  (changes the card artwork colours) */
+     accent: a | b | c | d  (changes the card artwork colours)
+     link:   optional — makes the whole card clickable */
   projects: [
+    {
+      title: "Nyx — Futuristic Messenger",
+      category: "Flagship Product · Desktop App",
+      text: "Our own invite-only messaging platform — real-time chats, voice & video calls, device-side media privacy and three living themes, wrapped in aurora light. Windows today, mobile next.",
+      stack: ["Rust · Tauri", "React", "WebRTC", "Supabase"],
+      accent: "a",
+      link: "https://flinnzee.github.io/Nyx/",
+    },
     {
       title: "CareLink — Caregiver Platform",
       category: "Web Application",
