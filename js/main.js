@@ -594,7 +594,9 @@
     },
     { threshold: 0.5 }
   );
-  $$("[data-count]").forEach((el) => counterObserver.observe(el));
+  // Scoped to .stat-num on purpose: this observer overwrites the element's
+  // textContent, so it must never match anything but a counter.
+  $$(".stat-num[data-count]").forEach((el) => counterObserver.observe(el));
 
   /* ─────────────────────────────────────────────
      13. CARD SPOTLIGHT + 3D TILT

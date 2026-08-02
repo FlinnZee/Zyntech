@@ -114,7 +114,7 @@
       (t, i) => `
       <div class="cm-tiers" role="tabpanel" tabindex="0"
            id="cm-panel-${t.id}" aria-labelledby="cm-tab-${t.id}"
-           data-count="${t.tiers.length}" ${i === defaultIndex ? "" : "hidden"}>
+           data-tiers="${t.tiers.length}" ${i === defaultIndex ? "" : "hidden"}>
         ${t.tiers.map(tierCard).join("")}
       </div>`
     )

@@ -944,11 +944,13 @@ html.has-gsap .reveal { opacity: 0; transform: none; transition: none; }
 .cm-panels { position: relative; }
 .cm-tiers { display: grid; gap: 20px; align-items: stretch; }
 .cm-tiers[hidden] { display: none !important; }
-.cm-tiers[data-count="2"] {
+/* NOTE: this is `data-tiers`, not `data-count` — `[data-count]` is claimed by
+   the animated stats counters in main.js, which overwrite the element's text. */
+.cm-tiers[data-tiers="2"] {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 780px;
 }
-.cm-tiers[data-count="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cm-tiers[data-tiers="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .cm-tiers:focus-visible { outline-offset: 6px; }
 
 .cm-tier { display: flex; flex-direction: column; padding: 30px 26px; }
@@ -1122,7 +1124,7 @@ html.has-gsap .reveal { opacity: 0; transform: none; transition: none; }
 
 /* Tier row becomes a scroll-snap rail with the next card peeking. */
 @media (max-width: 900px) {
-  .cm-tiers[data-count] {
+  .cm-tiers[data-tiers] {
     display: flex; grid-template-columns: none; max-width: none;
     overflow-x: auto; scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
