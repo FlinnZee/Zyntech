@@ -59,6 +59,43 @@ const CREATOR = {
     link: "See packages and pricing",
   },
 
+  /* ---------- TICKER (the scrolling strip under the hero) ---------- */
+  ticker: [
+    "Reels", "TikTok", "Shorts", "Shot in 4K", "Colour graded",
+    "Captions SI / EN", "Sound design", "Thumbnails", "Carousels",
+    "Posting & scheduling", "Analytics",
+  ],
+
+  /* ---------- PHOTOS ----------
+     Drop replacements in assets/creator/ and update the paths here.
+     Keep them compressed — target under ~150 KB each. */
+  photos: {
+    // Hero viewfinder card (portrait works best)
+    hero: {
+      src: "../assets/creator/edit-suite.jpg",
+      alt: "A reel being colour graded next to the camera that shot it",
+      clip: "A001_C004",
+    },
+    // Film strip — three frames, shown in order
+    strip: [
+      { src: "../assets/creator/frame-shoot.jpg", alt: "Camera operator lining up a shot on set", clip: "A003_C011.MOV", label: "SHOOT" },
+      { src: "../assets/creator/on-set.jpg",      alt: "Phone rig recording in a studio",         clip: "A007_C002.MOV", label: "SET" },
+      { src: "../assets/creator/frame-edit.jpg",  alt: "Editor cutting a talking-head video",     clip: "TL_04_FINE.PRJ", label: "EDIT" },
+    ],
+    // FAQ side visual, framed as a browser window
+    faq: {
+      src: "../assets/creator/feed-laptop.jpg",
+      alt: "A managed Instagram profile open on a laptop",
+      url: "instagram.com/yourbrand",
+    },
+    // Closing section — taped photo print
+    cta: {
+      src: "../assets/creator/feed-phone.jpg",
+      alt: "A client scrolling their own feed",
+      caption: "your feed — managed daily",
+    },
+  },
+
   /* ---------- 1. WHAT WE DO ----------
      icon: video | cut | uiux | social  */
   whatWeDo: [
