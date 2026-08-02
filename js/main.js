@@ -55,14 +55,23 @@
     if (val != null) el.textContent = val;
   });
 
+  /* Not every page carries every block — the Creator Mode page reuses the
+     nav, footer and motion engine but none of the homepage sections — so
+     render through guards instead of assuming an element is there. */
+  const setHTML = (sel, html) => { const el = $(sel); if (el) el.innerHTML = html; };
+  const setText = (sel, txt) => { const el = $(sel); if (el) el.textContent = txt; };
+  const setLink = (sel, txt, href) => {
+    const el = $(sel);
+    if (el) { el.textContent = txt; el.href = href; }
+  };
+  const isHome = !!$("#home");
+
   // Hero CTAs
-  $("#ctaPrimary").textContent = SITE.hero.ctaPrimary.label;
-  $("#ctaPrimary").href = SITE.hero.ctaPrimary.href;
-  $("#ctaSecondary").textContent = SITE.hero.ctaSecondary.label;
-  $("#ctaSecondary").href = SITE.hero.ctaSecondary.href;
+  setLink("#ctaPrimary", SITE.hero.ctaPrimary.label, SITE.hero.ctaPrimary.href);
+  setLink("#ctaSecondary", SITE.hero.ctaSecondary.label, SITE.hero.ctaSecondary.href);
 
   // Stats
-  $("#statsRow").innerHTML = SITE.stats
+  setHTML("#statsRow", SITE.stats
     .map(
       (s) => `
       <div class="stat">
@@ -70,16 +79,16 @@
         <div class="stat-label">${s.label}</div>
       </div>`
     )
-    .join("");
+    .join(""));
 
   // Services marquee strip (built from service titles, twice for a seamless loop)
   const chunk = `<div class="marquee-chunk">${SITE.services
     .map((s) => `${s.title}<i>◆</i>`)
     .join("")}</div>`;
-  $("#marqueeTrack").innerHTML = chunk + chunk;
+  setHTML("#marqueeTrack", chunk + chunk);
 
   // About points
-  $("#aboutPoints").innerHTML = SITE.about.points
+  setHTML("#aboutPoints", SITE.about.points
     .map(
       (p, i) => `
       <div class="about-point card reveal" style="transition-delay:${i * 90}ms">
@@ -87,10 +96,10 @@
         <div><h3>${p.title}</h3><p>${p.text}</p></div>
       </div>`
     )
-    .join("");
+    .join(""));
 
   // Services
-  $("#servicesGrid").innerHTML = SITE.services
+  setHTML("#servicesGrid", SITE.services
     .map(
       (s, i) => `
       <div class="card service-card tilt reveal" style="transition-delay:${(i % 3) * 90}ms">
@@ -100,10 +109,24 @@
         <div class="tag-row">${s.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>
       </div>`
     )
-    .join("");
+    .join(""));
+
+  // Creator Mode entry band (content lives in js/creator-data.js)
+  if (typeof CREATOR !== "undefined") {
+    const cb = CREATOR.homeBand;
+    setHTML("#creatorBand", `
+      <a class="cm-band" href="creator/">
+        <div>
+          <span class="cm-band-eyebrow">${cb.eyebrow}</span>
+          <h3 class="cm-band-title">${cb.title}</h3>
+          <p class="cm-band-text">${cb.text}</p>
+        </div>
+        <span class="btn btn-ghost cm-band-link">${cb.link} →</span>
+      </a>`);
+  }
 
   // Process
-  $("#processGrid").innerHTML = SITE.process
+  setHTML("#processGrid", SITE.process
     .map(
       (p, i) => `
       <div class="card process-step reveal" style="transition-delay:${i * 100}ms">
@@ -112,10 +135,10 @@
         <p>${p.text}</p>
       </div>`
     )
-    .join("");
+    .join(""));
 
   // Work / projects — cards with a `link` open the live project.
-  $("#workGrid").innerHTML = SITE.projects
+  setHTML("#workGrid", SITE.projects
     .map((w, i) => {
       const inner = `
         <div class="work-art work-art-${w.accent}">
@@ -134,10 +157,10 @@
         ? `<a ${attrs} href="${w.link}" target="_blank" rel="noopener">${inner}</a>`
         : `<div ${attrs}>${inner}</div>`;
     })
-    .join("");
+    .join(""));
 
   // Team
-  $("#teamGrid").innerHTML = SITE.team
+  setHTML("#teamGrid", SITE.team
     .map((m, i) => {
       const links = [];
       if (m.links.email)
@@ -159,11 +182,11 @@
         <div class="team-links">${links.join("")}</div>
       </div>`;
     })
-    .join("");
+    .join(""));
 
   // Testimonials
   const star = '<svg><use href="#ic-star"/></svg>';
-  $("#tTrack").innerHTML = SITE.testimonials
+  setHTML("#tTrack", SITE.testimonials
     .map(
       (t) => `
       <div class="tcard">
@@ -173,26 +196,23 @@
         <div class="trole">${t.role}</div>
       </div>`
     )
-    .join("");
+    .join(""));
 
   // Contact + footer
   const b = SITE.brand;
-  $("#contactEmail").textContent = b.email;
-  $("#contactEmail").href = `mailto:${b.email}`;
-  $("#contactPhone").textContent = b.phone;
-  $("#contactPhone").href = `tel:${b.phone.replace(/\s/g, "")}`;
-  $("#contactLocation").textContent = b.location;
-  $("#footerNote").textContent = SITE.footer.note;
-  $("#footerEmail").textContent = b.email;
-  $("#footerEmail").href = `mailto:${b.email}`;
-  $("#footerPhone").textContent = b.phone;
-  $("#footerPhone").href = `tel:${b.phone.replace(/\s/g, "")}`;
-  $("#footerLocation").textContent = b.location;
-  $("#footerCopy").textContent = `© ${SITE.footer.year} ${b.name}. All rights reserved.`;
-  $("#footerCredit").innerHTML = SITE.footer.credit.replace(
+  const tel = `tel:${b.phone.replace(/\s/g, "")}`;
+  setLink("#contactEmail", b.email, `mailto:${b.email}`);
+  setLink("#contactPhone", b.phone, tel);
+  setText("#contactLocation", b.location);
+  setText("#footerNote", SITE.footer.note);
+  setLink("#footerEmail", b.email, `mailto:${b.email}`);
+  setLink("#footerPhone", b.phone, tel);
+  setText("#footerLocation", b.location);
+  setText("#footerCopy", `© ${SITE.footer.year} ${b.name}. All rights reserved.`);
+  setHTML("#footerCredit", SITE.footer.credit.replace(
     "Theekshana Nirmal",
     "<b>Theekshana Nirmal</b>"
-  );
+  ));
 
   /* ─────────────────────────────────────────────
      3. SMOOTH SCROLL (Lenis) + anchor handling
@@ -288,34 +308,36 @@
     });
 
     // Hero intro timeline (kicked off when the preloader lifts)
-    const heroTl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
-    heroTl
-      .to(".hero-badge", { opacity: 1, y: 0, duration: 0.7 }, 0)
-      .set(".hero-title", { opacity: 1, y: 0 }, 0.1)
-      .to($$(".hero-title .w"), { y: 0, duration: 1, ease: "power4.out", stagger: 0.06 }, 0.1)
-      .to(".hero-typing", { opacity: 1, y: 0, duration: 0.7 }, 0.55)
-      .to(".hero-sub", { opacity: 1, y: 0, duration: 0.7 }, 0.7)
-      .to(".hero-cta", { opacity: 1, y: 0, duration: 0.7 }, 0.85)
-      .to(".hero-stats", { opacity: 1, y: 0, duration: 0.8 }, 1.0);
-    gsap.set(".hero .reveal", { y: 26, opacity: 0 });
-    window.__heroIntro = () => heroTl.play();
+    if (isHome) {
+      const heroTl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+      heroTl
+        .to(".hero-badge", { opacity: 1, y: 0, duration: 0.7 }, 0)
+        .set(".hero-title", { opacity: 1, y: 0 }, 0.1)
+        .to($$(".hero-title .w"), { y: 0, duration: 1, ease: "power4.out", stagger: 0.06 }, 0.1)
+        .to(".hero-typing", { opacity: 1, y: 0, duration: 0.7 }, 0.55)
+        .to(".hero-sub", { opacity: 1, y: 0, duration: 0.7 }, 0.7)
+        .to(".hero-cta", { opacity: 1, y: 0, duration: 0.7 }, 0.85)
+        .to(".hero-stats", { opacity: 1, y: 0, duration: 0.8 }, 1.0);
+      gsap.set(".hero .reveal", { y: 26, opacity: 0 });
+      window.__heroIntro = () => heroTl.play();
 
-    // Scrub parallax details
-    gsap.to(".hero-watermark", {
-      yPercent: 24,
-      rotation: 5,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-    });
-    gsap.fromTo(
-      ".about-visual",
-      { y: 50 },
-      {
-        y: -50,
+      // Scrub parallax details
+      gsap.to(".hero-watermark", {
+        yPercent: 24,
+        rotation: 5,
         ease: "none",
-        scrollTrigger: { trigger: ".about", start: "top bottom", end: "bottom top", scrub: true },
-      }
-    );
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+      });
+      gsap.fromTo(
+        ".about-visual",
+        { y: 50 },
+        {
+          y: -50,
+          ease: "none",
+          scrollTrigger: { trigger: ".about", start: "top bottom", end: "bottom top", scrub: true },
+        }
+      );
+    }
     $$(".work-orb").forEach((orb) => {
       gsap.fromTo(
         orb,
@@ -347,7 +369,7 @@
   ───────────────────────────────────────────── */
   function dismissPreloader() {
     const pl = $("#preloader");
-    if (pl.classList.contains("done")) return;
+    if (!pl || pl.classList.contains("done")) return;
     pl.classList.add("done");
     if (window.__heroIntro) window.__heroIntro();
   }
@@ -505,6 +527,7 @@
   const backTop = $("#backTop");
   const sections = $$("section[id], .hero[id]");
   const navLinks = $$(".nav-link");
+  const hashLinks = navLinks.filter((l) => l.getAttribute("href").startsWith("#"));
 
   function onScroll() {
     const y = window.scrollY;
@@ -513,11 +536,14 @@
     nav.classList.toggle("scrolled", y > 30);
     backTop.classList.toggle("show", y > 700);
 
+    // Scroll-spy only applies to in-page anchor links; on the Creator Mode
+    // page the nav points back to the homepage, so its active state is static.
+    if (!hashLinks.length) return;
     let current = "home";
     for (const s of sections) {
       if (y >= s.offsetTop - innerHeight * 0.4) current = s.id;
     }
-    navLinks.forEach((l) =>
+    hashLinks.forEach((l) =>
       l.classList.toggle("is-active", l.getAttribute("href") === `#${current}`)
     );
   }
@@ -614,43 +640,46 @@
   ───────────────────────────────────────────── */
   const track = $("#tTrack");
   const dotsWrap = $("#tDots");
-  const total = SITE.testimonials.length;
-  let index = 0, timer;
+  if (track && dotsWrap) {
+    const total = SITE.testimonials.length;
+    let index = 0, timer;
 
-  dotsWrap.innerHTML = SITE.testimonials
-    .map((_, i) => `<button class="tdot${i === 0 ? " active" : ""}" data-i="${i}" aria-label="Testimonial ${i + 1}"></button>`)
-    .join("");
+    dotsWrap.innerHTML = SITE.testimonials
+      .map((_, i) => `<button class="tdot${i === 0 ? " active" : ""}" data-i="${i}" aria-label="Testimonial ${i + 1}"></button>`)
+      .join("");
 
-  function goTo(i) {
-    index = (i + total) % total;
-    track.style.transform = `translateX(-${index * 100}%)`;
-    $$(".tdot", dotsWrap).forEach((d, di) => d.classList.toggle("active", di === index));
-  }
-  function autoplay() {
-    clearInterval(timer);
-    if (!reducedMotion) timer = setInterval(() => goTo(index + 1), 5500);
-  }
-  $("#tPrev").addEventListener("click", () => { goTo(index - 1); autoplay(); });
-  $("#tNext").addEventListener("click", () => { goTo(index + 1); autoplay(); });
-  dotsWrap.addEventListener("click", (e) => {
-    const d = e.target.closest(".tdot");
-    if (d) { goTo(+d.dataset.i); autoplay(); }
-  });
-  let touchX = null;
-  track.addEventListener("touchstart", (e) => (touchX = e.touches[0].clientX), { passive: true });
-  track.addEventListener("touchend", (e) => {
-    if (touchX == null) return;
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 45) goTo(index + (dx < 0 ? 1 : -1));
-    touchX = null;
+    const goTo = (i) => {
+      index = (i + total) % total;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      $$(".tdot", dotsWrap).forEach((d, di) => d.classList.toggle("active", di === index));
+    };
+    const autoplay = () => {
+      clearInterval(timer);
+      if (!reducedMotion) timer = setInterval(() => goTo(index + 1), 5500);
+    };
+    $("#tPrev").addEventListener("click", () => { goTo(index - 1); autoplay(); });
+    $("#tNext").addEventListener("click", () => { goTo(index + 1); autoplay(); });
+    dotsWrap.addEventListener("click", (e) => {
+      const d = e.target.closest(".tdot");
+      if (d) { goTo(+d.dataset.i); autoplay(); }
+    });
+    let touchX = null;
+    track.addEventListener("touchstart", (e) => (touchX = e.touches[0].clientX), { passive: true });
+    track.addEventListener("touchend", (e) => {
+      if (touchX == null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 45) goTo(index + (dx < 0 ? 1 : -1));
+      touchX = null;
+      autoplay();
+    }, { passive: true });
     autoplay();
-  }, { passive: true });
-  autoplay();
+  }
 
   /* ─────────────────────────────────────────────
      16. CONTACT FORM (mailto — no backend needed)
   ───────────────────────────────────────────── */
-  $("#contactForm").addEventListener("submit", (e) => {
+  const contactForm = $("#contactForm");
+  if (contactForm) contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = $("#fName").value.trim();
     const email = $("#fEmail").value.trim();
@@ -667,8 +696,8 @@
   /* ─────────────────────────────────────────────
      17. HERO CONTENT PARALLAX
   ───────────────────────────────────────────── */
-  if (!reducedMotion) {
-    const heroContent = $(".hero-content");
+  const heroContent = $(".hero-content");
+  if (!reducedMotion && heroContent) {
     window.addEventListener("scroll", () => {
       const y = window.scrollY;
       if (y < innerHeight) {

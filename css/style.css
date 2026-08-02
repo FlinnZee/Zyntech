@@ -156,7 +156,7 @@ button { font-family: inherit; }
   content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px;
   height: 2px; border-radius: 2px; background: var(--grad-accent);
 }
-.nav-cta { white-space: nowrap; }
+.nav-cta { white-space: nowrap; flex: none; }
 .nav-burger {
   display: none; flex-direction: column; gap: 5px;
   background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto;
@@ -802,6 +802,14 @@ html.has-gsap .reveal { opacity: 0; transform: none; transition: none; }
   .tslider-next { right: 8px; }
 }
 
+/* — narrow desktop: tighten the bar so 7 links + CTA still fit — */
+@media (max-width: 1080px) {
+  .nav-inner { gap: 18px; }
+  .nav-links { gap: 1px; }
+  .nav-link { padding: 8px 9px; font-size: 0.88rem; }
+  .nav-link.is-active::after, .nav-link::before { left: 9px; right: 9px; }
+}
+
 /* — tablet landscape — */
 @media (max-width: 1024px) {
   .section { padding: 96px 0; }
@@ -847,6 +855,13 @@ html.has-gsap .reveal { opacity: 0; transform: none; transition: none; }
   .contact-form { padding: 30px 22px; }
 }
 
+/* ════════════ KEYBOARD FOCUS ════════════ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 5px;
+}
+
 /* ════════════ REDUCED MOTION ════════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -856,4 +871,289 @@ html.has-gsap .reveal { opacity: 0; transform: none; transition: none; }
   }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATOR MODE (/creator)
+   Uses only the tokens declared at the top of this file.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Icon inside a button ── */
+.btn-ic { width: 18px; height: 18px; flex: none; }
+
+/* ════════════ CM · HERO ════════════ */
+.cm-hero {
+  position: relative; overflow: hidden;
+  min-height: 76svh; display: flex; align-items: center;
+  padding: calc(var(--nav-h) + 76px) 0 84px;
+}
+.cm-hero-inner { position: relative; z-index: 2; text-align: center; }
+.cm-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.6vw, 4.4rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.cm-hero-sub {
+  max-width: 640px; margin: 0 auto 38px;
+  color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.13rem);
+}
+.cm-hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ════════════ CM · WHAT WE DO ════════════ */
+.cm-do-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+  perspective: 1200px;
+}
+
+/* ════════════ CM · REEL SPEC STRIP ════════════ */
+.cm-spec {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px 34px;
+  max-width: 880px;
+  padding: 30px 32px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.cm-spec-item {
+  position: relative; padding-left: 27px;
+  color: var(--muted); font-size: 0.94rem;
+}
+.cm-spec-item::before {
+  content: "✓"; position: absolute; left: 0; top: -1px;
+  color: var(--accent); font-size: 0.9rem;
+}
+
+/* ════════════ CM · TRACK TOGGLE ════════════ */
+.cm-tabs {
+  display: inline-flex; gap: 5px; padding: 5px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 100px; margin-bottom: 30px;
+}
+.cm-tab {
+  min-height: 44px; padding: 0 24px; border: none; border-radius: 100px;
+  background: none; color: var(--muted); cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.95rem;
+  white-space: nowrap;
+  transition: color 0.25s, background 0.25s;
+}
+.cm-tab:hover { color: var(--text); }
+.cm-tab.is-active { color: #041018; background: var(--grad-accent); }
+.cm-tab:focus-visible { outline-offset: -3px; }
+
+/* ════════════ CM · TIER CARDS ════════════ */
+.cm-panels { position: relative; }
+.cm-tiers { display: grid; gap: 20px; align-items: stretch; }
+.cm-tiers[hidden] { display: none !important; }
+.cm-tiers[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 780px;
+}
+.cm-tiers[data-count="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cm-tiers:focus-visible { outline-offset: 6px; }
+
+.cm-tier { display: flex; flex-direction: column; padding: 30px 26px; }
+.cm-tier.is-popular {
+  border-color: rgba(56, 225, 255, 0.42);
+  box-shadow: 0 14px 44px rgba(56, 225, 255, 0.10);
+  transform: translateY(-8px);
+}
+.cm-flag {
+  position: absolute; top: 14px; right: 14px;
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px;
+  color: var(--accent); border: 1px solid rgba(56, 225, 255, 0.4);
+  background: rgba(56, 225, 255, 0.08);
+}
+.cm-tier-name {
+  font-family: var(--font-mono); font-size: 0.9rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+}
+.cm-tier-tagline { color: var(--muted); font-size: 0.9rem; margin: 8px 0 20px; }
+.cm-tier-price {
+  font-family: var(--font-display); font-size: clamp(1.7rem, 2.6vw, 2.1rem);
+  font-weight: 700; line-height: 1.1;
+  background: var(--grad-chrome);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 22px;
+}
+.cm-per {
+  font-size: 0.82rem; font-weight: 500; color: var(--faint);
+  -webkit-text-fill-color: var(--faint);
+  margin-left: 3px;
+}
+.cm-tier-list {
+  list-style: none; display: grid; gap: 10px;
+  margin-bottom: 26px; flex: 1;
+}
+.cm-tier-list li {
+  position: relative; padding-left: 22px;
+  color: var(--muted); font-size: 0.89rem; line-height: 1.5;
+}
+.cm-tier-list li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 11px; height: 1px; background: var(--accent); opacity: 0.75;
+}
+.cm-tier-btn { width: 100%; margin-top: auto; }
+
+.cm-note {
+  margin-top: 26px; color: var(--faint); font-size: 0.88rem;
+  font-family: var(--font-mono);
+}
+
+/* ════════════ CM · ONE-OFF + PROJECT CARDS ════════════ */
+.cm-mini-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.cm-mini {
+  padding: 22px 22px 24px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: rgba(255, 255, 255, 0.018);
+  transition: border-color 0.3s, background 0.3s, transform 0.3s var(--ease);
+}
+.cm-mini:hover {
+  border-color: var(--line-strong); background: var(--panel-hover);
+  transform: translateY(-3px);
+}
+.cm-mini-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 9px; flex-wrap: wrap;
+}
+.cm-mini-name {
+  font-family: var(--font-mono); font-size: 0.78rem;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+}
+.cm-mini-price {
+  font-family: var(--font-display); font-size: 1.02rem; font-weight: 600;
+  color: var(--text);
+}
+.cm-mini-note { color: var(--muted); font-size: 0.87rem; line-height: 1.55; }
+
+/* ════════════ CM · ACCORDION ════════════ */
+.cm-acc {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); overflow: hidden;
+}
+.cm-acc-item + .cm-acc-item { border-top: 1px solid var(--line); }
+.cm-acc-heading { margin: 0; font-size: inherit; font-weight: inherit; }
+.cm-acc-btn {
+  width: 100%; min-height: 58px;
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 17px 24px; text-align: left; cursor: pointer;
+  background: none; border: none; color: var(--text);
+  font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+  transition: background 0.25s, color 0.25s;
+}
+.cm-acc-btn:hover { background: var(--panel-hover); color: var(--accent); }
+.cm-acc-btn:focus-visible { outline-offset: -3px; }
+.cm-acc-icon { position: relative; width: 13px; height: 13px; flex: none; }
+.cm-acc-icon::before, .cm-acc-icon::after {
+  content: ""; position: absolute; left: 0; top: 6px;
+  width: 13px; height: 1.5px; border-radius: 2px; background: var(--accent);
+  transition: transform 0.3s var(--ease);
+}
+.cm-acc-icon::after { transform: rotate(90deg); }
+.cm-acc-btn[aria-expanded="true"] .cm-acc-icon::after { transform: rotate(0deg); }
+.cm-acc-panel { padding: 0 24px 22px; }
+.cm-acc-panel[hidden] { display: none; }
+.cm-acc-panel { animation: cmAccIn 0.3s var(--ease); }
+@keyframes cmAccIn { from { opacity: 0; transform: translateY(-6px); } }
+.cm-acc-text { color: var(--muted); font-size: 0.94rem; max-width: 68ch; }
+
+/* Price rows inside the à la carte panels */
+.cm-price-list { display: grid; }
+.cm-price-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 20px;
+  padding: 11px 0; border-bottom: 1px dashed var(--line);
+}
+.cm-price-row:last-child { border-bottom: none; padding-bottom: 2px; }
+.cm-price-row dt { flex: 1 1 auto; min-width: 0; color: var(--muted); font-size: 0.91rem; }
+.cm-price-row dd {
+  flex: 0 1 auto; text-align: right;
+  font-family: var(--font-mono); font-size: 0.86rem; color: var(--text);
+}
+.cm-price-row dd i { font-style: normal; color: var(--faint); font-size: 0.92em; }
+
+/* ════════════ CM · CLOSING CTA ════════════ */
+.cm-cta {
+  position: relative; text-align: center;
+  padding: 96px 0 110px;
+  border-top: 1px solid var(--line);
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(56, 225, 255, 0.055), transparent 70%);
+}
+.cm-cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.8vw, 2.7rem);
+  font-weight: 700; letter-spacing: -0.015em; line-height: 1.15;
+}
+.cm-cta-text { color: var(--muted); margin: 16px auto 34px; max-width: 560px; }
+.cm-cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ════════════ CM · HOMEPAGE ENTRY BAND ════════════ */
+.cm-band-section { padding-top: 0; }
+.cm-band {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 34px; flex-wrap: wrap;
+  padding: 40px 44px;
+  border: 1px solid var(--line-strong); border-radius: var(--radius);
+  background:
+    radial-gradient(ellipse 60% 140% at 12% 50%, rgba(56, 225, 255, 0.10), transparent 70%),
+    var(--panel);
+  transition: border-color 0.3s, background 0.3s;
+}
+.cm-band:hover { border-color: var(--accent); }
+.cm-band-eyebrow {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.68rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 12px;
+}
+.cm-band-title {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700; letter-spacing: -0.015em;
+}
+.cm-band-text { color: var(--muted); font-size: 0.96rem; margin-top: 10px; max-width: 54ch; }
+.cm-band-link { flex: none; }
+
+/* ════════════ CM · RESPONSIVE ════════════ */
+@media (max-width: 1024px) {
+  .cm-do-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cm-mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Tier row becomes a scroll-snap rail with the next card peeking. */
+@media (max-width: 900px) {
+  .cm-tiers[data-count] {
+    display: flex; grid-template-columns: none; max-width: none;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 16px;
+  }
+  .cm-tier { flex: 0 0 84%; scroll-snap-align: start; }
+  .cm-tier.is-popular { transform: none; }
+  .cm-tiers::-webkit-scrollbar { height: 4px; }
+  .cm-tiers::-webkit-scrollbar-track { background: var(--line); border-radius: 4px; border: none; }
+  .cm-tiers::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; border: none; }
+}
+
+@media (max-width: 860px) {
+  .cm-band { padding: 32px 28px; }
+  .cm-cta { padding: 76px 0 88px; }
+}
+
+@media (max-width: 620px) {
+  .cm-hero { min-height: 0; padding: calc(var(--nav-h) + 54px) 0 64px; }
+  .cm-do-grid, .cm-mini-grid { grid-template-columns: 1fr; }
+  .cm-spec { grid-template-columns: 1fr; padding: 24px 22px; }
+  .cm-tabs { display: flex; width: 100%; }
+  .cm-tab { flex: 1; padding: 0 12px; font-size: 0.88rem; }
+  .cm-tier { flex-basis: 86%; }
+  .cm-acc-btn { padding: 15px 18px; font-size: 0.95rem; gap: 14px; }
+  .cm-acc-panel { padding: 0 18px 18px; }
+  .cm-hero-cta .btn, .cm-cta-actions .btn { width: 100%; }
+}
+
+/* Below this the price rows stack instead of squeezing. */
+@media (max-width: 520px) {
+  .cm-price-row { flex-direction: column; align-items: flex-start; gap: 3px; }
+  .cm-price-row dd { text-align: left; }
 }
