@@ -79,10 +79,9 @@ const CREATOR = {
   ],
 
   /* ---------- 3. PACKAGES ----------
-     Two tracks. `defaultTrack` decides which one is shown first.
+     Two tracks, each rendered as its own section in array order.
      popular: true adds the "Most popular" flag (use it on one tier only). */
   packages: {
-    defaultTrack: "production",
     note: "Custom scopes available. Ad spend is billed separately and paid directly by you.",
     tracks: [
       {

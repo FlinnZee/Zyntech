@@ -6,240 +6,225 @@
   <title>Creator Mode — Social Content Production | ZynTECH</title>
   <meta name="description" content="Social content production for businesses in Kandy and across Sri Lanka. Shot, graded, captioned and published — with open pricing from LKR 15,000 a month." />
   <meta name="author" content="Theekshana Nirmal" />
+  <meta name="theme-color" content="#efebe4" />
   <meta property="og:title" content="Creator Mode — We shoot it. We cut it. We post it." />
   <meta property="og:description" content="Reels, statics and full social management for Sri Lankan businesses. Real prices, no lock-in." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/creator.css" />
 </head>
 <body>
 
-  <!-- ═══════════ AMBIENT BACKGROUND ═══════════ -->
-  <div class="bg-fx" aria-hidden="true">
-    <span class="aur aur-1"></span>
-    <span class="aur aur-2"></span>
-    <span class="aur aur-3"></span>
-  </div>
-  <div class="bg-grain" aria-hidden="true"></div>
+  <div class="prog" id="prog" aria-hidden="true"></div>
 
-  <!-- ═══════════ PRELOADER ═══════════ -->
-  <div class="preloader" id="preloader" aria-hidden="true">
-    <div class="preloader-mark">
-      <span class="pl-bar"></span><span class="pl-bar"></span><span class="pl-bar"></span>
-    </div>
-    <div class="preloader-word">Zyn<b>TECH</b></div>
-  </div>
-
-  <!-- ═══════════ CUSTOM CURSOR ═══════════ -->
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
-
-  <!-- ═══════════ SCROLL PROGRESS ═══════════ -->
-  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
-  <!-- ═══════════ NAVBAR ═══════════ -->
-  <header class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="../" class="nav-logo" aria-label="ZynTECH home">
-        <span class="nav-mark" data-logo-mark></span>
-        <span class="nav-word">Zyn<b>TECH</b></span>
-      </a>
-      <nav class="nav-links" id="navLinks" aria-label="Primary">
-        <a href="../" class="nav-link">Home</a>
-        <a href="../#about" class="nav-link">About</a>
-        <a href="../#services" class="nav-link">Services</a>
-        <a href="./" class="nav-link is-active" aria-current="page">Creator Mode</a>
-        <a href="../#work" class="nav-link">Work</a>
-        <a href="../#team" class="nav-link">Team</a>
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="head" id="head">
+    <div class="wrap head-in">
+      <a href="../" class="mark" aria-label="ZynTECH home">Zyn<span>TECH</span></a>
+      <nav class="head-nav" aria-label="Creator Mode">
+        <a class="head-link" href="#packages">Packages</a>
+        <a class="head-link" href="#alacarte">Rates</a>
+        <a class="head-link" href="#faq">FAQ</a>
+        <a class="head-link" href="../">Main site</a>
+        <a class="head-cta" id="headCta" href="#contact">Start a project</a>
       </nav>
-      <a href="#cm-contact" class="btn btn-primary btn-sm nav-cta magnetic">Start a Project</a>
-      <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </header>
 
+  <!-- ═══════════ SIDE TIMELINE ═══════════ -->
+  <nav class="rail" id="rail" aria-label="Section timeline"></nav>
+
   <main>
 
-    <!-- ═══════════ 3.1 HERO ═══════════ -->
-    <section class="cm-hero" id="cm-top">
-      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
-      <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
-      <div class="hero-grid" aria-hidden="true"></div>
-
-      <div class="container cm-hero-inner">
-        <div class="hero-badge reveal">
-          <span class="badge-pulse"></span><span id="cmHeroEyebrow"></span>
-        </div>
-        <h1 class="cm-hero-title reveal" id="cmHeroTitle"></h1>
-        <p class="cm-hero-sub reveal" id="cmHeroSub"></p>
-        <div class="cm-hero-cta reveal" id="cmHeroCta"></div>
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero">
+      <div class="wrap">
+        <span class="hero-eyebrow rv">Creator Mode</span>
+        <h1 class="rv">We shoot it.<br />We cut it.<br /><em>We post it.</em></h1>
+        <p class="hero-sub rv" id="heroSub"></p>
+        <div class="hero-actions rv" id="heroActions"></div>
+        <dl class="hero-meta rv" id="heroMeta"></dl>
       </div>
     </section>
 
-    <!-- ═══════════ 3.2 WHAT WE DO ═══════════ -->
-    <section class="section" id="cm-what">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">01 · What We Do</span>
-          <h2 class="section-title">Four things, done <span class="text-chrome">properly</span></h2>
+    <!-- ═══════════ 01 · WHAT WE DO ═══════════ -->
+    <section class="sec" id="capabilities" data-tc="00:01" data-label="What we do">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:01</span>
+          <div>
+            <h2 class="sec-title">What we do</h2>
+            <p class="sec-lead">Four things, end to end. Take one or take the lot.</p>
+          </div>
         </div>
-        <div class="cm-do-grid" id="cmWhatGrid"></div>
+        <div class="sec-body rv">
+          <div class="caps" id="caps"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.3 WHAT'S IN EVERY REEL ═══════════ -->
-    <section class="section cm-spec-section" id="cm-spec">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">02 · The Standard</span>
-          <h2 class="section-title">What's in <span class="text-chrome">every reel</span></h2>
+    <!-- ═══════════ 02 · REEL SPEC ═══════════ -->
+    <section class="sec" id="spec" data-tc="00:02" data-label="Every reel">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:02</span>
+          <div>
+            <h2 class="sec-title">What's in every reel</h2>
+            <p class="sec-lead">The floor, not the ceiling. Every reel we deliver meets this spec.</p>
+          </div>
         </div>
-        <ul class="cm-spec reveal" id="cmSpecList"></ul>
+        <div class="sec-body rv">
+          <ul class="spec" id="specList"></ul>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.4 PACKAGES ═══════════ -->
-    <section class="section" id="cm-packages">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">03 · Monthly Packages</span>
-          <h2 class="section-title">Pick a <span class="text-chrome">track</span></h2>
-          <p class="section-lead" id="cmTrackBlurb"></p>
+    <!-- ═══════════ 03 · MONTHLY, EDIT ONLY ═══════════ -->
+    <section class="sec" id="packages" data-tc="00:03" data-label="Edit only">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:03</span>
+          <div>
+            <h2 class="sec-title">Monthly — edit only</h2>
+            <p class="sec-lead" id="editBlurb"></p>
+          </div>
         </div>
-
-        <div class="cm-tabs reveal" role="tablist" aria-label="Service track" id="cmTabs"></div>
-        <div class="cm-panels" id="cmPanels"></div>
-        <p class="cm-note reveal" id="cmPackageNote"></p>
+        <div class="sec-body">
+          <div class="tiers rv" id="editTiers" data-tiers="2"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.5 ONE-OFF SHOOTS ═══════════ -->
-    <section class="section" id="cm-oneoff">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">04 · One-Off Shoots</span>
-          <h2 class="section-title">No retainer? <span class="text-chrome">Book a day.</span></h2>
+    <!-- ═══════════ 04 · MONTHLY, FULL PRODUCTION ═══════════ -->
+    <section class="sec" id="production" data-tc="00:04" data-label="We shoot + edit">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:04</span>
+          <div>
+            <h2 class="sec-title">Monthly — we shoot and edit</h2>
+            <p class="sec-lead" id="prodBlurb"></p>
+          </div>
         </div>
-        <div class="cm-mini-grid reveal" id="cmBundleGrid"></div>
+        <div class="sec-body">
+          <div class="tiers rv" id="prodTiers" data-tiers="4"></div>
+          <p class="note rv" id="packageNote"></p>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.6 PROJECT PACKAGES ═══════════ -->
-    <section class="section" id="cm-projects">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">05 · Project Packages</span>
-          <h2 class="section-title">Fixed scope, <span class="text-chrome">fixed price</span></h2>
+    <!-- ═══════════ 05 · ONE-OFF SHOOTS ═══════════ -->
+    <section class="sec" id="oneoff" data-tc="00:05" data-label="One-off shoots">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:05</span>
+          <div>
+            <h2 class="sec-title">One-off shoots</h2>
+            <p class="sec-lead">No retainer, no commitment. Book a shoot and walk away with content.</p>
+          </div>
         </div>
-        <div class="cm-mini-grid reveal" id="cmProjectGrid"></div>
+        <div class="sec-body rv">
+          <div class="minis" id="bundles"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.7 À LA CARTE ═══════════ -->
-    <section class="section" id="cm-alacarte">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">06 · À La Carte</span>
-          <h2 class="section-title">Everything, <span class="text-chrome">priced</span></h2>
-          <p class="section-lead" id="cmAlcNote"></p>
+    <!-- ═══════════ 06 · PROJECT PACKAGES ═══════════ -->
+    <section class="sec" id="projects" data-tc="00:06" data-label="Projects">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:06</span>
+          <div>
+            <h2 class="sec-title">Project packages</h2>
+            <p class="sec-lead">Fixed scope, fixed price, for a specific job.</p>
+          </div>
         </div>
-        <div class="cm-acc reveal" id="cmAlcAccordion"></div>
+        <div class="sec-body rv">
+          <div class="minis" id="projects"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.8 PROCESS ═══════════ -->
-    <section class="section" id="cm-process">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">07 · How It Works</span>
-          <h2 class="section-title">Brief to <span class="text-chrome">published</span></h2>
+    <!-- ═══════════ 07 · À LA CARTE ═══════════ -->
+    <section class="sec" id="alacarte" data-tc="00:07" data-label="À la carte">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:07</span>
+          <div>
+            <h2 class="sec-title">À la carte</h2>
+            <p class="sec-lead" id="alcNote"></p>
+          </div>
         </div>
-        <div class="process-grid" id="cmProcessGrid"></div>
+        <div class="sec-body rv">
+          <div class="acc" id="alcAcc"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.9 FAQ ═══════════ -->
-    <section class="section" id="cm-faq">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="section-tag">08 · Questions</span>
-          <h2 class="section-title">Asked and <span class="text-chrome">answered</span></h2>
+    <!-- ═══════════ 08 · PROCESS ═══════════ -->
+    <section class="sec" id="process" data-tc="00:08" data-label="How it works">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:08</span>
+          <div>
+            <h2 class="sec-title">How it works</h2>
+            <p class="sec-lead">Four steps from first conversation to published post.</p>
+          </div>
         </div>
-        <div class="cm-acc cm-acc-faq reveal" id="cmFaqAccordion"></div>
+        <div class="sec-body rv">
+          <div class="steps" id="steps"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ═══════════ 3.10 CLOSING CTA ═══════════ -->
-    <section class="cm-cta" id="cm-contact">
-      <div class="container cm-cta-inner reveal">
-        <h2 class="cm-cta-title" id="cmCtaTitle"></h2>
-        <p class="cm-cta-text" id="cmCtaText"></p>
-        <div class="cm-cta-actions" id="cmCtaActions"></div>
+    <!-- ═══════════ 09 · FAQ ═══════════ -->
+    <section class="sec" id="faq" data-tc="00:09" data-label="Questions">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:09</span>
+          <div>
+            <h2 class="sec-title">Questions</h2>
+            <p class="sec-lead">The things clients ask before they sign.</p>
+          </div>
+        </div>
+        <div class="sec-body rv">
+          <div class="acc" id="faqAcc"></div>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a href="../" class="nav-logo">
-          <span class="nav-mark" data-logo-mark></span>
-          <span class="nav-word">Zyn<b>TECH</b></span>
-        </a>
-        <p class="footer-note" id="footerNote"></p>
-      </div>
-      <div class="footer-col">
-        <span class="footer-head">Navigate</span>
-        <a href="../#about">About</a>
-        <a href="../#services">Services</a>
-        <a href="../#work">Work</a>
-        <a href="../#team">Team</a>
-      </div>
-      <div class="footer-col">
-        <span class="footer-head">Creator Mode</span>
-        <a href="#cm-packages">Packages</a>
-        <a href="#cm-oneoff">One-off shoots</a>
-        <a href="#cm-alacarte">À la carte</a>
-        <a href="#cm-faq">FAQ</a>
-      </div>
-      <div class="footer-col">
-        <span class="footer-head">Contact</span>
-        <a id="footerEmail" href="#"></a>
-        <a id="footerPhone" href="#"></a>
-        <span id="footerLocation"></span>
-      </div>
+  <!-- ═══════════ CLOSING CTA ═══════════ -->
+  <section class="close" id="contact">
+    <div class="wrap">
+      <h2 id="ctaTitle"></h2>
+      <p id="ctaText"></p>
+      <div class="close-actions" id="ctaActions"></div>
     </div>
-    <div class="footer-bottom">
-      <span id="footerCopy"></span>
-      <span class="footer-credit" id="footerCredit"></span>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <span id="footLeft"></span>
+      <span><a href="../">← Back to zyntech</a></span>
     </div>
   </footer>
 
-  <!-- ═══════════ BACK TO TOP ═══════════ -->
-  <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+  <!-- ═══════════ STICKY MOBILE DOCK ═══════════ -->
+  <div class="dock" id="dock" aria-hidden="false"></div>
 
-  <!-- ═══════════ SVG ICON SPRITE ═══════════ -->
+  <!-- ═══════════ ICONS ═══════════ -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-    <symbol id="ic-video" viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M15.5 10.5l6-3.5v10l-6-3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><circle cx="7" cy="10" r="1.2" fill="currentColor"/></symbol>
-    <symbol id="ic-cut" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.6" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="18" cy="18" r="2.6" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M7.6 15.8L18 3.5 M16.4 15.8L6 3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></symbol>
-    <symbol id="ic-uiux" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3 9h18 M8 4v5" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="13.5" r="1.8" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M15.5 15.5l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
-    <symbol id="ic-social" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="17.5" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="17.5" cy="18.5" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8.3 10.8l6.9-4 M8.3 13.2l6.9 4" stroke="currentColor" stroke-width="1.4"/></symbol>
-    <symbol id="ic-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M3.5 6.5l8.5 6 8.5-6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="ic-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.2-8.24 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.23.25-.86.84-.86 2.05s.88 2.38 1 2.54c.12.16 1.73 2.65 4.2 3.71.59.25 1.04.4 1.4.52.59.19 1.12.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.2-8.24 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.23.25-.86.84-.86 2.05s.88 2.38 1 2.54c.12.16 1.73 2.65 4.2 3.71.59.25 1.04.4 1.4.52.59.19 1.12.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M3.5 6.5l8.5 6 8.5-6" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="../js/data.js"></script>
   <script src="../js/creator-data.js"></script>
   <script src="../js/creator.js"></script>
-  <script src="../js/main.js"></script>
 </body>
 </html>

@@ -35,7 +35,7 @@ Open either in any text editor, change the text between quotes, save, refresh. T
 |---|---|
 | Monthly package prices & contents | `packages.tracks[].tiers[...]` |
 | Which package is flagged "Most popular" | `popular: true` (use it on one tier only) |
-| Which track shows first | `packages.defaultTrack` — `"edit"` or `"production"` |
+| Order the two tracks appear in | the order of `packages.tracks[]` |
 | One-off shoot bundles | `bundles: [...]` |
 | Fixed-scope project packages | `projects: [...]` |
 | À la carte rates | `aLaCarte: [...]` (grouped by `category`) |
@@ -75,19 +75,28 @@ in `js/main.js` (section 13) replace the mailto logic with a `fetch` POST to you
 
 ## 🗂 Structure
 
+The site is **two independent front-ends** that share only the content files.
+
 ```
-index.html            homepage skeleton (sections + SVG icon sprite)
-creator/index.html    Creator Mode page, served at /creator
-css/style.css         futuristic dark-chrome theme, all effects styling
+── Homepage — dark chrome ──────────────────────────────
+index.html            page skeleton (sections + SVG icon sprite)
+css/style.css         dark-chrome theme, all effects styling
 js/data.js            ← homepage content (edit this one)
+js/main.js            engine: cursor, particles, tilt, slider, reveals…
+
+── Creator Mode — light paper ──────────────────────────
+creator/index.html    served at /creator
+css/creator.css       paper/ink theme, mono + Inter
 js/creator-data.js    ← Creator Mode content & prices (edit this one)
-js/main.js            shared engine (cursor, particles, tilt, slider, reveals…)
-js/creator.js         Creator Mode rendering, track toggle, accordions
+js/creator.js         rendering, timeline rail, accordions
+
 assets/               logo mark + favicon (SVG, scale to any size)
 ```
 
-`main.js` runs on both pages and renders only the blocks it finds, so adding a
-new page means copying the nav/footer shell and pointing it at the right data file.
+**Creator Mode is deliberately its own design system.** It loads no `style.css`,
+no GSAP and no Lenis — just its own stylesheet and one script. Changing the dark
+theme cannot affect it, and vice versa. The only shared piece is `js/data.js`,
+which it reads for the brand name and location in the footer.
 
 ## ⚡ Features
 
@@ -96,10 +105,11 @@ new page means copying the nav/footer shell and pointing it at the right data fi
 - Particle constellation hero with mouse repulsion
 - Custom glow cursor, magnetic buttons, 3D tilt + spotlight cards, shine-sweep buttons
 - Typing rotator, animated counters, testimonial slider (auto/arrows/dots/swipe)
-- Creator Mode page with an accessible track toggle (`role="tablist"`, arrow keys) and
-  keyboard-operable accordions; tier row scroll-snaps on mobile
+- Creator Mode: warm paper/ink identity, timecode section markers, a sticky timeline
+  rail on wide screens, keyboard-operable accordions, a mobile enquiry dock, and a
+  tier row that scroll-snaps on phones — zero third-party JS, plus a print stylesheet
 - Fully responsive (desktop → tablet → mobile), `prefers-reduced-motion` respected
-- No build step — plain HTML/CSS/JS, GSAP/Lenis via CDN
+- No build step — plain HTML/CSS/JS, GSAP/Lenis via CDN on the homepage only
 
 ---
 

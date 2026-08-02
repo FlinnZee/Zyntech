@@ -1,9 +1,11 @@
 /* ============================================================
    ZynTECH — CREATOR MODE ENGINE
-   Renders the /creator page from js/creator-data.js and powers
-   the track toggle and the accordions.
-   Runs before main.js so that main.js picks up the rendered
-   .reveal / .card / .magnetic elements for its motion pass.
+   Renders the /creator page from js/creator-data.js.
+
+   This page is deliberately independent of the main site: it
+   loads no GSAP, no Lenis and no style.css. Everything here is
+   plain DOM + IntersectionObserver.
+
    You normally don't need to edit this file — edit creator-data.js.
    ============================================================ */
 
@@ -14,6 +16,7 @@
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ─────────────────────────────────────────────
      1. CURRENCY — the single formatting helper.
@@ -22,7 +25,6 @@
   const nf = new Intl.NumberFormat("en-US");
   const lkr = (n) => `LKR ${nf.format(n)}`;
 
-  // Full price label for list rows: handles from / unit / suffix / display.
   function priceLabel(item) {
     if (item.display) return item.display;
     let out = lkr(item.price);
@@ -38,237 +40,269 @@
   const c = CREATOR.contact;
   const waLink = (text) =>
     `https://wa.me/${c.whatsapp}?text=${encodeURIComponent(text || c.whatsappText)}`;
-  const waTier = (tierName) => waLink(c.whatsappTierText.replace("{tier}", tierName));
+  const waTier = (name) => waLink(c.whatsappTierText.replace("{tier}", name));
   const mailLink = () =>
     `mailto:${c.emails.join(",")}?subject=${encodeURIComponent(c.emailSubject)}`;
+
+  const waIcon = '<svg aria-hidden="true"><use href="#i-wa"/></svg>';
+  const mailIcon = '<svg aria-hidden="true"><use href="#i-mail"/></svg>';
 
   /* ─────────────────────────────────────────────
      3. HERO
   ───────────────────────────────────────────── */
-  $("#cmHeroEyebrow").textContent = CREATOR.hero.eyebrow;
-  $("#cmHeroTitle").textContent = CREATOR.hero.headline;
-  $("#cmHeroSub").textContent = CREATOR.hero.sub;
-  $("#cmHeroCta").innerHTML = `
-    <a class="btn btn-primary magnetic" href="${waLink()}" target="_blank" rel="noopener">
-      <svg class="btn-ic" aria-hidden="true"><use href="#ic-whatsapp"/></svg>${CREATOR.hero.ctaPrimary}
+  $("#heroSub").textContent = CREATOR.hero.sub;
+
+  $("#heroActions").innerHTML = `
+    <a class="btn btn-solid" href="${waLink()}" target="_blank" rel="noopener">
+      ${waIcon}${CREATOR.hero.ctaPrimary}
     </a>
-    <a class="btn btn-ghost magnetic" href="#cm-packages">${CREATOR.hero.ctaSecondary}</a>`;
+    <a class="btn btn-line" href="#packages">${CREATOR.hero.ctaSecondary}</a>`;
+
+  // Three facts that answer "is this for me?" before any price is read.
+  const cheapest = Math.min(
+    ...CREATOR.packages.tracks.flatMap((t) => t.tiers.map((x) => x.price))
+  );
+  $("#heroMeta").innerHTML = `
+    <div><dt>Based in</dt><dd>Kandy, Sri Lanka</dd></div>
+    <div><dt>Turnaround</dt><dd>5–7 days</dd></div>
+    <div><dt>From</dt><dd>${lkr(cheapest)}/mo</dd></div>
+    <div><dt>Lock-in</dt><dd>None</dd></div>`;
 
   /* ─────────────────────────────────────────────
      4. WHAT WE DO
   ───────────────────────────────────────────── */
-  $("#cmWhatGrid").innerHTML = CREATOR.whatWeDo
+  $("#caps").innerHTML = CREATOR.whatWeDo
     .map(
       (d, i) => `
-      <div class="card service-card tilt reveal" style="transition-delay:${i * 80}ms">
-        <div class="service-icon"><svg><use href="#ic-${d.icon}"/></svg></div>
+      <article class="cap">
+        <span class="cap-n">${String(i + 1).padStart(2, "0")}</span>
         <h3>${d.title}</h3>
         <p>${d.text}</p>
-      </div>`
+      </article>`
     )
     .join("");
 
   /* ─────────────────────────────────────────────
-     5. WHAT'S IN EVERY REEL
+     5. REEL SPEC
   ───────────────────────────────────────────── */
-  $("#cmSpecList").innerHTML = CREATOR.reelSpec
-    .map((s) => `<li class="cm-spec-item">${s}</li>`)
-    .join("");
+  $("#specList").innerHTML = CREATOR.reelSpec.map((s) => `<li>${s}</li>`).join("");
 
   /* ─────────────────────────────────────────────
-     6. PACKAGES — track toggle + tier rows
+     6. PACKAGES — both tracks shown as their own
+        sections, so nothing is hidden behind a control.
   ───────────────────────────────────────────── */
-  const pk = CREATOR.packages;
-  const tabsEl = $("#cmTabs");
-  const panelsEl = $("#cmPanels");
-  const blurbEl = $("#cmTrackBlurb");
-  const defaultIndex = Math.max(
-    0,
-    pk.tracks.findIndex((t) => t.id === pk.defaultTrack)
-  );
-
-  tabsEl.innerHTML = pk.tracks
-    .map((t, i) => {
-      const on = i === defaultIndex;
-      return `<button class="cm-tab${on ? " is-active" : ""}" role="tab"
-        id="cm-tab-${t.id}" aria-controls="cm-panel-${t.id}"
-        aria-selected="${on}" tabindex="${on ? 0 : -1}">${t.label}</button>`;
-    })
-    .join("");
-
   const tierCard = (t) => `
-    <article class="card cm-tier${t.popular ? " is-popular" : ""}">
-      ${t.popular ? '<span class="cm-flag">Most popular</span>' : ""}
-      <h3 class="cm-tier-name">${t.name}</h3>
-      <p class="cm-tier-tagline">${t.tagline}</p>
-      <p class="cm-tier-price">${lkr(t.price)}<span class="cm-per">/${t.period}</span></p>
-      <ul class="cm-tier-list">
-        ${t.includes.map((li) => `<li>${li}</li>`).join("")}
-      </ul>
-      <a class="btn ${t.popular ? "btn-primary" : "btn-ghost"} cm-tier-btn"
-         href="${waTier(t.name)}" target="_blank" rel="noopener">Enquire</a>
+    <article class="tier${t.popular ? " pop" : ""}">
+      <div class="tier-top">
+        <span class="tier-name">${t.name}</span>
+        ${t.popular ? '<span class="tier-flag">Most popular</span>' : ""}
+      </div>
+      <div class="tier-body">
+        <p class="tier-tag">${t.tagline}</p>
+        <p class="tier-price">${lkr(t.price)}<span class="per">/${t.period}</span></p>
+        <ul class="tier-list">${t.includes.map((li) => `<li>${li}</li>`).join("")}</ul>
+        <a class="btn ${t.popular ? "btn-solid" : "btn-line"} btn-block"
+           href="${waTier(t.name)}" target="_blank" rel="noopener">Enquire</a>
+      </div>
     </article>`;
 
-  panelsEl.innerHTML = pk.tracks
-    .map(
-      (t, i) => `
-      <div class="cm-tiers" role="tabpanel" tabindex="0"
-           id="cm-panel-${t.id}" aria-labelledby="cm-tab-${t.id}"
-           data-tiers="${t.tiers.length}" ${i === defaultIndex ? "" : "hidden"}>
-        ${t.tiers.map(tierCard).join("")}
-      </div>`
-    )
-    .join("");
+  const trackById = (id) => CREATOR.packages.tracks.find((t) => t.id === id);
+  const edit = trackById("edit");
+  const prod = trackById("production");
 
-  $("#cmPackageNote").textContent = pk.note;
+  $("#editBlurb").textContent = edit.blurb;
+  $("#editTiers").innerHTML = edit.tiers.map(tierCard).join("");
+  $("#editTiers").dataset.tiers = edit.tiers.length;
 
-  const tabs = $$(".cm-tab", tabsEl);
-  const panels = $$(".cm-tiers", panelsEl);
+  $("#prodBlurb").textContent = prod.blurb;
+  $("#prodTiers").innerHTML = prod.tiers.map(tierCard).join("");
+  $("#prodTiers").dataset.tiers = prod.tiers.length;
 
-  function selectTrack(i, focusTab) {
-    tabs.forEach((tab, ti) => {
-      const on = ti === i;
-      tab.classList.toggle("is-active", on);
-      tab.setAttribute("aria-selected", String(on));
-      tab.tabIndex = on ? 0 : -1;
-      panels[ti].hidden = !on;
-    });
-    blurbEl.textContent = pk.tracks[i].blurb;
-    if (focusTab) tabs[i].focus();
-  }
-
-  tabs.forEach((tab, i) => {
-    tab.addEventListener("click", () => selectTrack(i, false));
-    tab.addEventListener("keydown", (e) => {
-      const last = tabs.length - 1;
-      let next = null;
-      if (e.key === "ArrowRight") next = i === last ? 0 : i + 1;
-      else if (e.key === "ArrowLeft") next = i === 0 ? last : i - 1;
-      else if (e.key === "Home") next = 0;
-      else if (e.key === "End") next = last;
-      if (next === null) return;
-      e.preventDefault();
-      selectTrack(next, true);
-    });
-  });
-
-  blurbEl.textContent = pk.tracks[defaultIndex].blurb;
-
-  // Reserve the height of the tallest track so switching never shifts the page.
-  function syncPanelHeight() {
-    panelsEl.style.minHeight = "";
-    const tallest = panels.reduce((max, p) => {
-      const wasHidden = p.hidden;
-      p.hidden = false;
-      const h = p.offsetHeight;
-      p.hidden = wasHidden;
-      return Math.max(max, h);
-    }, 0);
-    panelsEl.style.minHeight = `${tallest}px`;
-  }
-  let resizeTimer;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(syncPanelHeight, 180);
-  });
-  window.addEventListener("load", syncPanelHeight);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncPanelHeight);
-  syncPanelHeight();
+  $("#packageNote").textContent = CREATOR.packages.note;
 
   /* ─────────────────────────────────────────────
-     7. ONE-OFF SHOOTS + PROJECT PACKAGES
+     7. ONE-OFF SHOOTS + PROJECTS
   ───────────────────────────────────────────── */
-  const miniCard = (m, i) => `
-    <div class="cm-mini" style="transition-delay:${i * 70}ms">
-      <div class="cm-mini-head">
-        <span class="cm-mini-name">${m.name}</span>
-        <span class="cm-mini-price">${priceLabel(m)}</span>
+  const mini = (m) => `
+    <article class="mini">
+      <span class="mini-name">${m.name}</span>
+      <p class="mini-price">${priceLabel(m)}</p>
+      <p class="mini-note">${m.note}</p>
+    </article>`;
+
+  $("#bundles").innerHTML = CREATOR.bundles.map(mini).join("");
+  $("#projects").innerHTML = CREATOR.projects.map(mini).join("");
+
+  /* ─────────────────────────────────────────────
+     8. ACCORDIONS
+        Real <button> triggers with aria-expanded /
+        aria-controls. Closed panels are visibility:hidden
+        in CSS, so their links stay out of the tab order.
+  ───────────────────────────────────────────── */
+  const accItem = (id, heading, body) => `
+    <div class="acc-item">
+      <h3 class="acc-h">
+        <button type="button" class="acc-btn" id="${id}-b"
+                aria-expanded="false" aria-controls="${id}-p">
+          <span>${heading}</span><span class="acc-sign" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="acc-panel" id="${id}-p" role="region" aria-labelledby="${id}-b">
+        <div class="acc-inner"><div class="acc-pad">${body}</div></div>
       </div>
-      <p class="cm-mini-note">${m.note}</p>
     </div>`;
 
-  $("#cmBundleGrid").innerHTML = CREATOR.bundles.map(miniCard).join("");
-  $("#cmProjectGrid").innerHTML = CREATOR.projects.map(miniCard).join("");
-
-  /* ─────────────────────────────────────────────
-     8. ACCORDIONS (à la carte + FAQ)
-        Real <button> triggers, aria-expanded/-controls,
-        keyboard operable, all closed on load.
-  ───────────────────────────────────────────── */
-  function accordionItem(id, heading, bodyHTML) {
-    return `
-      <div class="cm-acc-item">
-        <h3 class="cm-acc-heading">
-          <button type="button" class="cm-acc-btn" id="${id}-btn"
-                  aria-expanded="false" aria-controls="${id}-panel">
-            <span>${heading}</span>
-            <span class="cm-acc-icon" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="cm-acc-panel" id="${id}-panel" role="region"
-             aria-labelledby="${id}-btn" hidden>${bodyHTML}</div>
-      </div>`;
-  }
-
-  $("#cmAlcNote").textContent = CREATOR.aLaCarteNote;
-  $("#cmAlcAccordion").innerHTML = CREATOR.aLaCarte
-    .map((group, i) =>
-      accordionItem(
+  $("#alcNote").textContent = CREATOR.aLaCarteNote;
+  $("#alcAcc").innerHTML = CREATOR.aLaCarte
+    .map((g, i) =>
+      accItem(
         `alc-${i}`,
-        group.category,
-        `<dl class="cm-price-list">
-          ${group.items
-            .map(
-              (item) => `
-            <div class="cm-price-row">
-              <dt>${item.name}</dt>
-              <dd>${priceLabel(item)}</dd>
-            </div>`
-            )
-            .join("")}
-        </dl>`
+        g.category,
+        `<dl class="rows">${g.items
+          .map((it) => `<div class="row"><dt>${it.name}</dt><dd>${priceLabel(it)}</dd></div>`)
+          .join("")}</dl>`
       )
     )
     .join("");
 
-  $("#cmFaqAccordion").innerHTML = CREATOR.faq
-    .map((f, i) => accordionItem(`faq-${i}`, f.q, `<p class="cm-acc-text">${f.a}</p>`))
+  $("#faqAcc").innerHTML = CREATOR.faq
+    .map((f, i) => accItem(`faq-${i}`, f.q, `<p class="acc-text">${f.a}</p>`))
     .join("");
 
-  $$(".cm-acc").forEach((acc) => {
+  $$(".acc").forEach((acc) => {
     acc.addEventListener("click", (e) => {
-      const btn = e.target.closest(".cm-acc-btn");
+      const btn = e.target.closest(".acc-btn");
       if (!btn || !acc.contains(btn)) return;
       const open = btn.getAttribute("aria-expanded") === "true";
       btn.setAttribute("aria-expanded", String(!open));
-      document.getElementById(btn.getAttribute("aria-controls")).hidden = open;
+      $(`#${btn.getAttribute("aria-controls")}`).classList.toggle("open", !open);
     });
   });
 
   /* ─────────────────────────────────────────────
-     9. PROCESS — reuses the homepage process styling
+     9. PROCESS
   ───────────────────────────────────────────── */
-  $("#cmProcessGrid").innerHTML = CREATOR.process
+  $("#steps").innerHTML = CREATOR.process
     .map(
-      (p, i) => `
-      <div class="card process-step reveal" style="transition-delay:${i * 100}ms">
-        <div class="process-num">${p.num}</div>
+      (p) => `
+      <article class="step">
+        <span class="step-n">${p.num}</span>
         <h3>${p.title}</h3>
         <p>${p.text}</p>
-      </div>`
+      </article>`
     )
     .join("");
 
   /* ─────────────────────────────────────────────
-     10. CLOSING CTA
+     10. CLOSING CTA + FOOTER + MOBILE DOCK
   ───────────────────────────────────────────── */
-  $("#cmCtaTitle").textContent = CREATOR.cta.title;
-  $("#cmCtaText").textContent = CREATOR.cta.text;
-  $("#cmCtaActions").innerHTML = `
-    <a class="btn btn-primary magnetic" href="${waLink()}" target="_blank" rel="noopener">
-      <svg class="btn-ic" aria-hidden="true"><use href="#ic-whatsapp"/></svg>${c.whatsappLabel}
+  $("#ctaTitle").textContent = CREATOR.cta.title;
+  $("#ctaText").textContent = CREATOR.cta.text;
+
+  const ctaButtons = `
+    <a class="btn btn-solid" href="${waLink()}" target="_blank" rel="noopener">
+      ${waIcon}${c.whatsappLabel}
     </a>
-    <a class="btn btn-ghost magnetic" href="${mailLink()}">
-      <svg class="btn-ic" aria-hidden="true"><use href="#ic-mail"/></svg>${c.emailLabel}
-    </a>`;
+    <a class="btn btn-ghost-light" href="${mailLink()}">${mailIcon}${c.emailLabel}</a>`;
+  $("#ctaActions").innerHTML = ctaButtons;
+
+  $("#dock").innerHTML = `
+    <a class="btn btn-solid" href="${waLink()}" target="_blank" rel="noopener">
+      ${waIcon}WhatsApp
+    </a>
+    <a class="btn btn-line" href="#packages">Packages</a>`;
+
+  const brand = typeof SITE !== "undefined" ? SITE.brand : null;
+  const year = new Date().getFullYear();
+  $("#footLeft").textContent = brand
+    ? `© ${year} ${brand.name} · ${brand.location}`
+    : `© ${year} ZynTECH`;
+
+  /* ─────────────────────────────────────────────
+     11. SIDE TIMELINE — built from the sections
+         themselves, so it can never drift.
+  ───────────────────────────────────────────── */
+  const sections = $$("section[data-tc]");
+  const rail = $("#rail");
+  rail.innerHTML = sections
+    .map(
+      (s) => `
+      <button class="rail-item" data-to="${s.id}" type="button">
+        <span class="rail-tick"></span>
+        <span class="rail-label">${s.dataset.label}</span>
+      </button>`
+    )
+    .join("");
+  const railItems = $$(".rail-item", rail);
+
+  rail.addEventListener("click", (e) => {
+    const b = e.target.closest(".rail-item");
+    if (b) $(`#${b.dataset.to}`).scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+  });
+
+  /* ─────────────────────────────────────────────
+     12. SCROLL STATE — progress, header, timeline,
+         mobile dock.
+  ───────────────────────────────────────────── */
+  const head = $("#head");
+  const prog = $("#prog");
+  const dock = $("#dock");
+  let ticking = false;
+
+  function onScroll() {
+    const y = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = max > 0 ? `${(y / max) * 100}%` : "0%";
+    head.classList.toggle("stuck", y > 8);
+    dock.classList.toggle("up", y > window.innerHeight * 0.7);
+
+    let active = -1;
+    const line = y + window.innerHeight * 0.35;
+    sections.forEach((s, i) => {
+      if (line >= s.offsetTop) active = i;
+    });
+    railItems.forEach((b, i) => b.classList.toggle("on", i === active));
+    revealInView();
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    },
+    { passive: true }
+  );
+
+  /* ─────────────────────────────────────────────
+     13. REVEAL ON SCROLL
+         Deliberately plain: measured straight from the
+         scroll handler rather than an observer, so there
+         is no code path where content stays invisible
+         because a callback never fired.
+  ───────────────────────────────────────────── */
+  let pending = $$(".rv");
+
+  function revealInView() {
+    if (!pending.length) return;
+    const limit = window.innerHeight * 0.94;
+    pending = pending.filter((el) => {
+      if (el.getBoundingClientRect().top > limit) return true;
+      el.classList.add("rv-on");
+      return false;
+    });
+  }
+
+  if (reduced) {
+    pending.forEach((el) => el.classList.add("rv-on"));
+    pending = [];
+  } else {
+    window.addEventListener("load", revealInView);
+  }
+
+  // Runs last: paints the initial scroll state and reveals whatever is
+  // already on screen. Must come after `pending` exists.
+  onScroll();
 })();
