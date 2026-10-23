@@ -149,18 +149,22 @@ const SITE = {
   ],
 
   /* ---------- WORK ----------
-     ui: which drawn interface shows on the tile →
-         carelink | api | assistant | wave | atmos | hanzy
-     Leave ui out for a new project and the tile shows its title instead. */
+     ui:   which drawn interface shows on the tile →
+           nyx | carelink | api | assistant | wave | atmos | hanzy
+           Leave ui out for a new project and the tile shows its title instead.
+     link: optional. Adds an "Open" button to the project sheet.
+     The first seven projects fill the grid in this order; more are added below it. */
   workTitle: ["Selected", "work"],
   projects: [
     {
-      title: "CareLink",
-      category: "Web application",
-      text: "A care coordination platform that connects caregivers and families, with visit scheduling and secure care records.",
-      stack: ["React", "Node.js", "MySQL"],
+      title: "Nyx",
+      category: "Flagship product",
+      text: "Our own invite-only messenger: real-time chats, voice and video calls, media that stays on your device, and three complete themes wrapped in aurora light. Windows today, mobile next.",
+      stack: ["Rust and Tauri", "React", "WebRTC", "Supabase"],
       lead: "theekshana",
-      ui: "carelink",
+      ui: "nyx",
+      link: "https://flinnzee.github.io/Nyx/",
+      linkLabel: "Open Nyx",
     },
     {
       title: "High-load REST API",
@@ -179,6 +183,14 @@ const SITE = {
       ui: "assistant",
     },
     {
+      title: "CareLink",
+      category: "Web application",
+      text: "A care coordination platform that connects caregivers and families, with visit scheduling and secure care records.",
+      stack: ["React", "Node.js", "MySQL"],
+      lead: "theekshana",
+      ui: "carelink",
+    },
+    {
       title: "Wave",
       category: "Mobile app",
       text: "A streaming music app for Android and iOS, built in Flutter from a single codebase.",
@@ -187,20 +199,20 @@ const SITE = {
       ui: "wave",
     },
     {
-      title: "Atmos",
-      category: "Interface design",
-      text: "A responsive weather interface, designed and user-tested in Figma.",
-      stack: ["Figma", "Prototyping"],
-      lead: "theekshana",
-      ui: "atmos",
-    },
-    {
       title: "Hanzy",
       category: "Video and social",
       text: "Editing, thumbnail design and retention-focused strategy for the Hanzy YouTube channel, running since 2023.",
       stack: ["Video editing", "Thumbnails", "Channel strategy"],
       lead: "hansana",
       ui: "hanzy",
+    },
+    {
+      title: "Atmos",
+      category: "Interface design",
+      text: "A responsive weather interface, designed and user-tested in Figma.",
+      stack: ["Figma", "Prototyping"],
+      lead: "theekshana",
+      ui: "atmos",
     },
   ],
 

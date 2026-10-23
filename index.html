@@ -31,6 +31,7 @@
     </a>
     <nav class="bar__nav" aria-label="Primary">
       <a href="#services" class="bar__link">Services</a>
+      <a href="creator/" class="bar__link">Creator Mode</a>
       <a href="#work" class="bar__link">Work</a>
       <a href="#process" class="bar__link">Process</a>
       <a href="#team" class="bar__link">Team</a>
@@ -44,6 +45,7 @@
   <div class="menu" id="menu" hidden>
     <nav class="menu__nav" aria-label="Menu">
       <a href="#services">Services</a>
+      <a href="creator/">Creator Mode</a>
       <a href="#work">Work</a>
       <a href="#process">Process</a>
       <a href="#team">Team</a>
@@ -102,6 +104,19 @@
           <nav class="services__index" id="servicesIndex" aria-label="Practices"></nav>
         </div>
         <div class="services__list" id="servicesList"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CREATOR MODE (doorway to /creator) ═══════════ -->
+    <section class="creator" id="creator-mode" data-theme="creator" aria-labelledby="creatorTitle">
+      <div class="creator__inner grid">
+        <div class="creator__text">
+          <h2 class="head" id="creatorTitle" data-reveal></h2>
+          <p class="creator__lead" id="creatorText" data-reveal style="--i:1"></p>
+          <dl class="creator__facts" id="creatorFacts" data-reveal style="--i:2"></dl>
+          <a class="button button--large creator__cta" id="creatorLink" href="creator/" data-reveal style="--i:3"></a>
+        </div>
+        <div class="creator__strip" id="creatorStrip"></div>
       </div>
     </section>
 
@@ -221,12 +236,16 @@
         <h3 class="sheet__title" id="sheetTitle"></h3>
         <p id="sheetBody"></p>
         <dl class="sheet__facts" id="sheetFacts"></dl>
-        <a class="button" href="#contact" id="sheetCta">Start a project like this</a>
+        <div class="sheet__actions">
+          <a class="button" href="#contact" id="sheetCta">Start a project like this</a>
+          <a class="link" id="sheetLink" href="#" target="_blank" rel="noopener" hidden></a>
+        </div>
       </div>
     </div>
   </dialog>
 
   <script src="js/data.js"></script>
+  <script src="js/creator-data.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

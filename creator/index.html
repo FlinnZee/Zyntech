@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creator Mode — Social Content Production | ZynTECH</title>
+  <meta name="description" content="Social content production for businesses in Kandy and across Sri Lanka. Shot, graded, captioned and published — with open pricing from LKR 15,000 a month." />
+  <meta name="author" content="Theekshana Nirmal" />
+  <meta name="theme-color" content="#e7e1d5" />
+  <meta property="og:title" content="Creator Mode — We shoot it. We cut it. We post it." />
+  <meta property="og:description" content="Reels, statics and full social management for Sri Lankan businesses. Real prices, no lock-in." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/creator.css" />
+</head>
+<body>
+
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="prog" id="prog" aria-hidden="true"></div>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="head" id="head">
+    <div class="wrap head-in">
+      <a href="../" class="mark" aria-label="ZynTECH home">Zyn<span>TECH</span></a>
+      <nav class="head-nav" aria-label="Creator Mode">
+        <a class="head-link" href="#packages">Packages</a>
+        <a class="head-link" href="#alacarte">Rates</a>
+        <a class="head-link" href="#faq">FAQ</a>
+        <a class="head-link" href="../">Main site</a>
+        <a class="head-cta" href="#cm-contact" id="headCta">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════ SIDE TIMELINE ═══════════ -->
+  <nav class="rail" id="rail" aria-label="Section timeline"></nav>
+
+  <main>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero">
+      <div class="wrap hero-cols">
+        <div class="hero-copy">
+          <span class="hero-eyebrow">Creator Mode</span>
+          <h1>
+            <span class="hl"><span class="hl-in">We shoot it.</span></span>
+            <span class="hl"><span class="hl-in">We cut it.</span></span>
+            <span class="hl"><span class="hl-in"><em>We post it.</em></span></span>
+          </h1>
+          <p class="hero-sub" id="heroSub"></p>
+          <div class="hero-actions" id="heroActions"></div>
+          <dl class="hero-meta" id="heroMeta"></dl>
+        </div>
+
+        <figure class="vf" id="vf">
+          <img id="vfImg" alt="" decoding="async" />
+          <span class="vf-tint" aria-hidden="true"></span>
+          <span class="vf-shade" aria-hidden="true"></span>
+          <span class="vf-grid" aria-hidden="true"></span>
+          <span class="vf-hud" aria-hidden="true">
+            <span class="br-tr"></span><span class="br-bl"></span>
+            <span class="vf-rec"><span class="rec-dot"></span>REC</span>
+            <span class="vf-chip">4K · 25P</span>
+            <span class="vf-tc"><span data-timecode>00:00:00:00</span><span class="vf-clip" id="vfClip"></span></span>
+          </span>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ═══════════ TICKER ═══════════ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+
+    <!-- ═══════════ 01 · WHAT WE DO ═══════════ -->
+    <section class="sec" id="capabilities" data-tc="00:01" data-label="What we do">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:01</span>
+          <div>
+            <h2 class="sec-title">What we do</h2>
+            <p class="sec-lead">Four things, end to end. Take one or take the lot.</p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="caps st" id="caps"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 02 · REEL SPEC ═══════════ -->
+    <section class="sec" id="spec" data-tc="00:02" data-label="Every reel">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:02</span>
+          <div>
+            <h2 class="sec-title">What's in every reel</h2>
+            <p class="sec-lead">The floor, not the ceiling. Every reel we deliver meets this spec.</p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <ul class="spec st" id="specList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ FILM STRIP ═══════════ -->
+    <section class="strip" aria-label="Recent frames">
+      <div class="wrap">
+        <div class="strip-row st" id="stripRow"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 03 · MONTHLY, EDIT ONLY ═══════════ -->
+    <section class="sec" id="packages" data-tc="00:03" data-label="Edit only">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:03</span>
+          <div>
+            <h2 class="sec-title">Monthly — edit only</h2>
+            <p class="sec-lead" id="editBlurb"></p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="tiers st" id="editTiers" data-tiers="2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 04 · MONTHLY, FULL PRODUCTION ═══════════ -->
+    <section class="sec" id="production" data-tc="00:04" data-label="We shoot + edit">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:04</span>
+          <div>
+            <h2 class="sec-title">Monthly — we shoot and edit</h2>
+            <p class="sec-lead" id="prodBlurb"></p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="tiers st" id="prodTiers" data-tiers="4"></div>
+          <p class="note rv" id="packageNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 05 · ONE-OFF SHOOTS ═══════════ -->
+    <section class="sec" id="oneoff" data-tc="00:05" data-label="One-off shoots">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:05</span>
+          <div>
+            <h2 class="sec-title">One-off shoots</h2>
+            <p class="sec-lead">No retainer, no commitment. Book a shoot and walk away with content.</p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="idx st" id="bundles"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 06 · PROJECT PACKAGES ═══════════ -->
+    <section class="sec" id="projects" data-tc="00:06" data-label="Projects">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:06</span>
+          <div>
+            <h2 class="sec-title">Project packages</h2>
+            <p class="sec-lead">Fixed scope, fixed price, for a specific job.</p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="idx st" id="projectRows"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 07 · À LA CARTE ═══════════ -->
+    <section class="sec" id="alacarte" data-tc="00:07" data-label="À la carte">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:07</span>
+          <div>
+            <h2 class="sec-title">À la carte</h2>
+            <p class="sec-lead" id="alcNote"></p>
+          </div>
+        </div>
+        <div class="sec-body rv">
+          <div class="acc" id="alcAcc"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 08 · PROCESS ═══════════ -->
+    <section class="sec" id="process" data-tc="00:08" data-label="How it works">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:08</span>
+          <div>
+            <h2 class="sec-title">How it works</h2>
+            <p class="sec-lead">Four steps from first conversation to published post.</p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="steps st" id="steps"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 09 · FAQ ═══════════ -->
+    <section class="sec" id="faq" data-tc="00:09" data-label="Questions">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="tc">00:09</span>
+          <div>
+            <h2 class="sec-title">Questions</h2>
+            <p class="sec-lead">The things clients ask before they sign.</p>
+          </div>
+        </div>
+        <div class="sec-body">
+          <div class="faq-cols">
+            <div class="acc rv" id="faqAcc"></div>
+            <figure class="win rv" id="faqWin">
+              <div class="win-bar" aria-hidden="true">
+                <i></i><i></i><i></i>
+                <span class="win-url" id="winUrl"></span>
+              </div>
+              <img id="winImg" alt="" loading="lazy" decoding="async" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ CLOSING CTA ═══════════ -->
+  <section class="close" id="cm-contact">
+    <div class="wrap">
+      <h2 id="ctaTitle"></h2>
+      <p id="ctaText"></p>
+      <div class="close-actions" id="ctaActions"></div>
+    </div>
+    <figure class="print" id="ctaPrint">
+      <img id="printImg" alt="" loading="lazy" decoding="async" />
+      <figcaption id="printCap"></figcaption>
+    </figure>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <span id="footLeft"></span>
+      <span><a href="../">← Back to zyntech</a></span>
+    </div>
+  </footer>
+
+  <!-- ═══════════ STICKY MOBILE DOCK ═══════════ -->
+  <div class="dock" id="dock"></div>
+
+  <!-- ═══════════ ICONS ═══════════ -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.35c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.2-8.24 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.23.25-.86.84-.86 2.05s.88 2.38 1 2.54c.12.16 1.73 2.65 4.2 3.71.59.25 1.04.4 1.4.52.59.19 1.12.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M3.5 6.5l8.5 6 8.5-6" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/creator-data.js"></script>
+  <script src="../js/creator.js"></script>
+</body>
+</html>

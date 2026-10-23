@@ -48,7 +48,27 @@
     pause: '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>',
   };
 
+  // Nyx's "seen" receipt: two drawn ticks
+  const seen = '<svg class="ui-nyx__seen" viewBox="0 0 20 12" aria-label="Seen"><path d="M1 6.5l3.2 3.2L11 2.5M8.5 9.2l.5.5L16 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
   const fragments = {
+    nyx: () => `
+      <div class="ui ui--dark ui-nyx" data-ui>
+        <div class="ui-nyx__bar">
+          <b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 3.2A9 9 0 1 0 20.8 15 7.2 7.2 0 0 1 15.5 3.2z"/></svg>Nyx</b>
+          <span class="ui-nyx__dots"><i></i><i></i><i></i></span>
+        </div>
+        <div class="ui-nyx__body">
+          <div class="ui-nyx__side"><i class="is-on"></i><i></i><i></i><i></i></div>
+          <div class="ui-nyx__chat">
+            <div class="ui-nyx__who"><i></i><div><b>Aria Vale</b><span>Active now</span></div></div>
+            <p class="m">have you tried the new themes?</p>
+            <p class="m m--out">vortex goes hard. full neon grid ${seen}</p>
+            <p class="m m--voice"><span class="ui-nyx__wave">${[30, 60, 90, 50, 75, 40, 85, 55, 35, 65, 45].map((h) => `<i style="height:${h}%"></i>`).join("")}</span>0:06</p>
+            <p class="m m--out">this app really feels alive ${seen}</p>
+          </div>
+        </div>
+      </div>`,
     carelink: () => `
       <div class="ui ui--light ui-care" data-ui>
         <div class="ui-care__head"><b>CareLink</b><span>This week</span></div>
@@ -121,7 +141,7 @@
   };
   const fragmentFor = (p) =>
     (fragments[p.ui] || (() => `<div class="ui ui-card" data-ui><b>${esc(p.title)}</b></div>`))();
-  const groundFor = { carelink: "paper", api: "surface", assistant: "amber", wave: "surface-2", atmos: "surface", hanzy: "paper" };
+  const groundFor = { nyx: "paper", api: "surface-2", assistant: "amber", carelink: "surface", wave: "surface-2", hanzy: "paper", atmos: "surface" };
 
   /* ─────────────────────────────────────────────
      3. MASTHEAD
@@ -263,9 +283,44 @@ deploy   carelink v2.4
   indexLinks[0] && indexLinks[0].classList.add("is-current");
 
   /* ─────────────────────────────────────────────
+     5b. CREATOR MODE doorway (content lives in js/creator-data.js)
+  ───────────────────────────────────────────── */
+  const creatorBand = $("#creator-mode");
+  if (typeof CREATOR !== "undefined" && CREATOR.homeBand) {
+    const cb = CREATOR.homeBand;
+    $("#creatorTitle").textContent = cb.title;
+    $("#creatorText").textContent = cb.text;
+    $("#creatorLink").textContent = cb.link;
+    const prices = ((CREATOR.packages && CREATOR.packages.tracks) || [])
+      .flatMap((t) => t.tiers.map((x) => x.price))
+      .filter((n) => typeof n === "number");
+    const facts = prices.length
+      ? [{ label: "From", value: `LKR ${new Intl.NumberFormat("en-US").format(Math.min(...prices))} a month` }]
+      : [];
+    facts.push(...(cb.facts || []));
+    $("#creatorFacts").innerHTML = facts
+      .map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`)
+      .join("");
+    const sentence = (w) => w.charAt(0) + w.slice(1).toLowerCase();
+    $("#creatorStrip").innerHTML = ((CREATOR.photos && CREATOR.photos.strip) || [])
+      .slice(0, 3)
+      .map(
+        (p, i) => `
+        <figure class="creator__frame" data-open style="--i:${i}">
+          <div class="frame"><img src="${esc(p.src.replace(/^\.\.\//, ""))}" alt="${esc(p.alt)}" width="600" height="750" loading="lazy" decoding="async"></div>
+          <figcaption>${esc(sentence(p.label || ""))}</figcaption>
+        </figure>`
+      )
+      .join("");
+  } else if (creatorBand) {
+    creatorBand.remove();
+  }
+
+  /* ─────────────────────────────────────────────
      6. WORK + PROJECT SHEET
   ───────────────────────────────────────────── */
-  const shapes = ["wide", "tall", "tall", "tall", "wide", "tall"];
+  // Seven slots: flagship and title on top, a full middle row, a staggered last row
+  const shapes = ["wide", "tall", "tall", "wide", "tall", "tall", "wide"];
   const workGrid = $("#workGrid");
   const words = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
   const count = words[SITE.projects.length] || SITE.projects.length;
@@ -305,6 +360,12 @@ deploy   carelink v2.4
     $("#sheetFacts").innerHTML = `
       <dt>Stack</dt><dd>${esc(p.stack.join(", "))}</dd>
       <dt>Led by</dt><dd>${esc(people[p.lead] ? people[p.lead].name : ledBy(p.lead))}</dd>`;
+    const open = $("#sheetLink");
+    open.hidden = !p.link;
+    if (p.link) {
+      open.href = p.link;
+      open.textContent = p.linkLabel || `Open ${p.title}`;
+    }
     if (typeof sheet.showModal === "function") sheet.showModal();
     else sheet.setAttribute("open", "");
   });
@@ -533,6 +594,7 @@ deploy   carelink v2.4
   $("#footerPhone").textContent = B.phone;
   $("#footerPhone").href = `tel:${tel}`;
   const elsewhere = [`<a class="link" href="mailto:${esc(B.email)}">${esc(B.email)}</a>`, `<a class="link" href="https://wa.me/${esc(B.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`];
+  if (typeof CREATOR !== "undefined") elsewhere.push(`<a class="link" href="creator/">Creator Mode</a>`);
   SITE.team.forEach((m) => {
     if (m.links.github) elsewhere.push(`<a class="link" href="${esc(m.links.github)}" target="_blank" rel="noopener">GitHub</a>`);
     if (m.links.linkedin) elsewhere.push(`<a class="link" href="${esc(m.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`);
@@ -602,7 +664,7 @@ deploy   carelink v2.4
         if (e.target.id === "processSvg") setTimeout(() => e.target.classList.add("is-live"), 1600);
       }
     },
-    { rootMargin: "0px 0px -10% 0px", threshold: 0.08 }
+    { rootMargin: "0px 0px -6% 0px", threshold: 0 }
   );
   $$("[data-reveal], [data-open], #processSvg").forEach((el) => io.observe(el));
 
