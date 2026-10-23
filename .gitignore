@@ -3,3 +3,9 @@ Thumbs.db
 desktop.ini
 .DS_Store
 *Zone.Identifier
+
+# Design review working files (screenshots, notes)
+.taste-skill/
+
+# Local preview server config
+.claude/

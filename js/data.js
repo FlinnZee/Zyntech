@@ -1,10 +1,10 @@
 /* ============================================================
-   ZynTECH — SITE CONTENT
+   ZynTECH: SITE CONTENT
    ------------------------------------------------------------
-   ✏️  EDIT THIS FILE TO UPDATE THE WEBSITE.
-   Everything on the site (services, team, projects,
-   testimonials, contact info, stats) lives here.
-   No coding knowledge needed — just edit the text between
+   EDIT THIS FILE TO UPDATE THE WEBSITE.
+   Everything on the site (services, work, team, testimonials,
+   contact info, picture credits) lives here.
+   No coding knowledge needed. Just edit the text between
    quotes, save, refresh the page.
    ============================================================ */
 
@@ -13,194 +13,223 @@ const SITE = {
   /* ---------- BRAND ---------- */
   brand: {
     name: "ZynTECH",
-    tagline: "Engineering the Future of Digital",
-    description:
-      "ZynTECH is a full-spectrum IT solutions agency. From custom systems and secure applications to cinematic content and social growth — we design, build and scale digital experiences that move businesses forward.",
-    location: "Sri Lanka · Serving Worldwide",
+    descriptor: "Software and video studio",
+    location: "Sri Lanka",
+    reach: "Working with clients worldwide",
+    timezone: "GMT+5:30",
     email: "tnirmal122@gmail.com",
     phone: "+94 70 123 3971",
+    whatsapp: "94701233971",          // digits only, used for wa.me links
   },
 
-  /* ---------- HERO ---------- */
+  /* ---------- HERO ----------
+     title: the two lines of the main headline, exactly as they break. */
   hero: {
-    badge: "Full-Spectrum IT Solutions Agency",
-    headlineTop: "We Engineer the",
-    headlineHighlight: "Future of Digital.",
-    // Words that rotate in the typing animation:
-    rotatingWords: [
-      "Custom Systems",
-      "Web Platforms",
-      "Mobile Apps",
-      "Cyber Security",
-      "SaaS Products",
-      "Cinematic Content",
-      "Social Growth",
+    title: ["A software and", "video studio"],
+    standfirst:
+      "ZynTECH builds web platforms, mobile apps and secure systems, then makes the video and social content that brings people to them. One team in Sri Lanka, from the first sketch to launch day.",
+    primary: { label: "Start a project", href: "#contact" },
+    secondary: { label: "See the work", href: "#work" },
+    // Small facts beside the headline
+    facts: [
+      { label: "Founders", value: "Theekshana Nirmal and Hansana Wick" },
+      { label: "Based in", value: "Sri Lanka, working worldwide" },
+      { label: "Delivered", value: "30+ projects, 5+ years combined" },
     ],
-    sub:
-      "One agency. Every digital capability. We turn ambitious ideas into secure, scalable and stunning products.",
-    ctaPrimary: { label: "Start a Project", href: "#contact" },
-    ctaSecondary: { label: "Explore Services", href: "#services" },
+    // The amber tile in the picture band
+    figure: { value: "500K+", text: "concurrent users served by one API we engineered" },
+    // Photographs that slowly crossfade in the wide picture cell
+    rotating: [
+      { src: "assets/img/colombo-skyline.jpg", alt: "Colombo skyline at night, seen from above" },
+      { src: "assets/img/colombo-beira-lake.jpg", alt: "Colombo towers reflected in Beira Lake at night" },
+      { src: "assets/img/colombo-galle-road.jpg", alt: "Colombo rooftops at night, framed by leaves" },
+    ],
   },
 
-  /* ---------- STATS (animated counters) ---------- */
-  stats: [
-    { value: 30, suffix: "+", label: "Projects Delivered" },
-    { value: 5,  suffix: "+", label: "Years Combined Experience" },
-    { value: 9,  suffix: "",  label: "Core Service Lines" },
-    { value: 100, suffix: "%", label: "Client Commitment" },
-  ],
-
-  /* ---------- ABOUT ---------- */
+  /* ---------- INTRO / ABOUT ---------- */
   about: {
-    title: "A Digital Agency Built Different",
+    title: ["One team,", "not five vendors"],
     lead:
-      "ZynTECH was founded on a simple idea — businesses shouldn't need five vendors to go digital. We merged deep engineering with creative production under one roof.",
+      "We started ZynTECH because a business shouldn’t need five vendors to go digital. Engineering and creative production share one roof, one plan and one inbox.",
     points: [
       {
-        title: "Engineering-Grade Builds",
-        text: "Production-ready systems built with modern stacks — React, Node.js, Python, Flutter and cloud-native architecture on AWS.",
+        title: "Built to production standard",
+        text: "React, Node.js, Python and Flutter on cloud infrastructure that we document, hand over and keep supporting.",
       },
       {
-        title: "Security in Our DNA",
-        text: "Every product we ship is hardened by design. We also audit and secure what you already run.",
+        title: "Security from the first commit",
+        text: "Every product is hardened before launch, and we audit and secure the systems you already run.",
       },
       {
-        title: "Creative Firepower",
-        text: "In-house video editing, branding and content strategy — so your product doesn't just work, it wins attention.",
+        title: "Creative in the same room",
+        text: "Video, branding and content are made in-house, so the launch looks as good as the product works.",
       },
       {
-        title: "End-to-End Ownership",
-        text: "Strategy, design, development, launch and growth. One team, fully accountable.",
+        title: "One team, start to finish",
+        text: "Strategy, design, build, launch and growth, with one accountable team and one point of contact.",
       },
     ],
+    photo: { src: "assets/img/colombo-beira-lake.jpg", alt: "Office towers lit up at night, reflected in Beira Lake", caption: "Beira Lake, Colombo, at night" },
+    photoSmall: { src: "assets/img/colombo-galle-road.jpg", alt: "Colombo apartment blocks and towers at night, seen from a rooftop garden", caption: "Colombo from a rooftop, 2019" },
   },
 
   /* ---------- SERVICES ----------
-     icon: pick from → system | web | mobile | security | saas |
-                       uiux | video | social | cloud            */
+     lead: who answers for this practice → "theekshana" | "hansana" | "both"
+     plate: a picture from the history of the trade (optional). */
+  servicesTitle: "What we build",
+  servicesIntro: "Nine service lines in six practices, each one led by a founder.",
   services: [
     {
-      icon: "system",
-      title: "Custom Systems & Software",
-      text: "Tailor-made business systems, automation tools and enterprise software engineered around your exact workflow.",
-      tags: ["Python", "Automation", "APIs"],
+      title: "Systems and cloud",
+      lead: "theekshana",
+      items: [
+        "Business systems shaped around your workflow",
+        "Automation that removes manual steps",
+        "APIs and third-party integrations",
+        "AWS deployments and CI/CD pipelines",
+        "Linux servers with predictable bills",
+      ],
+      plate: { src: "assets/img/plate-punch.jpg", alt: "Hollerith punched-card reader, close up", caption: "Hollerith card reader" },
     },
     {
-      icon: "web",
-      title: "Web Development",
-      text: "High-performance websites and web apps — from landing pages to platforms serving hundreds of thousands of users.",
-      tags: ["React", "Node.js", "WordPress"],
+      title: "Web platforms and SaaS",
+      lead: "theekshana",
+      items: [
+        "Marketing sites and web apps in React",
+        "Multi-tenant SaaS with billing and analytics",
+        "WordPress when it is the right tool",
+        "Back ends built for hundreds of thousands of users",
+      ],
+      plate: { src: "assets/img/plate-switchboard.jpg", alt: "Telephone operators working a large switchboard in 1945", caption: "Switchboard operators, 1945" },
     },
     {
-      icon: "mobile",
-      title: "Mobile App Development",
-      text: "Beautiful cross-platform apps for Android & iOS from a single codebase, built to feel truly native.",
-      tags: ["Flutter", "Swift", "Dart"],
+      title: "Mobile apps",
+      lead: "theekshana",
+      items: [
+        "Android and iOS from one Flutter codebase",
+        "Native Swift where the platform needs it",
+        "App Store and Play Store releases",
+        "Updates and support after launch",
+      ],
+      plate: { src: "assets/img/plate-mobile.jpg", alt: "A Motorola DynaTAC held next to a modern smartphone", caption: "Motorola DynaTAC, 1983, and a modern phone", position: "62% 50%" },
     },
     {
-      icon: "security",
-      title: "Cyber Security",
-      text: "Security assessments, hardening and compromise detection that keep your infrastructure and data protected.",
-      tags: ["Auditing", "Hardening", "Monitoring"],
+      title: "Cyber security",
+      lead: "theekshana",
+      items: [
+        "Security assessments and audits",
+        "Server and application hardening",
+        "Compromise detection and monitoring",
+        "Fixes, not only a report",
+      ],
+      plate: { src: "assets/img/plate-padlock.jpg", alt: "An iron padlock and its key", caption: "Padlock with key, 18th century" },
     },
     {
-      icon: "saas",
-      title: "SaaS Solutions",
-      text: "From idea to subscription-ready product — multi-tenant architecture, billing, analytics and scale built in.",
-      tags: ["Cloud-Native", "Scalable", "B2B/B2C"],
+      title: "Interface and brand design",
+      lead: "both",
+      items: [
+        "User flows and interfaces in Figma",
+        "Clickable prototypes before any code",
+        "Design systems your team can extend",
+        "Logos, brand kits and launch visuals",
+      ],
+      plate: { src: "assets/img/plate-type.jpg", alt: "A wooden type case full of metal letterpress type", caption: "Type case, Gutenberg Museum, Mainz", position: "70% 50%" },
     },
     {
-      icon: "uiux",
-      title: "UI / UX Design",
-      text: "Interfaces users love — glassmorphism, motion design and conversion-focused flows crafted in Figma.",
-      tags: ["Figma", "Prototyping", "Design Systems"],
+      title: "Video and social",
+      lead: "hansana",
+      items: [
+        "Editing for YouTube, ads and brand films",
+        "Thumbnails and packaging that earn the click",
+        "Content calendars and channel strategy",
+        "Social media management and growth",
+      ],
+      plate: { src: "assets/img/plate-moviola.jpg", alt: "A Moviola 35mm film editing machine", caption: "Moviola 35mm editor, Kolkata" },
+    },
+  ],
+
+  /* ---------- WORK ----------
+     ui: which drawn interface shows on the tile →
+         carelink | api | assistant | wave | atmos | hanzy
+     Leave ui out for a new project and the tile shows its title instead. */
+  workTitle: ["Selected", "work"],
+  projects: [
+    {
+      title: "CareLink",
+      category: "Web application",
+      text: "A care coordination platform that connects caregivers and families, with visit scheduling and secure care records.",
+      stack: ["React", "Node.js", "MySQL"],
+      lead: "theekshana",
+      ui: "carelink",
     },
     {
-      icon: "video",
-      title: "Video Editing & Production",
-      text: "Cinematic edits, YouTube content, ads and brand films — with thumbnails and packaging that earn the click.",
-      tags: ["Editing", "Thumbnails", "Storytelling"],
+      title: "High-load REST API",
+      category: "Backend systems",
+      text: "An API layer that serves live data to more than 500,000 concurrent users with sub-second responses.",
+      stack: ["Node.js", "PostgreSQL", "AWS"],
+      lead: "theekshana",
+      ui: "api",
     },
     {
-      icon: "social",
-      title: "Social Media Management",
-      text: "Content calendars, branding and audience growth strategies that turn followers into customers.",
-      tags: ["Strategy", "Content", "Growth"],
+      title: "AI virtual assistant",
+      category: "AI and automation",
+      text: "A conversational assistant built on TensorFlow, with LUIS for language understanding and Microsoft Bot Framework.",
+      stack: ["TensorFlow", "LUIS", "Bot Framework"],
+      lead: "theekshana",
+      ui: "assistant",
     },
     {
-      icon: "cloud",
-      title: "Cloud & DevOps",
-      text: "AWS deployments, CI/CD pipelines and infrastructure that scales with you — without the surprise bills.",
-      tags: ["AWS", "CI/CD", "Linux"],
+      title: "Wave",
+      category: "Mobile app",
+      text: "A streaming music app for Android and iOS, built in Flutter from a single codebase.",
+      stack: ["Flutter", "Dart"],
+      lead: "theekshana",
+      ui: "wave",
+    },
+    {
+      title: "Atmos",
+      category: "Interface design",
+      text: "A responsive weather interface, designed and user-tested in Figma.",
+      stack: ["Figma", "Prototyping"],
+      lead: "theekshana",
+      ui: "atmos",
+    },
+    {
+      title: "Hanzy",
+      category: "Video and social",
+      text: "Editing, thumbnail design and retention-focused strategy for the Hanzy YouTube channel, running since 2023.",
+      stack: ["Video editing", "Thumbnails", "Channel strategy"],
+      lead: "hansana",
+      ui: "hanzy",
     },
   ],
 
   /* ---------- PROCESS ---------- */
+  processTitle: ["How a project", "runs"],
+  processIntro: "Every project moves through the same four stages, with a working demo every week.",
   process: [
-    { num: "01", title: "Discover", text: "We dig into your goals, users and constraints to define exactly what success looks like." },
-    { num: "02", title: "Design",   text: "Wireframes to polished UI — you see and approve the experience before a line of code." },
-    { num: "03", title: "Build",    text: "Agile sprints with weekly demos. Secure, tested, production-grade engineering." },
-    { num: "04", title: "Launch & Grow", text: "Deployment, monitoring and content that drives adoption. We stay for the long run." },
-  ],
-
-  /* ---------- PROJECTS / WORK ----------
-     accent: a | b | c | d  (changes the card artwork colours) */
-  projects: [
-    {
-      title: "CareLink — Caregiver Platform",
-      category: "Web Application",
-      text: "Full-stack care coordination platform connecting caregivers and families, with scheduling and secure records.",
-      stack: ["ReactJS", "Node.js", "MySQL"],
-      accent: "a",
-    },
-    {
-      title: "High-Load REST API Platform",
-      category: "Backend Systems",
-      text: "API layer engineered to serve dynamic data to 500,000+ concurrent users with sub-second response times.",
-      stack: ["Node.js", "PostgreSQL", "AWS"],
-      accent: "b",
-    },
-    {
-      title: "AI Virtual Assistant",
-      category: "AI & Automation",
-      text: "Conversational assistant built on TensorFlow with LUIS language understanding and MS Bot Framework.",
-      stack: ["TensorFlow", "LUIS", "Bot Framework"],
-      accent: "c",
-    },
-    {
-      title: "Wave — Cross-Platform Music App",
-      category: "Mobile App",
-      text: "Spotify-class streaming experience for Android & iOS built with Flutter from a single codebase.",
-      stack: ["Flutter", "Dart"],
-      accent: "d",
-    },
-    {
-      title: "Atmos — Weather Experience UI",
-      category: "UI / UX Design",
-      text: "Responsive weather application interface designed and user-tested in Figma with glassmorphism styling.",
-      stack: ["Figma", "UI/UX"],
-      accent: "b",
-    },
-    {
-      title: "Hanzy — Brand & Channel Growth",
-      category: "Content & Social",
-      text: "End-to-end YouTube brand: editing, thumbnail design and retention-focused strategy growing a loyal audience since 2023.",
-      stack: ["Video Editing", "Branding", "Strategy"],
-      accent: "c",
-    },
+    { title: "Discover", text: "We learn your goals, users and constraints, and agree on what success looks like." },
+    { title: "Design", text: "Wireframes, then finished screens. You approve the experience before we write code." },
+    { title: "Build", text: "Weekly sprints, each ending in a demo. Tested, secure, production-grade." },
+    { title: "Launch and grow", text: "Deployment, monitoring and the content that brings people in. We stay on after launch." },
   ],
 
   /* ---------- TEAM ----------
-     photo: path to a square-ish portrait. If the file is missing,
-     the card automatically falls back to the initials badge. */
+     id: used to match services and projects to a person.
+     photo: a portrait (4:5 crops best). position moves the crop. */
+  teamTitle: "The founders",
+  teamIntro: "Two people, two crafts. Every project is planned, built and answered for by one of us.",
   team: [
     {
+      id: "theekshana",
       initials: "TN",
       photo: "assets/team/theekshana.jpg",
+      position: "50% 30%",
       name: "Theekshana Nirmal",
-      role: "Co-Founder · Lead Engineer",
-      bio: "Full-stack developer and systems engineer. Builds secure, scalable products across web, mobile, cloud and AI — undergraduate at University of Moratuwa.",
-      skills: ["Python", "React / Node.js", "Flutter", "AWS", "Cyber Security", "UI/UX"],
+      role: "Co-founder, lead engineer",
+      short: "Engineering",
+      bio: "Full-stack developer and systems engineer at the University of Moratuwa. Builds secure, scalable products across web, mobile, cloud and AI.",
+      skills: ["Python", "React and Node.js", "Flutter", "AWS", "Cyber security", "UI/UX"],
       links: {
         email: "tnirmal122@gmail.com",
         github: "https://github.com/FlinnZee",
@@ -208,12 +237,15 @@ const SITE = {
       },
     },
     {
+      id: "hansana",
       initials: "HW",
       photo: "assets/team/hansana.jpg",
+      position: "50% 45%",
       name: "Hansana Wick",
-      role: "Co-Founder · Creative Director",
-      bio: "Video editor and content strategist. Runs full production pipelines — editing, thumbnails, branding and audience growth — creator of the Hanzy channel.",
-      skills: ["Video Editing", "Content Creation", "Social Media Marketing", "Branding", "YouTube Strategy"],
+      role: "Co-founder, creative director",
+      short: "Design and video",
+      bio: "Video editor and content strategist behind the Hanzy channel. Runs the whole production pipeline: editing, thumbnails, branding and audience growth.",
+      skills: ["Video editing", "Content creation", "Social media marketing", "Branding", "YouTube strategy"],
       links: {
         email: "hansanawickramasinghe662@gmail.com",
         github: "",
@@ -223,33 +255,54 @@ const SITE = {
   ],
 
   /* ---------- TESTIMONIALS ----------
-     ✏️ These are starter samples — replace them with real client
+     These are starter samples. Replace them with real client
      feedback as it comes in. Just copy the block pattern. */
+  testimonialsTitle: "What clients said",
   testimonials: [
     {
       quote: "ZynTECH rebuilt our internal system from scratch and it simply works. Fast delivery, clear communication, zero drama.",
-      name: "Startup Founder",
-      role: "SaaS Client · Fiverr",
-      stars: 5,
+      name: "Startup founder",
+      role: "SaaS client, via Fiverr",
     },
     {
-      quote: "The UI they designed for our mobile app looked so premium our investors thought we'd hired a big-city agency.",
-      name: "Product Owner",
-      role: "Mobile App Client",
-      stars: 5,
+      quote: "The UI they designed for our mobile app looked so premium our investors thought we’d hired a big-city agency.",
+      name: "Product owner",
+      role: "Mobile app client",
     },
     {
-      quote: "Editing quality and thumbnails transformed our channel's click-through rate. Retention went up within weeks.",
-      name: "Content Creator",
-      role: "YouTube Client",
-      stars: 5,
+      quote: "Editing quality and thumbnails transformed our channel’s click-through rate. Retention went up within weeks.",
+      name: "Content creator",
+      role: "YouTube client",
     },
   ],
 
+  /* ---------- CONTACT (the brief builder) ---------- */
+  contact: {
+    title: "Start a project",
+    sentence: "Tell us what you need. We’ll come back with a plan, a timeline and a price.",
+    note: "Replies come from Theekshana or Hansana directly, not a sales team.",
+    timelines: ["As soon as possible", "In 1–3 months", "Later this year", "Not sure yet"],
+  },
+
   /* ---------- FOOTER ---------- */
   footer: {
-    note: "Full-spectrum IT solutions — engineered in Sri Lanka, delivered worldwide.",
-    credit: "Designed & Developed by Theekshana Nirmal",
+    note: "ZynTECH is a software and video studio founded by Theekshana Nirmal and Hansana Wick.",
+    credit: "Designed and developed by Theekshana Nirmal",
     year: new Date().getFullYear(),
   },
+
+  /* ---------- PICTURE CREDITS ----------
+     Photographs that are not ZynTECH's own. Keep these when the
+     pictures stay on the site; the licences ask for a credit. */
+  credits: [
+    { title: "Stunning Night View of Colombo City Skyline", creator: "Thilina Alagiyawanna", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/", page: "https://commons.wikimedia.org/wiki/File:Stunning_Night_View_of_Colombo_City_Skyline.jpg" },
+    { title: "Night Skyline Reflection in Colombo, Sri Lanka", creator: "Thilina Alagiyawanna", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/", page: "https://commons.wikimedia.org/wiki/File:Night_Skyline_Reflection_in_Colombo,_Sri_Lanka.jpg" },
+    { title: "Colombo - 49531939661", creator: "Sergei Gussev", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/", page: "https://commons.wikimedia.org/wiki/File:Colombo_-_49531939661.jpg" },
+    { title: "Hollerith card reader closeup", creator: "Marcin Wichary", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/", page: "https://commons.wikimedia.org/wiki/File:Hollerith_card_reader_closeup.jpg" },
+    { title: "WAC telephone operators at the Victory switchboard, 1945", creator: "U.S. National Archives", license: "Public domain", licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/", page: "https://commons.wikimedia.org/wiki/File:WAC_telephone_operators_operate_the_Victory_switchboard_during_the_Potsdam_Conference_in_their_headquarters_in..._-_NARA_-_199007.jpg" },
+    { title: "Motorola DynaTAC and Samsung Galaxy Note Edge", creator: "Umut Çolak", license: "Public domain", licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/", page: "https://commons.wikimedia.org/wiki/File:Motorola_DynaTAC_and_Samsung_Galaxy_Note_Edge.jpg" },
+    { title: "Padlock with key", creator: "The Metropolitan Museum of Art", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/", page: "https://www.metmuseum.org/art/collection/search/191473" },
+    { title: "Type case with movable types, Gutenberg Museum, Mainz", creator: "dronepicr", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/", page: "https://commons.wikimedia.org/wiki/File:Type_case_with_movable_types_for_letterpress_printing_in_the_Gutenberg_Museum,_Mainz,_Germany_(48988492232).jpg" },
+    { title: "Moviola - 35mm Film Editing Machine - Kolkata", creator: "Biswarup Ganguly", license: "CC BY 3.0", licenseUrl: "https://creativecommons.org/licenses/by/3.0/", page: "https://commons.wikimedia.org/wiki/File:Moviola_-_35mm_Film_Editing_Machine_-_Kolkata_2012-10-09_1577.JPG" },
+  ],
 };
