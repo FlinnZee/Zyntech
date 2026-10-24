@@ -1,7 +1,7 @@
 /* ============================================================
    ZynTECH — CREATOR MODE CONTENT
    ------------------------------------------------------------
-   ✏️  EDIT THIS FILE TO UPDATE THE CREATOR MODE PAGE (/creator).
+   EDIT THIS FILE TO UPDATE THE CREATOR MODE PAGE (/creator).
    Packages, prices, one-off shoots, à la carte rates, FAQ —
    everything on that page lives here.
 
@@ -48,6 +48,12 @@ const CREATOR = {
       "Social content production for businesses in Kandy and across Sri Lanka. Shot, graded, captioned and published — you just run your business.",
     ctaPrimary: "Start a project",
     ctaSecondary: "See packages",
+    // The facts under the headline ("From" is worked out from the packages)
+    facts: [
+      { label: "Based in", value: "Kandy, Sri Lanka" },
+      { label: "Turnaround", value: "5–7 days" },
+      { label: "Lock-in", value: "None" },
+    ],
   },
 
   /* ---------- HOMEPAGE ENTRY BAND ---------- */
@@ -110,14 +116,15 @@ const CREATOR = {
     { icon: "social", title: "Manage", text: "Calendar, captions, scheduling, community, reporting." },
   ],
 
-  /* ---------- 2. WHAT'S IN EVERY REEL ---------- */
+  /* ---------- 2. WHAT'S IN EVERY REEL ----------
+     Shown as the "export settings" of every reel we deliver. */
   reelSpec: [
-    "45 seconds to 2 minutes long",
-    "Vertical 9:16, shot in 4K",
-    "Colour graded",
-    "Burned-in captions, Sinhala or English",
-    "Sound design and licensed music",
-    "2 rounds of revisions",
+    { label: "Length", value: "45 seconds to 2 minutes" },
+    { label: "Format", value: "Vertical 9:16, shot in 4K" },
+    { label: "Colour", value: "Graded" },
+    { label: "Captions", value: "Burned in, Sinhala or English" },
+    { label: "Sound", value: "Sound design and licensed music" },
+    { label: "Revisions", value: "2 rounds included" },
   ],
 
   /* ---------- 3. PACKAGES ----------

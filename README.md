@@ -92,21 +92,20 @@ js/main.js          rendering, scroll scenes, interactions
 assets/team/        founder portraits
 assets/work/        real project screenshots (Nyx)
 
-── Creator Mode: light paper ───────────────────────────
-creator/index.html  served at /creator
-css/creator.css     paper/ink theme, mono + Inter
+── Creator Mode: the same black and white system ───────
+creator/index.html  served at /creator (loads css/style.css + css/creator.css)
+css/creator.css     viewfinder, storyboard, packages, rate card, timeline, FAQ
 js/creator-data.js  ← Creator Mode content & prices (edit this one)
-js/creator.js       rendering, timeline rail, accordions
+js/creator.js       rendering, scroll scenes, interactions
 assets/creator/     Creator Mode photographs
 
 assets/favicon.svg  flat mark on near-black
 ```
 
-**Creator Mode is deliberately its own design system.** It loads no `style.css` and
-no homepage script, just its own stylesheet and one script, so changing one page
-cannot break the other. The shared pieces are content only: Creator Mode reads
-`js/data.js` for the brand name and location in its footer, and the homepage reads
-`js/creator-data.js` for its Creator Mode band (in that page's own paper and ink).
+**Both pages share one look.** `/creator` loads the homepage stylesheet for the header,
+buttons, cursor, marquee and footer, and adds `css/creator.css` for its own sections. The
+shared content is small: Creator Mode reads `js/data.js` for the brand name, and the
+homepage reads `js/creator-data.js` for its Creator Mode band.
 
 ## ⚡ What's in it
 
@@ -119,6 +118,10 @@ cannot break the other. The shared pieces are content only: Creator Mode reads
 - Process cards that stack as you scroll
 - Founder panels that open on hover (full profiles on phones)
 - Creator Mode lines that slide against each other, linking to `/creator`
+- Creator Mode page: a camera-viewfinder hero (live timecode, autofocus box that follows the
+  pointer), a storyboard, an export panel that renders, a film strip, a package switch with
+  count-up prices, enquiry rows, a searchable rate card, a timeline that draws as you scroll,
+  an FAQ, a phone enquiry dock and a section timecode up the left margin
 - Quote slider (arrows, keyboard, drag), brief builder, a footer revealed like a curtain
 - Header that inverts over light sections and hides on the way down, a custom cursor, magnetic buttons
 - GSAP, ScrollTrigger and Lenis from a CDN; without them (or with reduced motion) the page stays complete and usable

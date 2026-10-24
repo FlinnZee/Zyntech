@@ -80,6 +80,7 @@ p { text-wrap: pretty; }
   transform: translateY(-180%); transition: transform var(--t-ui) var(--ease-out);
 }
 .skip:focus { transform: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ── frame ── */
 .grid {
@@ -635,7 +636,7 @@ main { position: relative; z-index: 1; }
 .foot__cols { row-gap: 32px; }
 .foot__col { grid-column: span 3; display: grid; gap: 8px; align-content: start; }
 .foot__col .label { margin-bottom: 6px; }
-.foot__col a { width: fit-content; color: var(--white); transition: color var(--t-fast) ease; }
+.foot__col a { width: fit-content; max-width: 100%; overflow-wrap: anywhere; color: var(--white); transition: color var(--t-fast) ease; }
 .foot__col--end { justify-items: end; align-content: end; }
 @media (hover: hover) and (pointer: fine) {
   .foot__col a:not(.arrow-link):hover { color: var(--grey-d); }
