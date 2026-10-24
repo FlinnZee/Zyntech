@@ -21,18 +21,17 @@ Open either in any text editor, change the text between quotes, save, refresh. T
 
 | What you want to change | Where in `data.js` |
 |---|---|
-| Headline, intro sentence, the small facts beside it | `hero: {...}` (`title` is the two headline lines) |
-| The amber figure in the top picture band | `hero.figure` |
-| The photos that slowly change in the top band | `hero.rotating` |
-| "One team, not five vendors" section | `about: {...}` |
-| A **service practice** (title, list, who leads it, picture) | `services: [...]` (`lead`: `"theekshana"`, `"hansana"` or `"both"`) |
-| A **project** in Selected work | `projects: [...]` (`ui` picks the drawn interface, leave it out for a title card; `link` adds an "Open" button) |
-| The four process stages | `process: [...]` |
-| Team bios, skills, links, photos | `team: [...]` (photos in `assets/team/`, `position` moves the crop) |
+| Headline, intro sentence, the two small notes | `hero: {...}` (`title` is the two headline lines) |
+| The words in the scrolling band | `marquee: [...]` |
+| The big statement and the four numbers | `manifesto`, `stats: [...]` |
+| A **service line** (title, text, tags, who leads it) | `services: [...]` (`group`: Engineering or Creative; `lead`: `"theekshana"`, `"hansana"` or `"both"`) |
+| A **project** in Selected work | `projects: [...]` (`image` for a real screenshot, otherwise `ui` picks the drawn interface; `link` adds a "Visit" button) |
+| The four process stages | `process: [...]` (`items` are the three lines on each card) |
+| Founder bios, skills, links, photos | `team: [...]` (photos in `assets/team/`, `position` moves the crop) |
 | A **testimonial** | `testimonials: [...]` (the current three are samples, replace with real ones) |
 | Email, phone, WhatsApp, location | `brand: {...}` |
-| Brief builder launch options | `contact.timelines` |
-| Picture credits in the footer | `credits: [...]` |
+| Brief builder choices | `contact.needs` and `contact.timelines` |
+| The footer's big line | `footer.line` |
 | The Creator Mode band on the homepage | `homeBand: {...}` in `creator-data.js` (its "From" price is worked out from the packages) |
 
 ### Creator Mode — `js/creator-data.js`
@@ -85,13 +84,13 @@ post the same text to it from `updateBrief()` in `js/main.js`.
 The site is **two independent front-ends** that share only the content files.
 
 ```
-── Homepage: "printed annual" ──────────────────────────
-index.html          page skeleton (sections, header, project sheet)
-css/style.css       tokens, grid, sections, interface drawings
+── Homepage: black and white ───────────────────────────
+index.html          page skeleton (sections, header, cursor, project sheet)
+css/style.css       tokens, grid, sections, interface drawings, motion
 js/data.js          ← homepage content (edit this one)
-js/main.js          rendering and interactions
+js/main.js          rendering, scroll scenes, interactions
 assets/team/        founder portraits
-assets/img/         Colombo photographs and archive plates (see credits.json)
+assets/work/        real project screenshots (Nyx)
 
 ── Creator Mode: light paper ───────────────────────────
 creator/index.html  served at /creator
@@ -111,27 +110,24 @@ cannot break the other. The shared pieces are content only: Creator Mode reads
 
 ## ⚡ What's in it
 
-- One typeface (Bricolage Grotesque), one accent (sodium amber), each section its own flat colour chapter
-- Masthead mosaic of the founders and Colombo at night, with a slow crossfade
-- Header that takes the colour of the section under it and marks where you are
-- Services with a pinned index that follows the practice you're reading
-- Creator Mode band linking to `/creator`, with its price, turnaround and shoot / set / edit frames
-- Work tiles drawn as real interface pieces, Nyx first as the flagship; each opens a project sheet (Esc to close)
-- Process diagram built from the logo's equaliser bars, assembling as it scrolls in
-- Testimonial switcher, brief builder, full-screen phone menu
-- Creator Mode page: warm paper/ink identity, timecode section markers, a sticky timeline
-  rail on wide screens, keyboard-operable accordions, a mobile enquiry dock, and a
-  tier row that scroll-snaps on phones, plus a print stylesheet
+- Strict black and white, one typeface (Archivo, using its width axis), the logo's equaliser bars as the motif
+- Hero: a live waveform of the mark's bars that reacts to the cursor, and a full-width ZYNTECH wordmark that narrows as you scroll away
+- A marquee that follows your scroll speed and direction
+- A manifesto that fills in word by word as it is read, with counting numbers
+- Services as an index: hover or tap a line to open what it covers and who leads it
+- Work as a pinned horizontal gallery on desktop (a swipeable row on phones), each project opening a sheet
+- Process cards that stack as you scroll
+- Founder panels that open on hover (full profiles on phones)
+- Creator Mode lines that slide against each other, linking to `/creator`
+- Quote slider (arrows, keyboard, drag), brief builder, a footer revealed like a curtain
+- Header that inverts over light sections and hides on the way down, a custom cursor, magnetic buttons
+- GSAP, ScrollTrigger and Lenis from a CDN; without them (or with reduced motion) the page stays complete and usable
 - Fully responsive (desktop, tablet, phone), keyboard friendly, `prefers-reduced-motion` respected
 
----
-
-## 🖼 Picture credits
-
-The Colombo photographs and archive plates come from Wikimedia Commons and The Met (CC0, public
-domain, CC BY). Credits are listed in the footer ("Picture credits") and in `assets/img/credits.json`.
-Keep the credits while the pictures stay on the site.
+> After editing `css/style.css` or a file in `js/`, bump the `?v=` number on its link in
+> `index.html` so returning visitors get the new version instead of a cached one.
 
 ---
+
 
 © ZynTECH. Designed & developed by **Theekshana Nirmal**.

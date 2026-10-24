@@ -3,173 +3,181 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZynTECH | Software and video studio, Sri Lanka</title>
-  <meta name="description" content="ZynTECH is a software and video studio in Sri Lanka. We build web platforms, mobile apps and secure systems, then make the video and social content that brings people to them." />
+  <title>ZynTECH | Software and video studio</title>
+  <meta name="description" content="ZynTECH is a software and video studio from Sri Lanka. We engineer web platforms, mobile apps and secure systems, then produce the video and social content that brings people to them." />
   <meta name="author" content="Theekshana Nirmal" />
-  <meta name="theme-color" content="#08090b" />
-  <meta property="og:title" content="ZynTECH | Software and video studio" />
-  <meta property="og:description" content="Web platforms, mobile apps, security, SaaS, video and social content. One team in Sri Lanka, from the first sketch to launch day." />
+  <meta name="theme-color" content="#0b0b0b" />
+  <meta property="og:title" content="ZynTECH | We build it. We film it." />
+  <meta property="og:description" content="Web platforms, mobile apps, security, SaaS, video and social content. One team, from the first sketch to launch day." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/colombo-skyline.jpg" />
+  <meta property="og:image" content="assets/work/nyx.jpg" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..600&display=swap" rel="stylesheet" />
-  <link rel="preload" as="image" href="assets/img/colombo-skyline.jpg" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
   <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
 
   <a class="skip" href="#main">Skip to content</a>
 
+  <!-- ═══════════ CURSOR (fine pointers only) ═══════════ -->
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursorLabel"></span></div>
+
   <!-- ═══════════ HEADER ═══════════ -->
-  <header class="bar" id="bar" data-theme="dark">
-    <a href="#top" class="wordmark" aria-label="ZynTECH, back to top">
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand" aria-label="ZynTECH, back to top">
       <span class="mark" data-logo-mark></span>
-      <span class="wordmark__name">Zyn<b>TECH</b></span>
+      <span class="nav__word">Zyn<b>TECH</b></span>
     </a>
-    <nav class="bar__nav" aria-label="Primary">
-      <a href="#services" class="bar__link">Services</a>
-      <a href="creator/" class="bar__link">Creator Mode</a>
-      <a href="#work" class="bar__link">Work</a>
-      <a href="#process" class="bar__link">Process</a>
-      <a href="#team" class="bar__link">Team</a>
-      <a href="#contact" class="bar__link">Contact</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#services" data-scramble>Services</a>
+      <a href="#work" data-scramble>Work</a>
+      <a href="creator/" data-scramble>Creator Mode</a>
+      <a href="#team" data-scramble>Team</a>
+      <a href="#contact" data-scramble>Contact</a>
     </nav>
-    <a href="#contact" class="button bar__cta">Start a project</a>
-    <button class="bar__menu" id="menuButton" aria-expanded="false" aria-controls="menu">Menu</button>
+    <a href="#contact" class="pill pill--light nav__cta" data-magnetic>Start a project</a>
+    <button class="nav__menu" id="menuButton" type="button" aria-expanded="false" aria-controls="menu"><span>Menu</span></button>
   </header>
 
   <!-- ═══════════ MOBILE MENU ═══════════ -->
   <div class="menu" id="menu" hidden>
     <nav class="menu__nav" aria-label="Menu">
       <a href="#services">Services</a>
-      <a href="creator/">Creator Mode</a>
       <a href="#work">Work</a>
+      <a href="creator/">Creator Mode</a>
       <a href="#process">Process</a>
       <a href="#team">Team</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="menu__foot">
-      <a href="#contact" class="button">Start a project</a>
-      <p class="menu__reach" id="menuReach"></p>
+      <a href="#contact" class="pill pill--light">Start a project</a>
+      <p id="menuReach"></p>
     </div>
   </div>
 
   <main id="main">
 
-    <!-- ═══════════ MASTHEAD ═══════════ -->
-    <section class="masthead" id="top" data-theme="dark" aria-labelledby="heroTitle">
-      <div class="mosaic" id="mosaic">
-        <figure class="mosaic__cell mosaic__cell--wide" data-cell id="rotator"></figure>
-        <figure class="mosaic__cell mosaic__cell--person" data-cell id="cellA"></figure>
-        <div class="mosaic__cell mosaic__cell--figure" data-cell id="cellFigure"></div>
-        <figure class="mosaic__cell mosaic__cell--person" data-cell id="cellB"></figure>
-        <div class="mosaic__cell mosaic__cell--code" data-cell data-ui id="cellCode"></div>
-      </div>
-
-      <div class="masthead__body grid">
-        <div class="masthead__main">
-          <h1 class="display lines" id="heroTitle"></h1>
-          <p class="masthead__standfirst" id="heroStandfirst" data-load style="--d:420ms"></p>
-          <div class="masthead__actions" data-load style="--d:500ms">
-            <a class="button button--large" id="heroPrimary" href="#contact"></a>
-            <a class="link" id="heroSecondary" href="#work"></a>
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero tone-dark" id="top" aria-labelledby="heroTitle">
+      <div class="hero__top grid">
+        <h1 class="hero__title" id="heroTitle"></h1>
+        <div class="hero__side">
+          <p class="hero__sub" id="heroSub" data-load style="--d:520ms"></p>
+          <div class="hero__actions" data-load style="--d:620ms">
+            <a class="pill pill--light" id="heroPrimary" href="#contact" data-magnetic></a>
+            <a class="arrow-link" id="heroSecondary" href="#work"></a>
           </div>
         </div>
-        <dl class="masthead__facts" id="heroFacts" data-load style="--d:520ms"></dl>
+      </div>
+      <div class="hero__signal" aria-hidden="true"><canvas id="signal"></canvas></div>
+      <div class="hero__base">
+        <ul class="hero__notes" id="heroNotes" data-load style="--d:760ms"></ul>
+        <div class="giant" id="heroWord" aria-hidden="true"></div>
       </div>
     </section>
 
-    <!-- ═══════════ INTRO ═══════════ -->
-    <section class="intro" id="about" data-theme="paper" aria-labelledby="aboutTitle">
-      <div class="intro__stage grid">
-        <h2 class="intro__title head" id="aboutTitle"></h2>
-        <figure class="intro__photo" id="aboutPhoto"></figure>
-        <div class="intro__copy">
-          <p class="intro__lead" id="aboutLead" data-reveal></p>
-          <ul class="intro__points" id="aboutPoints"></ul>
-        </div>
-        <figure class="intro__photo-small" id="aboutPhotoSmall" data-reveal></figure>
+    <!-- ═══════════ MARQUEE ═══════════ -->
+    <section class="marquee tone-light" aria-label="Services in short">
+      <div class="marquee__track" id="marquee"></div>
+    </section>
+
+    <!-- ═══════════ MANIFESTO + NUMBERS ═══════════ -->
+    <section class="manifesto tone-dark" id="about" aria-labelledby="aboutTitle">
+      <div class="grid">
+        <h2 class="label manifesto__label" id="aboutTitle">Why ZynTECH</h2>
+        <p class="manifesto__text" id="manifesto"></p>
       </div>
+      <ul class="stats grid" id="stats"></ul>
     </section>
 
     <!-- ═══════════ SERVICES ═══════════ -->
-    <section class="services" id="services" data-theme="amber" aria-labelledby="servicesTitle">
-      <div class="services__inner grid">
-        <div class="services__head">
-          <h2 class="head" id="servicesTitle"></h2>
-          <p class="services__intro" id="servicesIntro"></p>
-          <nav class="services__index" id="servicesIndex" aria-label="Practices"></nav>
-        </div>
-        <div class="services__list" id="servicesList"></div>
+    <section class="services tone-light" id="services" aria-labelledby="servicesTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="servicesTitle" data-split></h2>
+        <p class="section-head__intro" id="servicesIntro" data-reveal></p>
       </div>
+      <ul class="index" id="servicesIndex"></ul>
+    </section>
+
+    <!-- ═══════════ WORK (pinned horizontal gallery) ═══════════ -->
+    <section class="work tone-dark" id="work" aria-labelledby="workTitle">
+      <div class="work__pin" id="workPin">
+        <div class="work__track" id="workTrack">
+          <div class="work__intro">
+            <h2 class="mega" id="workTitle" data-split></h2>
+            <p id="workIntro" data-reveal></p>
+            <p class="work__hint" data-reveal style="--i:1"><span id="workCount"></span><span class="work__hint-arrow" aria-hidden="true"></span></p>
+          </div>
+        </div>
+        <div class="work__progress" aria-hidden="true"><span id="workBar"></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PROCESS (stacking cards) ═══════════ -->
+    <section class="process tone-light" id="process" aria-labelledby="processTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="processTitle" data-split></h2>
+        <p class="section-head__intro" id="processIntro" data-reveal></p>
+      </div>
+      <ol class="stack" id="processStack"></ol>
+    </section>
+
+    <!-- ═══════════ TEAM (expanding panels) ═══════════ -->
+    <section class="team tone-dark" id="team" aria-labelledby="teamTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="teamTitle" data-split></h2>
+        <p class="section-head__intro" id="teamIntro" data-reveal></p>
+      </div>
+      <div class="duo" id="teamDuo"></div>
     </section>
 
     <!-- ═══════════ CREATOR MODE (doorway to /creator) ═══════════ -->
-    <section class="creator" id="creator-mode" data-theme="creator" aria-labelledby="creatorTitle">
-      <div class="creator__inner grid">
+    <section class="creator tone-light" id="creator-mode" aria-labelledby="creatorTitle">
+      <div class="creator__lines" id="creatorLines" aria-hidden="true">
+        <span>We shoot it.</span><span>We cut it.</span><span>We post it.</span>
+      </div>
+      <div class="creator__body grid">
         <div class="creator__text">
-          <h2 class="head" id="creatorTitle" data-reveal></h2>
+          <h2 class="h3" id="creatorTitle" data-reveal></h2>
           <p class="creator__lead" id="creatorText" data-reveal style="--i:1"></p>
-          <dl class="creator__facts" id="creatorFacts" data-reveal style="--i:2"></dl>
-          <a class="button button--large creator__cta" id="creatorLink" href="creator/" data-reveal style="--i:3"></a>
+          <dl class="facts" id="creatorFacts" data-reveal style="--i:2"></dl>
+          <a class="pill pill--dark" id="creatorLink" href="creator/" data-reveal style="--i:3" data-magnetic></a>
         </div>
-        <div class="creator__strip" id="creatorStrip"></div>
+        <figure class="creator__photo" id="creatorPhoto" data-reveal style="--i:1"></figure>
       </div>
-    </section>
-
-    <!-- ═══════════ WORK ═══════════ -->
-    <section class="work" id="work" data-theme="dark" aria-labelledby="workTitle">
-      <div class="work__grid" id="workGrid">
-        <h2 class="work__title head" id="workTitle"></h2>
-      </div>
-    </section>
-
-    <!-- ═══════════ PROCESS ═══════════ -->
-    <section class="process" id="process" data-theme="surface" aria-labelledby="processTitle">
-      <div class="grid">
-        <div class="process__head">
-          <h2 class="head" id="processTitle" data-reveal></h2>
-          <p id="processIntro" data-reveal style="--i:1"></p>
-        </div>
-      </div>
-      <div class="process__figure" id="processFigure">
-        <svg class="process__svg" id="processSvg" role="img" aria-labelledby="processSvgTitle">
-          <title id="processSvgTitle">Diagram: scattered bars gather, tighten into a band, then rise as ordered bars, one stage per quarter.</title>
-        </svg>
-        <ol class="process__steps" id="processSteps"></ol>
-      </div>
-    </section>
-
-    <!-- ═══════════ TEAM ═══════════ -->
-    <section class="team" id="team" data-theme="dark" aria-labelledby="teamTitle">
-      <div class="team__head grid">
-        <h2 class="giant team__title" id="teamTitle" data-reveal></h2>
-        <p class="team__intro" id="teamIntro" data-reveal style="--i:1"></p>
-      </div>
-      <div class="team__people grid" id="teamPeople"></div>
     </section>
 
     <!-- ═══════════ TESTIMONIALS ═══════════ -->
-    <section class="voices" id="clients" data-theme="paper" aria-labelledby="voicesTitle">
-      <div class="voices__who">
-        <h2 class="voices__title" id="voicesTitle"></h2>
-        <div class="voices__names" id="voicesNames" role="group" aria-label="Choose a testimonial"></div>
-      </div>
-      <div class="voices__quote" data-theme-block="amber">
-        <blockquote class="voices__text" id="voicesQuote" aria-live="polite"></blockquote>
+    <section class="voices tone-dark" id="clients" aria-labelledby="voicesTitle">
+      <div class="voices__inner grid">
+        <div class="voices__side">
+          <h2 class="label" id="voicesTitle"></h2>
+          <p class="voices__count" aria-live="polite"><span id="voicesAt">1</span> / <span id="voicesTotal"></span></p>
+          <div class="voices__controls">
+            <button class="round" type="button" id="voicesPrev" aria-label="Previous testimonial"></button>
+            <button class="round" type="button" id="voicesNext" aria-label="Next testimonial"></button>
+          </div>
+        </div>
+        <figure class="voices__stage" id="voicesStage">
+          <blockquote class="voices__quote" id="voicesQuote"></blockquote>
+          <figcaption class="voices__who" id="voicesWho"></figcaption>
+        </figure>
       </div>
     </section>
 
     <!-- ═══════════ CONTACT ═══════════ -->
-    <section class="contact" id="contact" data-theme="dark" aria-labelledby="contactTitle">
-      <div class="grid">
+    <section class="contact tone-light" id="contact" aria-labelledby="contactTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="contactTitle" data-split></h2>
+      </div>
+      <div class="contact__body grid">
         <div class="contact__intro">
-          <h2 class="head" id="contactTitle" data-reveal></h2>
-          <p class="contact__sentence" id="contactSentence" data-reveal style="--i:1"></p>
-          <p class="contact__note" id="contactNote" data-reveal style="--i:2"></p>
+          <p class="contact__sentence" id="contactSentence" data-reveal></p>
+          <p class="contact__note" id="contactNote" data-reveal style="--i:1"></p>
+          <dl class="contact__direct" id="contactDirect" data-reveal style="--i:2"></dl>
         </div>
 
         <form class="brief" id="brief" novalidate data-reveal style="--i:1">
@@ -183,15 +191,14 @@
           </fieldset>
           <div class="brief__group">
             <label for="briefMessage" class="brief__label">Anything else?</label>
-            <textarea id="briefMessage" rows="4" placeholder="A few lines about the project, a link, or the problem you want solved."></textarea>
+            <textarea id="briefMessage" rows="3" placeholder="A few lines about the project, a link, or the problem you want solved."></textarea>
           </div>
-
           <div class="brief__out">
             <div class="brief__who" id="briefWho" aria-live="polite"></div>
             <p class="brief__summary" id="briefSummary" aria-live="polite"></p>
             <div class="brief__send">
-              <a class="button button--large" id="briefEmail" href="#">Email the brief</a>
-              <a class="link" id="briefWhatsapp" href="#" target="_blank" rel="noopener">Send it on WhatsApp</a>
+              <a class="pill pill--dark" id="briefEmail" href="#" data-magnetic>Email the brief</a>
+              <a class="pill pill--outline" id="briefWhatsapp" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
             </div>
           </div>
         </form>
@@ -199,53 +206,60 @@
     </section>
   </main>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <footer class="close" id="footer" data-theme="amber">
-    <div class="close__top grid">
-      <a href="#top" class="wordmark close__mark" aria-label="ZynTECH, back to top">
-        <span class="mark" data-logo-mark></span>
-        <span class="wordmark__name">Zyn<b>TECH</b></span>
-      </a>
-      <p class="close__note" id="footerNote"></p>
-      <p class="close__note" id="footerReach"></p>
-      <a href="#top" class="link close__top-link">Back to top</a>
+  <!-- ═══════════ FOOTER (revealed like a curtain) ═══════════ -->
+  <footer class="foot tone-dark" id="footer">
+    <div class="foot__top grid">
+      <h2 class="foot__line" id="footLine"></h2>
+      <div class="foot__cta">
+        <a href="#contact" class="pill pill--light" data-magnetic>Start a project</a>
+        <a class="arrow-link" id="footEmail" href="#"></a>
+      </div>
     </div>
-
-    <div class="close__line grid">
-      <p class="close__ask">Call or WhatsApp</p>
-      <a class="giant close__phone" id="footerPhone" href="#"></a>
+    <div class="foot__cols grid">
+      <nav class="foot__col" aria-label="Sections">
+        <p class="label">Navigate</p>
+        <a href="#services">Services</a><a href="#work">Work</a><a href="creator/">Creator Mode</a><a href="#team">Team</a><a href="#contact">Contact</a>
+      </nav>
+      <nav class="foot__col" id="footElsewhere" aria-label="Elsewhere">
+        <p class="label">Elsewhere</p>
+      </nav>
+      <div class="foot__col" id="footStudio">
+        <p class="label">Studio</p>
+      </div>
+      <div class="foot__col foot__col--end">
+        <a href="#top" class="arrow-link arrow-link--up">Back to top</a>
+      </div>
     </div>
-
-    <div class="close__meta grid">
-      <nav class="close__links" id="footerLinks" aria-label="Elsewhere"></nav>
-      <details class="close__credits">
-        <summary>Picture credits</summary>
-        <ul id="footerCredits"></ul>
-      </details>
-      <p class="close__copy" id="footerCopy"></p>
+    <div class="giant foot__word" id="footWord" aria-hidden="true"></div>
+    <div class="foot__meta grid">
+      <p id="footCopy"></p>
+      <p id="footCredit"></p>
     </div>
   </footer>
 
-  <!-- ═══════════ PROJECT DIALOG ═══════════ -->
+  <!-- ═══════════ PROJECT SHEET ═══════════ -->
   <dialog class="sheet" id="projectSheet" aria-labelledby="sheetTitle">
     <div class="sheet__inner">
-      <button class="sheet__close" id="sheetClose" type="button">Close</button>
-      <div class="sheet__art" id="sheetArt"></div>
+      <button class="round sheet__close" id="sheetClose" type="button" aria-label="Close"></button>
+      <div class="sheet__media" id="sheetMedia"></div>
       <div class="sheet__text">
-        <p class="sheet__cat" id="sheetCat"></p>
+        <p class="label" id="sheetCat"></p>
         <h3 class="sheet__title" id="sheetTitle"></h3>
         <p id="sheetBody"></p>
-        <dl class="sheet__facts" id="sheetFacts"></dl>
+        <dl class="facts" id="sheetFacts"></dl>
         <div class="sheet__actions">
-          <a class="button" href="#contact" id="sheetCta">Start a project like this</a>
-          <a class="link" id="sheetLink" href="#" target="_blank" rel="noopener" hidden></a>
+          <a class="pill pill--light" href="#contact" id="sheetCta">Start a project like this</a>
+          <a class="arrow-link" id="sheetLink" href="#" target="_blank" rel="noopener" hidden></a>
         </div>
       </div>
     </div>
   </dialog>
 
-  <script src="js/data.js"></script>
-  <script src="js/creator-data.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/data.js?v=7"></script>
+  <script src="js/creator-data.js?v=7"></script>
+  <script src="js/main.js?v=7"></script>
 </body>
 </html>
