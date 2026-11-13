@@ -1,8 +1,10 @@
 # ZynTECH | Company site
 
 Site for **ZynTECH**, a software and video studio in Sri Lanka, founded by
-Theekshana Nirmal and Hansana Wick. The homepage lives at `/`, and the Creator Mode
-social content service has its own page at `/creator`.
+Theekshana Nirmal and Hansana Wick. The homepage at `/` is a 3D experience (Signal);
+the same content as a classic page lives at `/classic`, and the Creator Mode social
+content service has its own page at `/creator`. Desktops open the 3D homepage; phones
+are asked first whether they want 3D or the default page.
 
 **Live:** enable GitHub Pages (see below) and the site is shareable at a permanent link.
 
@@ -81,14 +83,23 @@ post the same text to it from `updateBrief()` in `js/main.js`.
 
 ## 🗂 Structure
 
-The site is **two independent front-ends** that share only the content files.
+The site has **three front-ends** that share only the content files.
 
 ```
-── Homepage: black and white ───────────────────────────
-index.html          page skeleton (sections, header, cursor, project sheet)
+── Homepage: Signal, the 3D experience ─────────────────
+index.html          served at / (loads css/style.css + css/signal.css)
+css/signal.css      text layout over the 3D layer, the phone chooser, fallbacks
+js/signal.js        rendering + the Three.js point cloud (reads js/data.js)
+3d/index.html       old /3d links, sends visitors to /
+
+── Classic homepage: black and white, no 3D ────────────
+classic/index.html  served at /classic (phones that pick "Default", and devices
+                    without WebGL or with reduced motion)
 css/style.css       tokens, grid, sections, interface drawings, motion
-js/data.js          ← homepage content (edit this one)
 js/main.js          rendering, scroll scenes, interactions
+
+── Shared by both homepages ────────────────────────────
+js/data.js          ← homepage content (edit this one)
 assets/team/        founder portraits
 assets/work/        real project screenshots (Nyx, hidara)
 
@@ -99,24 +110,24 @@ js/creator-data.js  ← Creator Mode content & prices (edit this one)
 js/creator.js       rendering, scroll scenes, interactions
 assets/creator/     Creator Mode photographs
 
-── Signal: the 3D homepage (preview at /3d) ────────────
-3d/index.html       served at /3d (loads css/style.css + css/signal.css)
-css/signal.css      text layout over the 3D layer, and the no-3D fallback
-js/signal.js        rendering + the Three.js point cloud (reads js/data.js)
-
 assets/favicon.svg  flat mark on near-black
 ```
 
-**Signal (`/3d`)** shows the same content as the homepage, read from the same `js/data.js`.
-One cloud of points sits behind the page and becomes each section as you scroll: the
-wordmark, a waveform, nine service objects, a ring of project screens, a helix, the
-founders' portraits (drawn from their photos), a camera lens you fly through into
-Creator Mode, a quote mark, an orb and the wordmark again. An element with
-`data-shape="name"` marks where each shape takes over. Without WebGL, or with reduced
-motion, the page shows plain black and white sections instead. Three.js loads from
-jsdelivr through an import map, so there is still no build step.
+**Signal (`/`)** shows the same content as the classic page, read from the same
+`js/data.js`. One cloud of points sits behind the page and becomes each section as you
+scroll: the wordmark, a waveform, nine service objects, a ring of project screens, a
+helix, the founders' portraits (drawn in colour from their photos), a camera lens you
+fly through into Creator Mode, a quote mark, an orb and the wordmark again. The cloud
+always drifts a little, keeps gliding after you stop scrolling, and swirls where the
+cursor passes. An element with `data-shape="name"` marks where each shape takes over.
 
-**Both pages share one look.** `/creator` loads the homepage stylesheet for the header,
+**Which page opens:** desktops get Signal. Phones see a short question in the loader
+(3D mode or Default); the answer lasts for the visit. Devices without WebGL, or with
+reduced motion turned on, go straight to `/classic`. `?mode=3d` or `?mode=classic` on
+the homepage link forces one or the other. Three.js loads from jsdelivr through an
+import map, so there is still no build step.
+
+**All pages share one look.** `/creator` loads the homepage stylesheet for the header,
 buttons, cursor, marquee and footer, and adds `css/creator.css` for its own sections. The
 shared content is small: Creator Mode reads `js/data.js` for the brand name, and the
 homepage reads `js/creator-data.js` for its Creator Mode band.

@@ -26,6 +26,9 @@
   const esc = (s = "") =>
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const pad = (n) => String(n).padStart(2, "0");
+  // the classic page lives in /classic, so asset paths from data.js get a prefix there
+  const BASE = root.dataset.base || "";
+  const asset = (src = "") => (/^(https?:)?\/\//.test(src) || src.startsWith("../") ? src : BASE + src);
 
   const B = SITE.brand;
   const people = Object.fromEntries(SITE.team.map((m) => [m.id, m]));
@@ -157,7 +160,7 @@
   };
   const mediaFor = (p, eager) =>
     p.image
-      ? `<img src="${esc(p.image)}" alt="${esc(p.title)}, screenshot" width="1600" height="1000"${eager ? "" : ' loading="lazy"'} decoding="async">`
+      ? `<img src="${esc(asset(p.image))}" alt="${esc(p.title)}, screenshot" width="1600" height="1000"${eager ? "" : ' loading="lazy"'} decoding="async">`
       : (fragments[p.ui] || (() => `<div class="ui ui-card" data-ui><b>${esc(p.title)}</b></div>`))();
 
   /* ─────────────────────────────────────────────
@@ -322,7 +325,7 @@
       if (m.links.linkedin) links.push(`<a class="arrow-link" href="${esc(m.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`);
       return `
       <article class="person${i === 0 ? " is-open" : ""}" data-reveal style="--i:${i}">
-        <img class="person__photo" src="${esc(m.photo)}" alt="Portrait of ${esc(m.name)}" width="900" height="1100" loading="lazy" decoding="async" style="object-position:${esc(m.position || "50% 30%")}">
+        <img class="person__photo" src="${esc(asset(m.photo))}" alt="Portrait of ${esc(m.name)}" width="900" height="1100" loading="lazy" decoding="async" style="object-position:${esc(m.position || "50% 30%")}">
         <button class="person__toggle" type="button" aria-expanded="${i === 0}" aria-controls="person-${i}" aria-label="${esc(m.name)}, show profile"></button>
         <div class="person__body">
           <p class="person__role">${esc(m.role)}</p>
@@ -365,7 +368,7 @@
     facts.push(...(cb.facts || []));
     $("#creatorFacts").innerHTML = facts.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join("");
     const ph = CREATOR.photos && CREATOR.photos.hero;
-    if (ph) $("#creatorPhoto").innerHTML = `<img src="${esc(ph.src.replace(/^\.\.\//, ""))}" alt="${esc(ph.alt)}" width="1200" height="750" loading="lazy" decoding="async">`;
+    if (ph) $("#creatorPhoto").innerHTML = `<img src="${esc(asset(ph.src.replace(/^\.\.\//, "")))}" alt="${esc(ph.alt)}" width="1200" height="750" loading="lazy" decoding="async">`;
   } else if (creatorBand) {
     creatorBand.remove();
   }
@@ -437,7 +440,7 @@
     .map(
       (m) => `
       <div class="who" data-person="${esc(m.id)}">
-        <img src="${esc(m.photo)}" alt="" width="64" height="64" loading="lazy" style="object-position:${esc(m.position || "50% 30%")}">
+        <img src="${esc(asset(m.photo))}" alt="" width="64" height="64" loading="lazy" style="object-position:${esc(m.position || "50% 30%")}">
         <div><b>${esc(m.name)}</b><span>${esc(m.short)}</span></div>
       </div>`
     )

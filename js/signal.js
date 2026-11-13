@@ -24,7 +24,8 @@ const pad = (n) => String(n).padStart(2, "0");
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
-const up = (src) => (/^(https?:)?\/\//.test(src) || src.startsWith("../") ? src : `../${src}`);
+const BASE = root.dataset.base || "";
+const up = (src = "") => (/^(https?:)?\/\//.test(src) || src.startsWith("../") ? src : BASE + src);
 
 const B = SITE.brand;
 const people = Object.fromEntries(SITE.team.map((m) => [m.id, m]));
@@ -410,7 +411,7 @@ SITE.team.forEach((m) => {
   if (m.links.linkedin) elsewhere.push(`<a href="${esc(m.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`);
 });
 $("#footElsewhere").insertAdjacentHTML("beforeend", elsewhere.join(""));
-$("#footStudio").insertAdjacentHTML("beforeend", `<p>${esc(B.descriptor)}</p><p>${esc(B.location)}, ${esc(B.timezone)}</p><p>${esc(B.reach)}</p><p><a href="../">The classic site</a></p>`);
+$("#footStudio").insertAdjacentHTML("beforeend", `<p>${esc(B.descriptor)}</p><p>${esc(B.location)}, ${esc(B.timezone)}</p><p>${esc(B.reach)}</p><p><a href="${BASE}classic/">Default view</a></p>`);
 $("#footCopy").textContent = `© ${SITE.footer.year} ${B.name}. All rights reserved.`;
 $("#footCredit").textContent = SITE.footer.credit;
 $("#menuReach").textContent = `${B.location}, ${B.reach.toLowerCase()}.`;
@@ -638,8 +639,26 @@ let kick = 0;
 function signalKick(v) { kick = Math.max(kick, v); }
 
 const loaderBar = $("#loaderBar");
-const doneLoading = () => root.classList.remove("is-loading");
+let loaded = false;
+const doneLoading = () => {
+  loaded = true;
+  if (!root.classList.contains("is-asking")) root.classList.remove("is-loading");
+};
 setTimeout(doneLoading, 6000);                 // never hold the page hostage
+// phones are asked first: 3D here, or the default page
+const pick3d = $("#pick3d"), pickClassic = $("#pickClassic");
+if (root.classList.contains("is-asking")) {
+  document.body.style.overflow = "hidden";
+  setTimeout(() => pick3d && pick3d.focus({ preventScroll: true }), 60);
+}
+pick3d && pick3d.addEventListener("click", () => {
+  try { sessionStorage.setItem("zt-mode", "3d"); } catch (e) {}
+  root.classList.remove("is-asking");
+  document.body.style.overflow = "";
+  if (loaded) root.classList.remove("is-loading");
+  else root.classList.add("is-waiting");
+});
+pickClassic && pickClassic.addEventListener("click", () => { try { sessionStorage.setItem("zt-mode", "classic"); } catch (e) {} });
 
 function plainLoop() {
   doneLoading();
@@ -649,7 +668,8 @@ function plainLoop() {
     pageTick(window.scrollY);
   })();
 }
-if (!has3d) plainLoop();
+if (root.classList.contains("is-leaving")) { /* on the way to the classic page */ }
+else if (!has3d) plainLoop();
 else {
   try {
     startSignal();
@@ -683,6 +703,7 @@ function startSignal() {
 
   /* ── shape builders: each returns N points as a Float32Array ── */
   const shapes = {};
+  const colors = {};                            // per-point colour, only for the portraits
   const ready = {};
 
   function fill(fn) {
@@ -844,6 +865,7 @@ function startSignal() {
     const cw = (crop.x1 - crop.x0) * img.naturalWidth, ch = (crop.y1 - crop.y0) * img.naturalHeight;
     const aspect = cw / ch;
     const cols = Math.round(Math.sqrt(N * aspect)), rows = Math.floor(N / cols);
+    let rgb = null;
     const grab = (blur) => {
       const c = document.createElement("canvas");
       c.width = cols; c.height = rows;
@@ -853,6 +875,7 @@ function startSignal() {
       x.drawImage(img, crop.x0 * img.naturalWidth, crop.y0 * img.naturalHeight, cw, ch, 0, 0, cols, rows);
       const d = x.getImageData(0, 0, cols, rows).data, out = new Float32Array(cols * rows);
       for (let i = 0; i < out.length; i++) out[i] = (0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2]) / 255;
+      if (!blur) rgb = d;
       return out;
     };
     const lum = grab(0), soft = grab(Math.max(2, cols / 40));
@@ -868,10 +891,21 @@ function startSignal() {
     for (let i = 0; i < n; i += 3) if (mask[i] > 0.5) vals.push(v[i]);
     vals.sort((a, b) => a - b);
     const lo = vals[Math.floor(vals.length * 0.03)] || 0, hi = vals[Math.floor(vals.length * 0.99)] || 1;
+    const tint = new Float32Array(N * 3).fill(1);
+    for (let i = 0; i < n; i++) {
+      const r = rgb[i * 4] / 255, g = rgb[i * 4 + 1] / 255, bl = rgb[i * 4 + 2] / 255;
+      const m = Math.max(r, g, bl, 0.06);
+      // hue at full brightness, saturation lifted a little, then eased toward white
+      const cr = r / m, cg = g / m, cb = bl / m, avg = (cr + cg + cb) / 3;
+      tint[i * 3] = lerp(1, clamp(avg + (cr - avg) * 1.35), 0.62);
+      tint[i * 3 + 1] = lerp(1, clamp(avg + (cg - avg) * 1.35), 0.62);
+      tint[i * 3 + 2] = lerp(1, clamp(avg + (cb - avg) * 1.35), 0.62);
+    }
+    sampleFace.lastTint = tint;
     return fill((i) => {
       if (i >= n) return [rand(-1, 1) * aspect, rand(-1, 1), rand(-0.2, 0.2), 0];
       const col = i % cols, row = Math.floor(i / cols);
-      const b = (0.05 + 0.95 * Math.pow(clamp((v[i] - lo) / Math.max(0.05, hi - lo)), 0.9)) * mask[i];
+      const b = (0.12 + 0.88 * Math.pow(clamp((v[i] - lo) / Math.max(0.05, hi - lo)), 0.72)) * mask[i];
       return [((col + 0.5 + rand(-0.1, 0.1)) / cols - 0.5) * 2 * aspect, -((row + 0.5 + rand(-0.1, 0.1)) / rows - 0.5) * 2, (clamp(soft[i] * 1.4) - 0.5) * 0.4 * mask[i], b];
     });
   }
@@ -890,6 +924,11 @@ function startSignal() {
   geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(N * 3), 3));   // only sets the draw count
   geo.setAttribute("aPosA", posA);
   geo.setAttribute("aPosB", posB);
+  const white = new Float32Array(N * 3).fill(1);
+  const colA = new THREE.BufferAttribute(new Float32Array(white), 3).setUsage(THREE.DynamicDrawUsage);
+  const colB = new THREE.BufferAttribute(new Float32Array(white), 3).setUsage(THREE.DynamicDrawUsage);
+  geo.setAttribute("aColA", colA);
+  geo.setAttribute("aColB", colB);
   geo.setAttribute("aRand", new THREE.BufferAttribute(aRand, 4));
 
   const NOISE = /* glsl */ `
@@ -922,18 +961,26 @@ function startSignal() {
     uIdA: { value: 0 }, uIdB: { value: 0 },
     uMatA: { value: new THREE.Matrix4() }, uMatB: { value: new THREE.Matrix4() },
     uSizeA: { value: 1 }, uSizeB: { value: 1 }, uAlphaA: { value: 1 }, uAlphaB: { value: 1 },
-    uScale: { value: 1 }, uDpr: { value: 1 }, uBase: { value: small ? 0.03 : 0.022 },
+    uScale: { value: 1 }, uDpr: { value: 1 }, uBase: { value: small ? 0.021 : 0.0155 },
     uSwirl: { value: 0.9 }, uDof: { value: 0.05 }, uFocusDist: { value: 10 },
     uMouse: { value: new THREE.Vector3(99, 99, 0) }, uMouseAmt: { value: 0 }, uMouseR: { value: 1 },
     uCenters: { value: centers }, uFocus: { value: new Array(9).fill(0) }, uFocusAny: { value: 0 },
     uAp: { value: 0.12 }, uPulse: { value: 0 },
+    uDrift: { value: 0.05 }, uTrail: { value: Array.from({ length: 12 }, () => new THREE.Vector4(99, 99, 0, 0)) },
+    uVel: { value: new THREE.Vector2() }, uColorAmt: { value: 0.85 },
     uInk: { value: new THREE.Color(0xf3f3f1) },
   };
   const material = new THREE.ShaderMaterial({
     uniforms,
     transparent: true, depthWrite: false, depthTest: true,
     vertexShader: /* glsl */ `
-      uniform float uTime, uT, uIdA, uIdB, uSizeA, uSizeB, uAlphaA, uAlphaB, uScale, uDpr, uBase, uSwirl, uDof, uFocusDist, uMouseAmt, uMouseR, uFocusAny, uAp, uPulse;
+      uniform float uTime, uT, uIdA, uIdB, uSizeA, uSizeB, uAlphaA, uAlphaB, uScale, uDpr, uBase, uSwirl, uDof, uFocusDist, uMouseAmt, uMouseR, uFocusAny, uAp, uPulse, uDrift, uColorAmt;
+      uniform vec4 uTrail[12];
+      uniform vec2 uVel;
+      uniform vec3 uInk;
+      attribute vec3 aColA;
+      attribute vec3 aColB;
+      varying vec3 vColor;
       uniform mat4 uMatA, uMatB;
       uniform vec3 uMouse;
       uniform vec3 uCenters[9];
@@ -990,18 +1037,28 @@ function startSignal() {
         float photoW = (uIdA == 5.0 ? 1.0 - tl : 0.0) + (uIdB == 5.0 ? tl : 0.0);
         float jit = mix(0.65 + 0.7 * aRand.z, 1.0, photoW);
         vec3 p = mix(a, b, tl);
-        float sw = sin(3.14159 * tl) * uSwirl;
-        if (sw > 0.001) {
-          vec3 q = p * 0.3 + vec3(0.0, uTime * 0.1, 0.0);
-          p += vec3(snoise(q), snoise(q + vec3(17.1, 3.2, 8.4)), snoise(q + vec3(5.7, 11.3, 2.9))) * sw;
-        }
-        p.xy += 0.012 * vec2(sin(uTime * 0.7 + aRand.w * 6.2831), cos(uTime * 0.6 + aRand.w * 9.0));
 
+        // the cursor's recent path: points near it keep wandering, then settle
+        float stir = 0.0;
+        for (int k = 0; k < 12; k++) {
+          vec2 dd = p.xy - uTrail[k].xy;
+          stir += uTrail[k].w * exp(-dot(dd, dd) / (uMouseR * uMouseR * 0.9));
+        }
+        stir = min(stir, 1.6);
+
+        // one flow field: always a slow drift, stronger mid-morph and where the cursor stirred
+        float sw = sin(3.14159 * tl) * uSwirl;
+        vec3 q = p * 0.32 + vec3(aRand.w * 0.6, uTime * (0.07 + stir * 0.35), uTime * 0.05);
+        vec3 flow = vec3(snoise(q), snoise(q + vec3(17.1, 3.2, 8.4)), snoise(q + vec3(5.7, 11.3, 2.9)));
+        p += flow * (uDrift * (0.6 + aRand.z * 0.8) + sw + stir * uMouseR * 0.38);
+        p.xy += 0.02 * vec2(sin(uTime * 0.5 + aRand.w * 6.2831), cos(uTime * 0.43 + aRand.w * 9.0));
+
+        // right under the cursor: a soft push, plus a wake in the direction it moves
         vec3 d = p - uMouse;
         float r = length(d.xy);
         float f = (1.0 - smoothstep(0.0, uMouseR, r)) * uMouseAmt;
-        p.xy += normalize(d.xy + vec2(1e-4)) * f * uMouseR * 0.42;
-        p.z += f * 0.55;
+        p.xy += normalize(d.xy + vec2(1e-4)) * f * uMouseR * 0.3 + uVel * f * 0.6;
+        p.z += f * 0.4 + stir * 0.15;
 
         vec4 mv = viewMatrix * vec4(p, 1.0);
         float depth = max(0.05, -mv.z);
@@ -1015,19 +1072,21 @@ function startSignal() {
         al *= mix(0.45 + 0.55 * aRand.z, 1.0, photoW) * lit / (1.0 + blur * blur * 3.0);
         al *= smoothstep(0.3, 1.8, depth);
         al *= min(1.0, px);
-        al *= 1.0 + f * 0.9;
+        al *= (1.0 + f * 0.6 + stir * 0.25) * (1.0 + 0.4 * photoW);
         vAlpha = al;
+        vec3 col = mix(aColA, aColB, tl);
+        vColor = mix(uInk, col, photoW * uColorAmt);
         vBlur = clamp(blur, 0.0, 1.0);
       }`,
     fragmentShader: /* glsl */ `
-      uniform vec3 uInk;
       varying float vAlpha;
       varying float vBlur;
+      varying vec3 vColor;
       void main() {
         float d = length(gl_PointCoord - 0.5);
         float a = 1.0 - smoothstep(0.5 - 0.1 - 0.3 * vBlur, 0.5, d);
         if (a * vAlpha < 0.004) discard;
-        gl_FragColor = vec4(uInk, a * vAlpha);
+        gl_FragColor = vec4(vColor, a * vAlpha);
       }`,
   });
   const cloud = new THREE.Points(geo, material);
@@ -1165,6 +1224,7 @@ function startSignal() {
     img.decoding = "async";
     img.onload = () => {
       shapes[`face-${i}`] = sampleFace(img, FACE_CROP[i] || FACE_CROP[0]);
+      colors[`face-${i}`] = sampleFace.lastTint;
       ready[`face-${i}`] = true;
       dirty = true;
       bump();
@@ -1176,7 +1236,7 @@ function startSignal() {
 
   /* ── per-shape staging: where it sits, how it is lit, where the camera is ── */
   const ANIM = { wave: 1, services: 2, lens: 3, orb: 4, "face-0": 5, "face-1": 5 };
-  const SIZE = { word: 1, end: 1, wave: 0.85, services: 1, work: 1.1, helix: 1, "face-0": small ? 1.25 : 1.15, "face-1": small ? 1.25 : 1.15, lens: 1, quote: 1, orb: 1, scatter: 1 };
+  const SIZE = { word: 1, end: 1, wave: 0.9, services: 1.05, work: 1.1, helix: 1.05, "face-0": small ? 1.6 : 1.55, "face-1": small ? 1.6 : 1.55, lens: 1, quote: 1, orb: 1, scatter: 1 };
   const tmpM = new THREE.Matrix4(), tmpQ = new THREE.Quaternion(), tmpE = new THREE.Euler(), tmpP = new THREE.Vector3(), tmpS = new THREE.Vector3();
   const mouse = { x: 0, y: 0, sx: 0, sy: 0, amt: 0, last: -10, tilt: { x: 0, y: 0 } };
 
@@ -1317,10 +1377,12 @@ function startSignal() {
   const focus = new Array(9).fill(0);
   let focusAny = 0, pulse = 0;
 
-  function upload(attr, name) {
+  function upload(attr, cattr, name) {
     const src = ready[name] ? shapes[name] : shapes.scatter;
     attr.array.set(src);
     attr.needsUpdate = true;
+    cattr.array.set(ready[name] && colors[name] ? colors[name] : white);
+    cattr.needsUpdate = true;
   }
 
   /* ── pointer, touch, tilt ── */
@@ -1392,6 +1454,9 @@ function startSignal() {
 
   /* ── the loop ── */
   let tPrev = performance.now(), time = 0, frames = 0, slow = 0, tuned = false;
+  let ys = window.scrollY, energy = 0;          // eased scroll position, and how hard it has been moving
+  const trail = uniforms.uTrail.value;
+  let trailAt = 0, lastTrail = { x: 99, y: 99 }, velX = 0, velY = 0, prevHx = 0, prevHy = 0;
   const planeN = new THREE.Vector3(), plane = new THREE.Plane(), hitP = new THREE.Vector3();
 
   function frame(now) {
@@ -1399,10 +1464,17 @@ function startSignal() {
     const dt = Math.min(0.05, (now - tPrev) / 1000);
     tPrev = now;
     if (lenis) lenis.raf(now);
-    const y = window.scrollY;
-    pageTick(y);
+    const yNow = window.scrollY;
+    pageTick(yNow);
     if (document.hidden) return;
     time += dt;
+    // shapes follow an eased copy of the scroll, so they keep gliding after the page stops
+    const yPrev = ys;
+    ys += (yNow - ys) * (1 - Math.exp(-dt * 3.2));
+    if (Math.abs(yNow - ys) < 0.3) ys = yNow;
+    const speed = Math.abs(ys - yPrev) / Math.max(dt, 0.001);
+    energy += (Math.min(1, speed / 2600) - energy) * (speed / 2600 > energy ? 0.25 : 0.03);
+    const y = ys;
 
     // a cheap quality check: if the first seconds are slow, render fewer pixels
     if (!tuned && introOn === false && intro >= 1) {
@@ -1428,8 +1500,8 @@ function startSignal() {
     if (intro < 1 && st.a === 0 && st.b <= 1 && t < 0.05) {
       nameA = "scatter"; nameB = "word"; t = 1 - Math.pow(1 - intro, 3);
     }
-    if (nameA !== curA || dirty) { upload(posA, nameA); curA = nameA; }
-    if (nameB !== curB || dirty) { upload(posB, nameB); curB = nameB; }
+    if (nameA !== curA || dirty) { upload(posA, colA, nameA); curA = nameA; }
+    if (nameB !== curB || dirty) { upload(posB, colB, nameB); curB = nameB; }
     dirty = false;
 
     const pA = marks[st.a] ? sectionP(marks[st.a], y) : 0;
@@ -1480,6 +1552,22 @@ function startSignal() {
     plane.setFromNormalAndCoplanarPoint(planeN.negate(), camLook);
     if (ray.ray.intersectPlane(plane, hitP)) uniforms.uMouse.value.copy(hitP);
     uniforms.uMouseAmt.value = mAmt * (1 - inside) * (1 - lensW);
+    const calm = (1 - inside) * (1 - lensW);
+    const hx = hitP.x, hy = hitP.y;
+    const moved = Math.hypot(hx - lastTrail.x, hy - lastTrail.y);
+    const stepX = hx - prevHx, stepY = hy - prevHy;
+    prevHx = hx; prevHy = hy;
+    const jump = Math.hypot(stepX, stepY) > 3;          // camera cuts are not cursor motion
+    velX += ((jump ? 0 : stepX / Math.max(dt, 0.001)) * 0.02 - velX) * 0.2;
+    velY += ((jump ? 0 : stepY / Math.max(dt, 0.001)) * 0.02 - velY) * 0.2;
+    if (moved > uniforms.uMouseR.value * 0.18 && mAmt > 0.2) {
+      trail[trailAt].set(hx, hy, 0, Math.min(1, 0.35 + moved / uniforms.uMouseR.value) * mAmt * calm);
+      trailAt = (trailAt + 1) % trail.length;
+      lastTrail = { x: hx, y: hy };
+    } else if (moved >= 3) lastTrail = { x: hx, y: hy };
+    const fade = Math.exp(-dt / 1.4);
+    for (const tp of trail) tp.w *= fade;
+    uniforms.uVel.value.set(clamp(velX, -1.2, 1.2), clamp(velY, -1.2, 1.2));
 
     // services: the object for the line you point at comes forward
     const focusIdx = svcHot >= 0 ? svcHot : svcOpen;
@@ -1512,6 +1600,7 @@ function startSignal() {
     uniforms.uSizeA.value = A.size; uniforms.uSizeB.value = Bs.size;
     uniforms.uAlphaA.value = A.alpha * (tone > 0.5 ? 0.9 : 1); uniforms.uAlphaB.value = Bs.alpha * (tone > 0.5 ? 0.9 : 1);
     uniforms.uSwirl.value = nameA === "scatter" ? 0.6 : 0.9;
+    uniforms.uDrift.value = (view.mobile ? 0.035 : 0.045) + energy * 0.28;
     uniforms.uFocusDist.value = camPos.distanceTo(camLook);
     uniforms.uDof.value = inside > 0.5 ? 0.02 : 0.045;
 

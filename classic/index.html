@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-base="../">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZynTECH | Software and video studio</title>
+  <meta name="description" content="ZynTECH is a software and video studio from Sri Lanka. We engineer web platforms, mobile apps and secure systems, then produce the video and social content that brings people to them." />
+  <meta name="author" content="Theekshana Nirmal" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <meta property="og:title" content="ZynTECH | We build it. We film it." />
+  <meta property="og:description" content="Web platforms, mobile apps, security, SaaS, video and social content. One team, from the first sketch to launch day." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://flinnzee.github.io/Zyntech/classic/" />
+  <meta property="og:site_name" content="ZynTECH" />
+  <meta property="og:image" content="https://flinnzee.github.io/Zyntech/assets/og/zyntech.jpg" />
+  <meta property="og:image:secure_url" content="https://flinnzee.github.io/Zyntech/assets/og/zyntech.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="ZynTECH: We build it. We film it. Software and video studio, Sri Lanka." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ZynTECH | We build it. We film it." />
+  <meta name="twitter:image" content="https://flinnzee.github.io/Zyntech/assets/og/zyntech.jpg" />
+  <link rel="canonical" href="https://flinnzee.github.io/Zyntech/" />
+  <script>try { sessionStorage.setItem("zt-mode", "classic"); } catch (e) {}</script>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css?v=9" />
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- ═══════════ CURSOR (fine pointers only) ═══════════ -->
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursorLabel"></span></div>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand" aria-label="ZynTECH, back to top">
+      <span class="mark" data-logo-mark></span>
+      <span class="nav__word">Zyn<b>TECH</b></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#services" data-scramble>Services</a>
+      <a href="#work" data-scramble>Work</a>
+      <a href="../creator/" data-scramble>Creator Mode</a>
+      <a href="#team" data-scramble>Team</a>
+      <a href="#contact" data-scramble>Contact</a>
+      <a href="../?mode=3d" data-scramble>3D mode</a>
+    </nav>
+    <a href="#contact" class="pill pill--light nav__cta" data-magnetic>Start a project</a>
+    <button class="nav__menu" id="menuButton" type="button" aria-expanded="false" aria-controls="menu"><span>Menu</span></button>
+  </header>
+
+  <!-- ═══════════ MOBILE MENU ═══════════ -->
+  <div class="menu" id="menu" hidden>
+    <nav class="menu__nav" aria-label="Menu">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="../creator/">Creator Mode</a>
+      <a href="#process">Process</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+      <a href="../?mode=3d">3D mode</a>
+    </nav>
+    <div class="menu__foot">
+      <a href="#contact" class="pill pill--light">Start a project</a>
+      <p id="menuReach"></p>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero tone-dark" id="top" aria-labelledby="heroTitle">
+      <div class="hero__top grid">
+        <h1 class="hero__title" id="heroTitle"></h1>
+        <div class="hero__side">
+          <p class="hero__sub" id="heroSub" data-load style="--d:520ms"></p>
+          <div class="hero__actions" data-load style="--d:620ms">
+            <a class="pill pill--light" id="heroPrimary" href="#contact" data-magnetic></a>
+            <a class="arrow-link" id="heroSecondary" href="#work"></a>
+          </div>
+        </div>
+      </div>
+      <div class="hero__signal" aria-hidden="true"><canvas id="signal"></canvas></div>
+      <div class="hero__base">
+        <ul class="hero__notes" id="heroNotes" data-load style="--d:760ms"></ul>
+        <div class="giant" id="heroWord" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ MARQUEE ═══════════ -->
+    <section class="marquee tone-light" aria-label="Services in short">
+      <div class="marquee__track" id="marquee"></div>
+    </section>
+
+    <!-- ═══════════ MANIFESTO + NUMBERS ═══════════ -->
+    <section class="manifesto tone-dark" id="about" aria-labelledby="aboutTitle">
+      <div class="grid">
+        <h2 class="label manifesto__label" id="aboutTitle">Why ZynTECH</h2>
+        <p class="manifesto__text" id="manifesto"></p>
+      </div>
+      <ul class="stats grid" id="stats"></ul>
+    </section>
+
+    <!-- ═══════════ SERVICES ═══════════ -->
+    <section class="services tone-light" id="services" aria-labelledby="servicesTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="servicesTitle" data-split></h2>
+        <p class="section-head__intro" id="servicesIntro" data-reveal></p>
+      </div>
+      <ul class="index" id="servicesIndex"></ul>
+    </section>
+
+    <!-- ═══════════ WORK (pinned horizontal gallery) ═══════════ -->
+    <section class="work tone-dark" id="work" aria-labelledby="workTitle">
+      <div class="work__pin" id="workPin">
+        <div class="work__track" id="workTrack">
+          <div class="work__intro">
+            <h2 class="mega" id="workTitle" data-split></h2>
+            <p id="workIntro" data-reveal></p>
+            <p class="work__hint" data-reveal style="--i:1"><span id="workCount"></span><span class="work__hint-arrow" aria-hidden="true"></span></p>
+          </div>
+        </div>
+        <div class="work__progress" aria-hidden="true"><span id="workBar"></span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PROCESS (stacking cards) ═══════════ -->
+    <section class="process tone-light" id="process" aria-labelledby="processTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="processTitle" data-split></h2>
+        <p class="section-head__intro" id="processIntro" data-reveal></p>
+      </div>
+      <ol class="stack" id="processStack"></ol>
+    </section>
+
+    <!-- ═══════════ TEAM (expanding panels) ═══════════ -->
+    <section class="team tone-dark" id="team" aria-labelledby="teamTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="teamTitle" data-split></h2>
+        <p class="section-head__intro" id="teamIntro" data-reveal></p>
+      </div>
+      <div class="duo" id="teamDuo"></div>
+    </section>
+
+    <!-- ═══════════ CREATOR MODE (doorway to /creator) ═══════════ -->
+    <section class="creator tone-light" id="creator-mode" aria-labelledby="creatorTitle">
+      <div class="creator__lines" id="creatorLines" aria-hidden="true">
+        <span>We shoot it.</span><span>We cut it.</span><span>We post it.</span>
+      </div>
+      <div class="creator__body grid">
+        <div class="creator__text">
+          <h2 class="h3" id="creatorTitle" data-reveal></h2>
+          <p class="creator__lead" id="creatorText" data-reveal style="--i:1"></p>
+          <dl class="facts" id="creatorFacts" data-reveal style="--i:2"></dl>
+          <a class="pill pill--dark" id="creatorLink" href="../creator/" data-reveal style="--i:3" data-magnetic></a>
+        </div>
+        <figure class="creator__photo" id="creatorPhoto" data-reveal style="--i:1"></figure>
+      </div>
+    </section>
+
+    <!-- ═══════════ TESTIMONIALS ═══════════ -->
+    <section class="voices tone-dark" id="clients" aria-labelledby="voicesTitle">
+      <div class="voices__inner grid">
+        <div class="voices__side">
+          <h2 class="label" id="voicesTitle"></h2>
+          <p class="voices__count" aria-live="polite"><span id="voicesAt">1</span> / <span id="voicesTotal"></span></p>
+          <div class="voices__controls">
+            <button class="round" type="button" id="voicesPrev" aria-label="Previous testimonial"></button>
+            <button class="round" type="button" id="voicesNext" aria-label="Next testimonial"></button>
+          </div>
+        </div>
+        <figure class="voices__stage" id="voicesStage">
+          <blockquote class="voices__quote" id="voicesQuote"></blockquote>
+          <figcaption class="voices__who" id="voicesWho"></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section class="contact tone-light" id="contact" aria-labelledby="contactTitle">
+      <div class="section-head grid">
+        <h2 class="mega" id="contactTitle" data-split></h2>
+      </div>
+      <div class="contact__body grid">
+        <div class="contact__intro">
+          <p class="contact__sentence" id="contactSentence" data-reveal></p>
+          <p class="contact__note" id="contactNote" data-reveal style="--i:1"></p>
+          <dl class="contact__direct" id="contactDirect" data-reveal style="--i:2"></dl>
+        </div>
+
+        <form class="brief" id="brief" novalidate data-reveal style="--i:1">
+          <fieldset class="brief__group">
+            <legend>What do you need?</legend>
+            <div class="chips" id="briefNeeds"></div>
+          </fieldset>
+          <fieldset class="brief__group">
+            <legend>When should it launch?</legend>
+            <div class="chips" id="briefWhen"></div>
+          </fieldset>
+          <div class="brief__group">
+            <label for="briefMessage" class="brief__label">Anything else?</label>
+            <textarea id="briefMessage" rows="3" placeholder="A few lines about the project, a link, or the problem you want solved."></textarea>
+          </div>
+          <div class="brief__out">
+            <div class="brief__who" id="briefWho" aria-live="polite"></div>
+            <p class="brief__summary" id="briefSummary" aria-live="polite"></p>
+            <div class="brief__send">
+              <a class="pill pill--dark" id="briefEmail" href="#" data-magnetic>Email the brief</a>
+              <a class="pill pill--outline" id="briefWhatsapp" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════ FOOTER (revealed like a curtain) ═══════════ -->
+  <footer class="foot tone-dark" id="footer">
+    <div class="foot__top grid">
+      <h2 class="foot__line" id="footLine"></h2>
+      <div class="foot__cta">
+        <a href="#contact" class="pill pill--light" data-magnetic>Start a project</a>
+        <a class="arrow-link" id="footEmail" href="#"></a>
+      </div>
+    </div>
+    <div class="foot__cols grid">
+      <nav class="foot__col" aria-label="Sections">
+        <p class="label">Navigate</p>
+        <a href="#services">Services</a><a href="#work">Work</a><a href="../creator/">Creator Mode</a><a href="#team">Team</a><a href="#contact">Contact</a><a href="../?mode=3d">3D mode</a>
+      </nav>
+      <nav class="foot__col" id="footElsewhere" aria-label="Elsewhere">
+        <p class="label">Elsewhere</p>
+      </nav>
+      <div class="foot__col" id="footStudio">
+        <p class="label">Studio</p>
+      </div>
+      <div class="foot__col foot__col--end">
+        <a href="#top" class="arrow-link arrow-link--up">Back to top</a>
+      </div>
+    </div>
+    <div class="giant foot__word" id="footWord" aria-hidden="true"></div>
+    <div class="foot__meta grid">
+      <p id="footCopy"></p>
+      <p id="footCredit"></p>
+    </div>
+  </footer>
+
+  <!-- ═══════════ PROJECT SHEET ═══════════ -->
+  <dialog class="sheet" id="projectSheet" aria-labelledby="sheetTitle">
+    <div class="sheet__inner">
+      <button class="round sheet__close" id="sheetClose" type="button" aria-label="Close"></button>
+      <div class="sheet__media" id="sheetMedia"></div>
+      <div class="sheet__text">
+        <p class="label" id="sheetCat"></p>
+        <h3 class="sheet__title" id="sheetTitle"></h3>
+        <p id="sheetBody"></p>
+        <dl class="facts" id="sheetFacts"></dl>
+        <div class="sheet__actions">
+          <a class="pill pill--light" href="#contact" id="sheetCta">Start a project like this</a>
+          <a class="arrow-link" id="sheetLink" href="#" target="_blank" rel="noopener" hidden></a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="../js/data.js?v=8"></script>
+  <script src="../js/creator-data.js?v=8"></script>
+  <script src="../js/main.js?v=8"></script>
+</body>
+</html>
