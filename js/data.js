@@ -140,6 +140,16 @@ const SITE = {
       linkLabel: "Visit Nyx",
     },
     {
+      title: "hidara",
+      category: "Desktop app",
+      text: "A free music player for Windows that gives every song its own world: 29 living lyric styles, YouTube Music, YouTube, SoundCloud and your own files in one app, downloads in any format and a sound you can shape. Over 5,800 downloads.",
+      stack: ["Windows 10 and 11", "Word-synced lyrics", "10-band equalizer"],
+      lead: "theekshana",
+      image: "assets/work/hidara.jpg",
+      link: "https://flinnzee.github.io/hidara-releases/",
+      linkLabel: "Visit hidara",
+    },
+    {
       title: "High-load REST API",
       category: "Backend systems",
       text: "An API layer that serves live data to more than 500,000 concurrent users with sub-second responses.",

@@ -90,7 +90,7 @@ css/style.css       tokens, grid, sections, interface drawings, motion
 js/data.js          ← homepage content (edit this one)
 js/main.js          rendering, scroll scenes, interactions
 assets/team/        founder portraits
-assets/work/        real project screenshots (Nyx)
+assets/work/        real project screenshots (Nyx, hidara)
 
 ── Creator Mode: the same black and white system ───────
 creator/index.html  served at /creator (loads css/style.css + css/creator.css)
@@ -99,8 +99,22 @@ js/creator-data.js  ← Creator Mode content & prices (edit this one)
 js/creator.js       rendering, scroll scenes, interactions
 assets/creator/     Creator Mode photographs
 
+── Signal: the 3D homepage (preview at /3d) ────────────
+3d/index.html       served at /3d (loads css/style.css + css/signal.css)
+css/signal.css      text layout over the 3D layer, and the no-3D fallback
+js/signal.js        rendering + the Three.js point cloud (reads js/data.js)
+
 assets/favicon.svg  flat mark on near-black
 ```
+
+**Signal (`/3d`)** shows the same content as the homepage, read from the same `js/data.js`.
+One cloud of points sits behind the page and becomes each section as you scroll: the
+wordmark, a waveform, nine service objects, a ring of project screens, a helix, the
+founders' portraits (drawn from their photos), a camera lens you fly through into
+Creator Mode, a quote mark, an orb and the wordmark again. An element with
+`data-shape="name"` marks where each shape takes over. Without WebGL, or with reduced
+motion, the page shows plain black and white sections instead. Three.js loads from
+jsdelivr through an import map, so there is still no build step.
 
 **Both pages share one look.** `/creator` loads the homepage stylesheet for the header,
 buttons, cursor, marquee and footer, and adds `css/creator.css` for its own sections. The
